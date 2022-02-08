@@ -1,4 +1,4 @@
-package com.jhiltunen.sensorlympics.ui.navigator
+package com.jhiltunen.sensorlympics.navigator
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
