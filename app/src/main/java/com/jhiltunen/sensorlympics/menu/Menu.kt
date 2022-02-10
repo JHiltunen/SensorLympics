@@ -9,8 +9,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.jhiltunen.sensorlympics.R
 import com.jhiltunen.sensorlympics.ui.theme.Purple200
 import kotlinx.coroutines.launch
 
@@ -116,7 +118,7 @@ fun BodyContentComponent(
 fun Screen1(openDrawer: () -> Unit) {
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(
-            title = { Text("Screen 1 Title") },
+            title = { Text(stringResource(R.string.title1)) },
             navigationIcon = {
                 IconButton(onClick = openDrawer) {
                     Icon(imageVector = Icons.Filled.Menu, contentDescription = "Menu")
@@ -148,7 +150,7 @@ fun Screen2(openDrawer: () -> Unit) {
     )
     {
         TopAppBar(
-            title = { Text("Screen 2 Title") },
+            title = { Text(stringResource(R.string.title2)) },
             navigationIcon = {
                 IconButton(onClick = openDrawer) {
                     Icon(imageVector = Icons.Filled.Menu, contentDescription = "Menu")
@@ -181,7 +183,7 @@ fun Screen3(openDrawer: () -> Unit) {
     )
     {
         TopAppBar(
-            title = { Text("Screen 3 Title") },
+            title = { Text(stringResource(R.string.title3)) },
             navigationIcon = {
                 IconButton(onClick = openDrawer) {
                     Icon(imageVector = Icons.Filled.Menu, contentDescription = "Menu")
@@ -212,7 +214,7 @@ fun Screen4(openDrawer: () -> Unit) {
     )
     {
         TopAppBar(
-            title = { Text("Screen 4 Title") },
+            title = { Text(stringResource(R.string.title4)) },
             navigationIcon = {
                 IconButton(onClick = openDrawer) {
                     Icon(imageVector = Icons.Filled.Menu, contentDescription = "Menu")
