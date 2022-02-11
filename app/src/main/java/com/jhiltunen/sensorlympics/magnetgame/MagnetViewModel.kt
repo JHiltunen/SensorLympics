@@ -67,12 +67,6 @@ fun SensorApp(context: Context) {
     SensorLympicsTheme() {
         Scaffold(
             scaffoldState = scaffoldState,
-            topBar = {
-                TopAppBar(
-                    title = { Text(stringResource(R.string.app_name)) },
-                    backgroundColor = MaterialTheme.colors.primary,
-                )
-            },
             content = {
                 Surface(color = MaterialTheme.colors.background) {
                     Card(
