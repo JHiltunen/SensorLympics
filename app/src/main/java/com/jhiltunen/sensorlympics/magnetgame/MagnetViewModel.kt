@@ -1,3 +1,5 @@
+package com.jhiltunen.sensorlympics.magnetgame
+
 import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.layout.*
@@ -16,8 +18,6 @@ import androidx.compose.runtime.livedata.observeAsState
 import com.jhiltunen.sensorlympics.ui.theme.Purple500
 import com.jhiltunen.sensorlympics.ui.theme.SensorLympicsTheme
 
-import kotlin.math.PI
-import kotlin.math.atan2
 import kotlin.random.Random
 
 class SensorViewModel : ViewModel() {
@@ -219,7 +219,7 @@ fun chooseDirection() {
 }
  /*
 @Composable
-fun ShowSenorData(sensorViewModel: SensorViewModel) {
+fun ShowSenorData(sensorViewModel: com.jhiltunen.sensorlympics.magnetgame.SensorViewModel) {
     val value by sensorViewModel.value.observeAsState()
     val xX by sensorViewModel.xX.observeAsState()
     val yY by sensorViewModel.yY.observeAsState()

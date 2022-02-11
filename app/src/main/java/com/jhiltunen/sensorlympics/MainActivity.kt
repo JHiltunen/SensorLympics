@@ -1,6 +1,6 @@
 package com.jhiltunen.sensorlympics
 
-import SensorViewModel
+import com.jhiltunen.sensorlympics.magnetgame.SensorViewModel
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -14,12 +14,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
-import chooseDirection
+import com.jhiltunen.sensorlympics.magnetgame.chooseDirection
 import com.jhiltunen.sensorlympics.navigator.MainAppNav
 import com.jhiltunen.sensorlympics.ui.theme.SensorLympicsTheme
 
 class MainActivity : ComponentActivity(), SensorEventListener {
-    @ExperimentalFoundationApi
 
     companion object {
         val sensorViewModel = SensorViewModel()

@@ -1,6 +1,6 @@
 package com.jhiltunen.sensorlympics.menu
 
-import SensorApp
+import com.jhiltunen.sensorlympics.magnetgame.SensorApp
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
