@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.jhiltunen.sensorlympics.R
+import com.jhiltunen.sensorlympics.menu.Menu
 
 @ExperimentalFoundationApi
 @Composable
@@ -18,11 +19,13 @@ fun MainAppNav() {
         composable("main") {
             Column {
                 Text(text = stringResource(id = R.string.main))
+                Menu()
             }
         }
         composable("stats/") {
             Column {
                 Text(text = stringResource(id = R.string.stats))
+
             }
         }
     }
