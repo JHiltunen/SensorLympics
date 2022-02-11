@@ -2,6 +2,7 @@ package com.jhiltunen.sensorlympics.navigator
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
+import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
@@ -18,15 +19,13 @@ fun MainAppNav() {
     NavHost(navController, startDestination = "main") {
         composable("main") {
             Column {
-                Text(text = stringResource(id = R.string.main))
-                Menu()
+                Button(onClick = { navController.navigate("stats") }) {
+                    Text(stringResource(R.string.game1))
+                }
             }
         }
-        composable("stats/") {
-            Column {
-                Text(text = stringResource(id = R.string.stats))
-
-            }
+        composable("stats") {
+           Menu()
         }
     }
 }
