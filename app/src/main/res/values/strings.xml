@@ -2,4 +2,9 @@
     <string name="app_name">SensorLympics</string>
     <string name="stats">Stats</string>
     <string name="main">Main</string>
+    <string name="title1">Screen 1 title</string>
+    <string name="title2">Screen 2 title</string>
+    <string name="title3">Screen 3 title</string>
+    <string name="title4">Screen 4 title</string>
+
 </resources>
