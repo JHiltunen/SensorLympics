@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">SensorLympics</string>
-    <string name="stats">Stats</string>
-    <string name="main">Main</string>
-    <string name="title1">Screen 1 title</string>
-    <string name="title2">Screen 2 title</string>
-    <string name="title3">Screen 3 title</string>
-    <string name="title4">Screen 4 title</string>
+    <string name="stats" translatable="false">Stats</string>
+    <string name="main" translatable="false">Main</string>
+    <string name="title1" translatable="false">Screen 1 title</string>
+    <string name="title2" translatable="false">Screen 2 title</string>
+    <string name="title3" translatable="false">Screen 3 title</string>
+    <string name="title4" translatable="false">Screen 4 title</string>
 
     <string name="sensor_val" translatable="false">x: %.2f \n y: %.2f \n z: %.2f</string>
     <string name="sensor_val3">Current: %.2f \nCurrent boiling point for water %.2f C° \nMax: %.2f \nMin: %.2f \nMax - Min in meters: %.2f </string>

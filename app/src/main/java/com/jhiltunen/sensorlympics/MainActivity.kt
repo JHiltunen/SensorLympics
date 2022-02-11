@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity(), SensorEventListener {
     var lastAccelerometerSet = false
     var lastMagnetometerSet = false
 
-    @OptIn(ExperimentalFoundationApi::class)
+    @ExperimentalFoundationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SensorLympics</string>
+    <string name="currentMaxMin">Jokin verrattuna johonkin muuhun:</string>
+    <string name="sensor_val3">Ilmanpaine: %.2f \nVeden kiehumispiste: %.2f C° \nMax: %.2f \nMin: %.2f \nMax - min metreissä: %.2f</string>
+    <string name="btn_start">Paina kun %s!</string>
+    <string name="btn_again">Uudestaan?</string>
+    <string name="result_good">Hyvin meni, %s löytyi!</string>
+    <string name="result_bad">Huokaus! Ei sinne päinkään…</string>
+    <string name="north">pohjoinen</string>
+    <string name="south">etelä</string>
+    <string name="east">itä</string>
+    <string name="west">länsi</string>
+    <string name="result_not_yet">Jännittääkö?</string>
+</resources>
