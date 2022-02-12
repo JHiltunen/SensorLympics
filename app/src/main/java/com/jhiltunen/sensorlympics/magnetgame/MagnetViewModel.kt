@@ -2,6 +2,9 @@ package com.jhiltunen.sensorlympics.magnetgame
 
 import android.content.Context
 import android.util.Log
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.transformable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -15,6 +18,10 @@ import androidx.lifecycle.ViewModel
 import com.jhiltunen.sensorlympics.MainActivity.Companion.sensorViewModel
 import com.jhiltunen.sensorlympics.R
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.res.painterResource
 import com.jhiltunen.sensorlympics.ui.theme.Purple500
 import com.jhiltunen.sensorlympics.ui.theme.SensorLympicsTheme
 
@@ -191,7 +198,20 @@ fun FeaturedCircularProgressIndicator(sensorViewModel: SensorViewModel) {
             verticalArrangement = Arrangement.SpaceEvenly,
         ) {
             Text((stringResource(R.string.currentMaxMin)))
+            Image(
+                painter = painterResource(id = R.drawable.me_bw),
+                contentDescription = null,
+                modifier = Modifier
+                    .rotate(degree ?: 0f)
+                    .background(Color.Red)
+                    .size(50.dp)
 
+            )
+            Spacer(modifier = Modifier.height(7.dp))
+            Box (modifier = Modifier
+                .rotate(degree ?: 0f)
+                .background(Color.Red)
+                .size(50.dp))
             Spacer(modifier = Modifier.height(7.dp))
 
             CircularProgressIndicator(
