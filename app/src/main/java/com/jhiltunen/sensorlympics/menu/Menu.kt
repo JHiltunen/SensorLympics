@@ -17,6 +17,8 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 //import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.jhiltunen.sensorlympics.R
 import com.jhiltunen.sensorlympics.ui.theme.Purple200
+import com.jhiltunen.sensorlympics.ui.views.TicTacToeView
+import com.jhiltunen.sensorlympics.utils.TicTacToe
 import kotlinx.coroutines.launch
 
 @Composable
@@ -180,6 +182,7 @@ fun Screen2(openDrawer: () -> Unit) {
 
 @Composable
 fun Screen3(openDrawer: () -> Unit) {
+    val ticTacToe = TicTacToe()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -198,11 +201,12 @@ fun Screen3(openDrawer: () -> Unit) {
             modifier = Modifier.weight(1f)
         )
         {
+            TicTacToeView(ticTacToe)
             Column(modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
                 content = {
-                    Text(text = "Screen 3")
+
                 }
             )
         }

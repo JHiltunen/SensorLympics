@@ -22,6 +22,9 @@ fun MainAppNav() {
                 Button(onClick = { navController.navigate("stats") }) {
                     Text(stringResource(R.string.game1))
                 }
+                Button(onClick = { navController.navigate("stats") }) {
+                    Text(stringResource(R.string.game3))
+                }
             }
         }
         composable("stats") {

@@ -1,9 +1,15 @@
 package com.jhiltunen.sensorlympics.utils
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+
 class TicTacToe() {
-    private var turn = "X"
-    private val xyCoordinates: Array<Array<String>> = arrayOf(arrayOf(" ", " ", " "), arrayOf(" ", " ", " "), arrayOf(" ", " ", " "))
-    private var gameIsOn: Boolean
+    private var _turn: MutableLiveData<String> = MutableLiveData("X")
+    val turn: LiveData<String> = _turn
+    private var xyCoordinates =
+        arrayOf(arrayOf(" ", " ", " "), arrayOf(" ", " ", " "), arrayOf(" ", " ", " "))
+    private var _gameIsOn: MutableLiveData<Boolean> = MutableLiveData(true)
+    var gameIsOn: LiveData<Boolean> = _gameIsOn
 
     fun situationInCoordinates(x: Int, y: Int): String {
         return xyCoordinates[x][y]
@@ -11,23 +17,16 @@ class TicTacToe() {
 
     fun addValue(x: Int, y: Int) {
         if (xyCoordinates[x][y] == " ") {
-            xyCoordinates[x][y] = turn
+            xyCoordinates[x][y] = turn.value.toString()
         } else {
             return
         }
-        turn = if (turn == "X") { "O" } else { "X" }
-    }
 
-    fun getTurn(): String {
-        return turn
-    }
-
-    fun isOn(): Boolean {
-        return gameIsOn
+        if (turn.value == "X") _turn.postValue("O") else { _turn.postValue("X") }
     }
 
     fun stopGame() {
-        gameIsOn = false
+        _gameIsOn.postValue(false)
     }
 
     fun checkWin(): Boolean {
@@ -106,9 +105,5 @@ class TicTacToe() {
             }
         }
         return xLettersOnDiagonal == 3 || oLettersOnDiagonal == 3
-    }
-
-    init {
-        gameIsOn = true
     }
 }
