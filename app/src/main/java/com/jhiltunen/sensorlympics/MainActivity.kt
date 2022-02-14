@@ -16,12 +16,16 @@ import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import com.jhiltunen.sensorlympics.magnetgame.chooseDirection
 import com.jhiltunen.sensorlympics.navigator.MainAppNav
+import com.jhiltunen.sensorlympics.pressuregame.PressureViewModel
+import com.jhiltunen.sensorlympics.pressuregame.PressureViewModelProgress
 import com.jhiltunen.sensorlympics.ui.theme.SensorLympicsTheme
 
 class MainActivity : ComponentActivity(), SensorEventListener {
 
     companion object {
         val sensorViewModel = SensorViewModel()
+        val pressureViewModel = PressureViewModel()
+        val pressureViewModelProgress = PressureViewModelProgress()
     }
 
     lateinit var sensorManager: SensorManager
