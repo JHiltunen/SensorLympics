@@ -10,6 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.jhiltunen.sensorlympics.R
+import com.jhiltunen.sensorlympics.menu.DrawerAppScreen
 import com.jhiltunen.sensorlympics.menu.Menu
 
 @ExperimentalFoundationApi
@@ -22,13 +23,17 @@ fun MainAppNav() {
                 Button(onClick = { navController.navigate("stats") }) {
                     Text(stringResource(R.string.game1))
                 }
-                Button(onClick = { navController.navigate("stats") }) {
+                Button(onClick = { navController.navigate("tictactoe") }) {
                     Text(stringResource(R.string.game3))
                 }
             }
         }
         composable("stats") {
-           Menu()
+           Menu(screen = DrawerAppScreen.Screen1)
+        }
+
+        composable("tictactoe") {
+            Menu(screen = DrawerAppScreen.Screen3)
         }
     }
 }

@@ -22,10 +22,10 @@ import com.jhiltunen.sensorlympics.tictactoe.TicTacToeViewModel
 import kotlinx.coroutines.launch
 
 @Composable
-fun Menu() {
+fun Menu(screen: DrawerAppScreen) {
 
     val drawerState = rememberDrawerState(DrawerValue.Closed)
-    val currentScreen = remember { mutableStateOf(DrawerAppScreen.Screen1) }
+    val currentScreen = remember { mutableStateOf(screen) }
     val coroutineScope = rememberCoroutineScope()
     val systemUiController = rememberSystemUiController()
     val useDarkIcons = MaterialTheme.colors.isLight
