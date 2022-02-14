@@ -50,10 +50,10 @@ fun ShowPressureData(pressureViewModel: PressureViewModel) {
 }
 
 @Composable
-fun FeaturedCircularProgressIndicator(sensorViewModelProgress: PressureViewModelProgress) {
-    val value by sensorViewModelProgress.value.observeAsState(null)
-    val valueMax by sensorViewModelProgress.valueMax.observeAsState(null)
-    val valueMin by sensorViewModelProgress.valueMin.observeAsState(null)
+fun FeaturedCircularProgressIndicator(pressureViewModelProgress: PressureViewModelProgress) {
+    val value by pressureViewModelProgress.value.observeAsState(null)
+    val valueMax by pressureViewModelProgress.valueMax.observeAsState(null)
+    val valueMin by pressureViewModelProgress.valueMin.observeAsState(null)
 
 
     val value3 = value?.minus(valueMin!!)?.div((valueMax?.minus(valueMin!!)!!))

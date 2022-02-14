@@ -28,9 +28,17 @@ class MainActivity : ComponentActivity(), SensorEventListener {
         val pressureViewModelProgress = PressureViewModelProgress()
     }
 
+    var boilingPoint: Float = 100.0F
+    var min: Float = 0.0F
+    var max: Float = 0.0F
+    var heightDifference: Float = 0.0F
+
+
     lateinit var sensorManager: SensorManager
     lateinit var accelerometer: Sensor
     lateinit var magnetometer: Sensor
+    lateinit var pressure: Sensor
+
 
     var currentDegree = 0.0f
     var lastAccelerometer = FloatArray(3)
@@ -45,6 +53,7 @@ class MainActivity : ComponentActivity(), SensorEventListener {
         sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
         magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)
+        pressure = sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE)
         sensorViewModel.upDateWin(0)
         chooseDirection()
         setContent {
@@ -89,6 +98,40 @@ class MainActivity : ComponentActivity(), SensorEventListener {
             )
             lowPass(event.values, lastMagnetometer)
             lastMagnetometerSet = true
+        } else   if (event.sensor == pressure) {
+
+            if (min == 0.0F) {
+                min = event.values[0]
+            }
+
+            if (min > event.values[0]) {
+                min = event.values[0]
+            }
+
+            if (max == 0.0F) {
+                max = event.values[0]
+            }
+
+            if (max < event.values[0]) {
+                max = event.values[0]
+            }
+            Log.i("TAG2", max.toString())
+            boilingPoint = (100 - ((1013.25 - event.values[0]) / 19.05) * 0.5).toFloat()
+
+            heightDifference = ((max - min) * 8)
+
+            pressureViewModel.updateValue(
+
+                getString(
+                    R.string.sensor_val3,
+                    event.values[0],
+                    boilingPoint,
+                    max,
+                    min,
+                    heightDifference
+                )
+            )
+            pressureViewModelProgress.updateValue(event.values[0], max, min)
         }
 
         if (lastAccelerometerSet && lastMagnetometerSet) {

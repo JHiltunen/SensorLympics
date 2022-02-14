@@ -22,7 +22,7 @@ import com.jhiltunen.sensorlympics.ui.theme.SensorLympicsTheme
 
 
 @Composable
-fun SensorApp(context: Context) {
+fun SensorMagnetApp(context: Context) {
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Open))
     var winOrLose by remember { mutableStateOf(false) }
     var direction by remember { mutableStateOf("") }

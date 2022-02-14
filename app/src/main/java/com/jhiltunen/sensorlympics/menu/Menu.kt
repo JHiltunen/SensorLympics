@@ -1,6 +1,6 @@
 package com.jhiltunen.sensorlympics.menu
 
-import com.jhiltunen.sensorlympics.magnetgame.SensorApp
+import com.jhiltunen.sensorlympics.magnetgame.SensorMagnetApp
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 //import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.jhiltunen.sensorlympics.R
+import com.jhiltunen.sensorlympics.pressuregame.PressureApp
 import com.jhiltunen.sensorlympics.ui.theme.Purple200
 import kotlinx.coroutines.launch
 
@@ -138,7 +139,7 @@ fun Screen1(openDrawer: () -> Unit) {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
                 content = {
-                    SensorApp(LocalContext.current)
+                    SensorMagnetApp(LocalContext.current)
                 }
             )
         }
@@ -171,7 +172,7 @@ fun Screen2(openDrawer: () -> Unit) {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
                 content = {
-                    Text(text = "Screen 2")
+                    PressureApp()
                 }
             )
         }
