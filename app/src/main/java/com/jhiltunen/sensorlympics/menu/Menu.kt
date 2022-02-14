@@ -18,7 +18,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.jhiltunen.sensorlympics.R
 import com.jhiltunen.sensorlympics.ui.theme.Purple200
 import com.jhiltunen.sensorlympics.ui.views.TicTacToeView
-import com.jhiltunen.sensorlympics.utils.TicTacToe
+import com.jhiltunen.sensorlympics.tictactoe.TicTacToeViewModel
 import kotlinx.coroutines.launch
 
 @Composable
@@ -182,7 +182,7 @@ fun Screen2(openDrawer: () -> Unit) {
 
 @Composable
 fun Screen3(openDrawer: () -> Unit) {
-    val ticTacToe = TicTacToe()
+    val ticTacToe = TicTacToeViewModel()
     Column(
         modifier = Modifier
             .fillMaxSize()
