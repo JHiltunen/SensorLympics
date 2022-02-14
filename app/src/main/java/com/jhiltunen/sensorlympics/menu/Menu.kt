@@ -201,12 +201,11 @@ fun Screen3(openDrawer: () -> Unit) {
             modifier = Modifier.weight(1f)
         )
         {
-            TicTacToeView(ticTacToe)
             Column(modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
                 content = {
-
+                    TicTacToeView(ticTacToe)
                 }
             )
         }
