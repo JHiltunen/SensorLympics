@@ -73,12 +73,14 @@ class MainActivity : ComponentActivity(), SensorEventListener {
         super.onResume()
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_FASTEST)
         sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_FASTEST)
+        sensorManager.registerListener(this, pressure, SensorManager.SENSOR_DELAY_FASTEST)
     }
 
     override fun onPause() {
         super.onPause()
         sensorManager.unregisterListener(this, accelerometer)
         sensorManager.unregisterListener(this, magnetometer)
+        sensorManager.unregisterListener(this, pressure)
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
@@ -98,7 +100,9 @@ class MainActivity : ComponentActivity(), SensorEventListener {
             )
             lowPass(event.values, lastMagnetometer)
             lastMagnetometerSet = true
-        } else   if (event.sensor == pressure) {
+        }
+
+        if (event.sensor == pressure) {
 
             if (min == 0.0F) {
                 min = event.values[0]
