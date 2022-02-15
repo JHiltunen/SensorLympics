@@ -45,6 +45,9 @@ class MagnetViewModel : ViewModel() {
 
     fun upDateScore(score: Float) {
         _score.value = score
+        if (_highScore.value == null) {
+            _highScore.value = score
+        }
         if (_score.value!! > _highScore.value!!) {
             _highScore.value = score
         }

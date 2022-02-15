@@ -12,14 +12,18 @@ import kotlin.random.Random
 fun northOrBust(direction: Int) {
     val score: Float
     val angle = MainActivity.magnetViewModel.degree.value
+    //FOR DEBUGGING:
+    //val jorma = 2
     when (direction) {
+        //North
         1 -> if(MainActivity.magnetViewModel.degree.value!! > 334 || MainActivity.magnetViewModel.degree.value!! < 27) {
             MainActivity.magnetViewModel.upDateWin(2)
             score = 10 / (1/(abs(angle!!.minus(334))))
             Log.i("DIR", "Vau! $score")
-            MainActivity.magnetViewModel.upDateScore(score)
+            //MainActivity.magnetViewModel.upDateScore(score)
 
         } else MainActivity.magnetViewModel.upDateWin(1)
+        //East
         2 -> if(MainActivity.magnetViewModel.degree.value!! > 64 && MainActivity.magnetViewModel.degree.value!! < 116) {
             MainActivity.magnetViewModel.upDateWin(2)
             score = 10 / (1/(abs(angle!!.minus(64))))
@@ -27,19 +31,21 @@ fun northOrBust(direction: Int) {
             MainActivity.magnetViewModel.upDateScore(score)
 
         } else MainActivity.magnetViewModel.upDateWin(1)
+        //South
         3 -> if(MainActivity.magnetViewModel.degree.value!! > 154 && MainActivity.magnetViewModel.degree.value!! < 206) {
             MainActivity.magnetViewModel.upDateWin(2)
             score = 10 / (1/(abs(angle!!.minus(154))))
             Log.i("DIR", "Vau!  $score")
-            MainActivity.magnetViewModel.upDateScore(score)
+            //MainActivity.magnetViewModel.upDateScore(score)
 
         } else MainActivity.magnetViewModel.upDateWin(1)
+        //West
         4 -> if(MainActivity.magnetViewModel.degree.value!! > 244 && MainActivity.magnetViewModel.degree.value!! < 296) {
             MainActivity.magnetViewModel.upDateWin(2)
             score = 10 / (1/(abs(angle!!.minus(244))))
             Log.i("DIR", "Vau!  $score")
-            MainActivity.magnetViewModel.upDateScore(score)
-            Log.i("DIR", "Vau!  $score")
+            //MainActivity.magnetViewModel.upDateScore(score)
+
         } else MainActivity.magnetViewModel.upDateWin(1)
         else -> MainActivity.magnetViewModel.upDateWin(1)
     }

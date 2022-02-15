@@ -77,7 +77,7 @@ class MainActivity : ComponentActivity(), SensorEventListener {
         super.onResume()
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_FASTEST)
         sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_FASTEST)
-        sensorManager.registerListener(this, pressure, SensorManager.SENSOR_DELAY_FASTEST)
+        sensorManager.registerListener(this, pressure, SensorManager.SENSOR_DELAY_NORMAL)
     }
 
     override fun onPause() {
@@ -118,6 +118,7 @@ class MainActivity : ComponentActivity(), SensorEventListener {
             }
         }
 
+
         if (event.sensor == pressure) {
 
             if (min == 0.0F) {
@@ -153,6 +154,8 @@ class MainActivity : ComponentActivity(), SensorEventListener {
             )
             pressureViewModelProgress.updateValue(event.values[0], max, min)
         }
+
+
 
 
     }
