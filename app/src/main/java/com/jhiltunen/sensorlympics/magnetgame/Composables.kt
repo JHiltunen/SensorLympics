@@ -1,5 +1,6 @@
 package com.jhiltunen.sensorlympics.magnetgame
 
+import android.app.Application
 import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.Image
@@ -26,7 +27,8 @@ fun SensorMagnetApp(context: Context) {
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Open))
     var winOrLose by remember { mutableStateOf(false) }
     var direction by remember { mutableStateOf("") }
-    //val context: Context = context
+
+
 
     SensorLympicsTheme() {
         Scaffold(
@@ -44,7 +46,7 @@ fun SensorMagnetApp(context: Context) {
                                 onClick = {
                                     if (!winOrLose) {
                                         winOrLose = true
-                                        val theChosen = MainActivity.sensorViewModel.chosen.value ?: 1
+                                        val theChosen = MainActivity.magnetViewModel.chosen.value ?: 1
                                         when (theChosen) {
                                             1 -> direction =  context.getString(R.string.north)
                                             2 -> direction =  context.getString(R.string.east)
@@ -57,13 +59,13 @@ fun SensorMagnetApp(context: Context) {
                                     } else {
                                         winOrLose = false
                                         chooseDirection()
-                                        MainActivity.sensorViewModel.upDateWin(0)
+                                        MainActivity.magnetViewModel.upDateWin(0)
                                     }
                                 },
                                 modifier = Modifier.fillMaxWidth()
                             ) {
                                 if (!winOrLose) {
-                                    val theChosen = MainActivity.sensorViewModel.chosen.value ?: 1
+                                    val theChosen = MainActivity.magnetViewModel.chosen.value ?: 1
                                     when (theChosen) {
                                         1 -> direction =  context.getString(R.string.north)
                                         2 -> direction =  context.getString(R.string.east)
@@ -76,9 +78,9 @@ fun SensorMagnetApp(context: Context) {
                                 }
                             }
                             Spacer(Modifier.height(15.dp))
-                            ShowWinOrLose(MainActivity.sensorViewModel)
+                            ShowWinOrLose(MainActivity.magnetViewModel)
                             //ShowSenorData(MainActivity.sensorViewModel)
-                            FeaturedCircularProgressIndicator(MainActivity.sensorViewModel)
+                            FeaturedCircularProgressIndicator(MainActivity.magnetViewModel)
                         }
                     }
                 }
@@ -91,9 +93,11 @@ fun SensorMagnetApp(context: Context) {
 
 
 @Composable
-fun ShowWinOrLose(sensorViewModel: SensorViewModel) {
-    val winOrLoseOr by sensorViewModel.win.observeAsState()
-    val chosen by sensorViewModel.chosen.observeAsState()
+fun ShowWinOrLose(magnetViewModel: MagnetViewModel) {
+    val winOrLoseOr by magnetViewModel.win.observeAsState()
+    val chosen by magnetViewModel.chosen.observeAsState()
+    val highScore by  magnetViewModel.highScore.observeAsState()
+    val score by magnetViewModel.score.observeAsState()
     val direction: String
     when (chosen) {
         1 -> direction =  stringResource(R.string.north)
@@ -110,15 +114,19 @@ fun ShowWinOrLose(sensorViewModel: SensorViewModel) {
         when (winOrLoseOr) {
             0 -> Text(stringResource(R.string.result_not_yet), Modifier.padding(8.dp))
             1 -> Text(stringResource(R.string.result_bad), Modifier.padding(8.dp))
-            2 -> Text(stringResource(R.string.result_good, direction), Modifier.padding(8.dp))
+            2 -> Text("Jee")
+        //Text(stringResource(R.string.result_good, direction, score ?: 0), Modifier.padding(8.dp))
         }
         Spacer(modifier = Modifier.height(7.dp))
+
+        //Text("${highScore ?: 0}")
+
     }
 }
 
 @Composable
-fun FeaturedCircularProgressIndicator(sensorViewModel: SensorViewModel) {
-    val degree by sensorViewModel.degree.observeAsState()
+fun FeaturedCircularProgressIndicator(magnetViewModel: MagnetViewModel) {
+    val degree by magnetViewModel.degree.observeAsState()
     Card(
         modifier = Modifier
             .padding(12.dp)

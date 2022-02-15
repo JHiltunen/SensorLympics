@@ -1,6 +1,6 @@
 package com.jhiltunen.sensorlympics
 
-import com.jhiltunen.sensorlympics.magnetgame.SensorViewModel
+import com.jhiltunen.sensorlympics.magnetgame.MagnetViewModel
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -20,13 +20,17 @@ import com.jhiltunen.sensorlympics.pressuregame.PressureViewModel
 import com.jhiltunen.sensorlympics.pressuregame.PressureViewModelProgress
 import com.jhiltunen.sensorlympics.ui.theme.SensorLympicsTheme
 
+internal const val FILENAMEMAGNET = "magnetHighScore.txt"
+
+
 class MainActivity : ComponentActivity(), SensorEventListener {
 
     companion object {
-        val sensorViewModel = SensorViewModel()
+        val magnetViewModel = MagnetViewModel()
         val pressureViewModel = PressureViewModel()
         val pressureViewModelProgress = PressureViewModelProgress()
     }
+
 
     var boilingPoint: Float = 100.0F
     var min: Float = 0.0F
@@ -54,7 +58,7 @@ class MainActivity : ComponentActivity(), SensorEventListener {
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
         magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)
         pressure = sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE)
-        sensorViewModel.upDateWin(0)
+        magnetViewModel.upDateWin(0)
         chooseDirection()
         setContent {
             SensorLympicsTheme {
@@ -90,7 +94,7 @@ class MainActivity : ComponentActivity(), SensorEventListener {
             lowPass(event.values, lastAccelerometer)
             lastAccelerometerSet = true
         } else if (event.sensor === magnetometer) {
-            sensorViewModel.updateValue(
+            magnetViewModel.updateValue(
                 getString(
                     R.string.sensor_val,
                     event.values[0],
@@ -100,6 +104,18 @@ class MainActivity : ComponentActivity(), SensorEventListener {
             )
             lowPass(event.values, lastMagnetometer)
             lastMagnetometerSet = true
+        }
+
+        if (lastAccelerometerSet && lastMagnetometerSet) {
+            val r = FloatArray(9)
+            if (SensorManager.getRotationMatrix(r, null, lastAccelerometer, lastMagnetometer)) {
+                val orientation = FloatArray(3)
+                SensorManager.getOrientation(r, orientation)
+                val degree = (Math.toDegrees(orientation[0].toDouble()) + 360).toFloat() % 360
+                Log.i("JOO", "${degree}")
+                currentDegree = degree
+                magnetViewModel.upDateDegree(currentDegree)
+            }
         }
 
         if (event.sensor == pressure) {
@@ -138,18 +154,7 @@ class MainActivity : ComponentActivity(), SensorEventListener {
             pressureViewModelProgress.updateValue(event.values[0], max, min)
         }
 
-        if (lastAccelerometerSet && lastMagnetometerSet) {
-            val r = FloatArray(9)
-            if (SensorManager.getRotationMatrix(r, null, lastAccelerometer, lastMagnetometer)) {
-                val orientation = FloatArray(3)
-                SensorManager.getOrientation(r, orientation)
-                val degree = (Math.toDegrees(orientation[0].toDouble()) + 360).toFloat() % 360
-                Log.i("JOO", "${degree}")
-                currentDegree = degree
-                sensorViewModel.upDateDegree(currentDegree)
 
-            }
-        }
     }
 
     fun lowPass(input: FloatArray, output: FloatArray) {
