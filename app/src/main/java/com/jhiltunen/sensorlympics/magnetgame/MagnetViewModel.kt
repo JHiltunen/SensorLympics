@@ -25,10 +25,10 @@ class SensorViewModel : ViewModel() {
     val value: LiveData<String> = _value
 
     private val _xX: MutableLiveData<Float> = MutableLiveData()
-    val xX: LiveData<Float> = _xX
+  //  val xX: LiveData<Float> = _xX
 
     private val _yY: MutableLiveData<Float> = MutableLiveData()
-    val yY: LiveData<Float> = _yY
+   // val yY: LiveData<Float> = _yY
 
     private val _degree: MutableLiveData<Float> = MutableLiveData()
     val degree: LiveData<Float> = _degree
@@ -64,7 +64,7 @@ fun SensorApp(context: Context) {
     var direction by remember { mutableStateOf("") }
     //val context: Context = context
 
-    SensorLympicsTheme() {
+    SensorLympicsTheme {
         Scaffold(
             scaffoldState = scaffoldState,
             content = {
@@ -99,8 +99,7 @@ fun SensorApp(context: Context) {
                                 modifier = Modifier.fillMaxWidth()
                             ) {
                                 if (!winOrLose) {
-                                    val theChosen = sensorViewModel.chosen.value ?: 1
-                                    when (theChosen) {
+                                    when (sensorViewModel.chosen.value ?: 1) {
                                         1 -> direction =  context.getString(R.string.north)
                                         2 -> direction =  context.getString(R.string.east)
                                         3 -> direction =  context.getString(R.string.south)
@@ -153,13 +152,12 @@ fun northOrBust(direction: Int) {
 fun ShowWinOrLose(sensorViewModel: SensorViewModel) {
     val winOrLoseOr by sensorViewModel.win.observeAsState()
     val chosen by sensorViewModel.chosen.observeAsState()
-    val direction: String
-    when (chosen) {
-        1 -> direction =  stringResource(R.string.north)
-        2 -> direction =  stringResource(R.string.east)
-        3 -> direction =  stringResource(R.string.south)
-        4 -> direction =  stringResource(R.string.west)
-        else  -> direction =  ""
+    val direction: String = when (chosen) {
+        1 -> stringResource(R.string.north)
+        2 -> stringResource(R.string.east)
+        3 -> stringResource(R.string.south)
+        4 -> stringResource(R.string.west)
+        else  -> ""
     }
 
     Column(

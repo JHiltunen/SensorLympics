@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 fun Menu() {
 
     val drawerState = rememberDrawerState(DrawerValue.Closed)
-    val currentScreen = remember { mutableStateOf(DrawerAppScreen.Screen1) }
+    val currentScreen = remember { mutableStateOf(DrawerAppScreen.MagnetoGame) }
     val coroutineScope = rememberCoroutineScope()
     val systemUiController = rememberSystemUiController()
     val useDarkIcons = MaterialTheme.colors.isLight
@@ -88,11 +88,11 @@ fun DrawerContentComponent(
 
 // Returns the corresponding DrawerAppScreen based on the index passed to it.
 fun getScreenBasedOnIndex(index: Int) = when (index) {
-    0 -> DrawerAppScreen.Screen1
+    0 -> DrawerAppScreen.MagnetoGame
     1 -> DrawerAppScreen.Screen2
     2 -> DrawerAppScreen.Screen3
     3 -> DrawerAppScreen.Screen4
-    else -> DrawerAppScreen.Screen1
+    else -> DrawerAppScreen.MagnetoGame
 }
 
 // Passed the corresponding screen composable based on the current screen that's active.
@@ -102,7 +102,7 @@ fun BodyContentComponent(
     openDrawer: () -> Unit
 ) {
     when (currentScreen) {
-        DrawerAppScreen.Screen1 -> Screen1(
+        DrawerAppScreen.MagnetoGame -> MagnetoGame(
             openDrawer
         )
         DrawerAppScreen.Screen2 -> Screen2(
@@ -118,7 +118,7 @@ fun BodyContentComponent(
 }
 
 @Composable
-fun Screen1(openDrawer: () -> Unit) {
+fun MagnetoGame (openDrawer: () -> Unit) {
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(
             title = { Text(stringResource(R.string.title1)) },
@@ -237,7 +237,7 @@ fun Screen4(openDrawer: () -> Unit) {
 }
 
 enum class DrawerAppScreen {
-    Screen1,
+    MagnetoGame,
     Screen2,
     Screen3,
     Screen4

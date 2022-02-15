@@ -12,4 +12,5 @@
     <string name="east">itä</string>
     <string name="west">länsi</string>
     <string name="result_not_yet">Jännittääkö?</string>
+    <string name="game1">Magneetti peli</string>
 </resources>

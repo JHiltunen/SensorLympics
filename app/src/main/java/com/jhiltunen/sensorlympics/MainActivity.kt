@@ -24,15 +24,15 @@ class MainActivity : ComponentActivity(), SensorEventListener {
         val sensorViewModel = SensorViewModel()
     }
 
-    lateinit var sensorManager: SensorManager
-    lateinit var accelerometer: Sensor
-    lateinit var magnetometer: Sensor
+    private lateinit var sensorManager: SensorManager
+    private lateinit var accelerometer: Sensor
+    private lateinit var magnetometer: Sensor
 
-    var currentDegree = 0.0f
-    var lastAccelerometer = FloatArray(3)
-    var lastMagnetometer = FloatArray(3)
-    var lastAccelerometerSet = false
-    var lastMagnetometerSet = false
+    private var currentDegree = 0.0f
+    private var lastAccelerometer = FloatArray(3)
+    private var lastMagnetometer = FloatArray(3)
+    private var lastAccelerometerSet = false
+    private var lastMagnetometerSet = false
 
     @ExperimentalFoundationApi
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -93,7 +93,7 @@ class MainActivity : ComponentActivity(), SensorEventListener {
                 val orientation = FloatArray(3)
                 SensorManager.getOrientation(r, orientation)
                 val degree = (Math.toDegrees(orientation[0].toDouble()) + 360).toFloat() % 360
-                Log.i("JOO", "${degree}")
+                Log.i("JOO", "$degree")
                 currentDegree = degree
                 sensorViewModel.upDateDegree(currentDegree)
 
@@ -101,7 +101,7 @@ class MainActivity : ComponentActivity(), SensorEventListener {
         }
     }
 
-    fun lowPass(input: FloatArray, output: FloatArray) {
+    private fun lowPass(input: FloatArray, output: FloatArray) {
         val alpha = 0.05f
 
         for (i in input.indices) {
