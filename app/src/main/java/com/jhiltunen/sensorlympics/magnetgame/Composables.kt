@@ -96,8 +96,8 @@ fun SensorMagnetApp(context: Context) {
 fun ShowWinOrLose(magnetViewModel: MagnetViewModel) {
     val winOrLoseOr by magnetViewModel.win.observeAsState()
     val chosen by magnetViewModel.chosen.observeAsState()
-    //val highScore by  magnetViewModel.highScore.observeAsState()
-    //val score by magnetViewModel.score.observeAsState()
+    val highScore by  magnetViewModel.highScore.observeAsState()
+    val score by magnetViewModel.score.observeAsState()
     val direction: String
     when (chosen) {
         1 -> direction =  stringResource(R.string.north)
@@ -114,11 +114,11 @@ fun ShowWinOrLose(magnetViewModel: MagnetViewModel) {
         when (winOrLoseOr) {
             0 -> Text(stringResource(R.string.result_not_yet), Modifier.padding(8.dp))
             1 -> Text(stringResource(R.string.result_bad), Modifier.padding(8.dp))
-            2 -> Text(stringResource(R.string.result_good, direction), Modifier.padding(8.dp))
+            2 -> Text(stringResource(R.string.result_good, direction, score ?: 0), Modifier.padding(8.dp))
         }
         Spacer(modifier = Modifier.height(7.dp))
 
-        //Text("${highScore ?: 0}")
+        Text("Highscore: ${highScore ?: 0}")
 
     }
 }

@@ -13,7 +13,7 @@
     <string name="currentMaxMin">Something in relation to something else:</string>
     <string name="btn_start">Press when %s</string>
     <string name="btn_again">Again?</string>
-    <string name="result_good">Good job! You found %s!</string>
+    <string name="result_good">Good job! You found %s! Your score: %s</string>
     <string name="result_bad">Sigh! Not even close…</string>
     <string name="north">north</string>
     <string name="south">south</string>
@@ -21,5 +21,6 @@
     <string name="west">west</string>
     <string name="result_not_yet">Nervous?</string>
     <string name="game1">Magneto game</string>
+    <string name="magnet_high">New high score!</string>
 
 </resources>
