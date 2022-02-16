@@ -13,8 +13,11 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.jhiltunen.sensorlympics.magnetgame.chooseDirection
+import com.jhiltunen.sensorlympics.magnetgame.readFile
 import com.jhiltunen.sensorlympics.navigator.MainAppNav
 import com.jhiltunen.sensorlympics.pressuregame.PressureViewModel
 import com.jhiltunen.sensorlympics.pressuregame.PressureViewModelProgress
@@ -30,7 +33,6 @@ class MainActivity : ComponentActivity(), SensorEventListener {
         val pressureViewModel = PressureViewModel()
         val pressureViewModelProgress = PressureViewModelProgress()
     }
-
 
     var boilingPoint: Float = 100.0F
     var min: Float = 0.0F
@@ -50,6 +52,7 @@ class MainActivity : ComponentActivity(), SensorEventListener {
     var lastAccelerometerSet = false
     var lastMagnetometerSet = false
 
+
     @ExperimentalFoundationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +63,13 @@ class MainActivity : ComponentActivity(), SensorEventListener {
         pressure = sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE)
         magnetViewModel.upDateWin(0)
         chooseDirection()
+
+        readFile(application)
+        /*
+        val readMagnetFile = readFile(application)
+        val scoreHigh = readMagnetFile.toString().drop(1).dropLast(1).toInt()
+        magnetViewModel.upDateScore(scoreHigh.toFloat())
+         */
         setContent {
             SensorLympicsTheme {
                 // A surface container using the 'background' color from the theme
@@ -118,7 +128,6 @@ class MainActivity : ComponentActivity(), SensorEventListener {
             }
         }
 
-
         if (event.sensor == pressure) {
 
             if (min == 0.0F) {
@@ -154,9 +163,6 @@ class MainActivity : ComponentActivity(), SensorEventListener {
             )
             pressureViewModelProgress.updateValue(event.values[0], max, min)
         }
-
-
-
 
     }
 

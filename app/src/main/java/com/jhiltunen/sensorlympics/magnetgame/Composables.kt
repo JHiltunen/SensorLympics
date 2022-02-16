@@ -6,17 +6,20 @@ import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.jhiltunen.sensorlympics.MainActivity
+import com.jhiltunen.sensorlympics.MainActivity.Companion.magnetViewModel
 import com.jhiltunen.sensorlympics.R
 import com.jhiltunen.sensorlympics.ui.theme.Purple500
 import com.jhiltunen.sensorlympics.ui.theme.SensorLympicsTheme
@@ -27,8 +30,7 @@ fun SensorMagnetApp(context: Context) {
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Open))
     var winOrLose by remember { mutableStateOf(false) }
     var direction by remember { mutableStateOf("") }
-
-
+    val highScore by  magnetViewModel.highScore.observeAsState()
 
     SensorLympicsTheme() {
         Scaffold(
@@ -42,6 +44,8 @@ fun SensorMagnetApp(context: Context) {
                         elevation = 10.dp
                     ) {
                         Column(modifier = Modifier.padding(15.dp)) {
+                            Text("Highscore: ${highScore ?: 0}")
+                            Spacer(modifier = Modifier.height(7.dp))
                             Button(
                                 onClick = {
                                     if (!winOrLose) {
@@ -96,7 +100,6 @@ fun SensorMagnetApp(context: Context) {
 fun ShowWinOrLose(magnetViewModel: MagnetViewModel) {
     val winOrLoseOr by magnetViewModel.win.observeAsState()
     val chosen by magnetViewModel.chosen.observeAsState()
-    val highScore by  magnetViewModel.highScore.observeAsState()
     val score by magnetViewModel.score.observeAsState()
     val direction: String
     when (chosen) {
@@ -117,9 +120,6 @@ fun ShowWinOrLose(magnetViewModel: MagnetViewModel) {
             2 -> Text(stringResource(R.string.result_good, direction, score ?: 0), Modifier.padding(8.dp))
         }
         Spacer(modifier = Modifier.height(7.dp))
-
-        Text("Highscore: ${highScore ?: 0}")
-
     }
 }
 
@@ -139,21 +139,26 @@ fun FeaturedCircularProgressIndicator(magnetViewModel: MagnetViewModel) {
             verticalArrangement = Arrangement.SpaceEvenly,
         ) {
             Text((stringResource(R.string.currentMaxMin)))
+            Spacer(modifier = Modifier.height(7.dp))
             Image(
-                painter = painterResource(id = R.drawable.me_bw),
+                painter = painterResource(id = R.drawable.compass_1),
                 contentDescription = null,
                 modifier = Modifier
                     .rotate(degree ?: 0f)
-                    .background(Color.Red)
-                    .size(50.dp)
+                    //.background(Color.Red)
+                    .size(150.dp)
+                    .clip(CircleShape)
             )
+            /*
             Spacer(modifier = Modifier.height(7.dp))
             Box (modifier = Modifier
                 .rotate(degree ?: 0f)
                 .background(Color.Red)
                 .size(50.dp))
+             */
             Spacer(modifier = Modifier.height(7.dp))
 
+            /*
             CircularProgressIndicator(
                 progress = degree?.div(360) ?: 0.0f,
                 modifier = Modifier
@@ -162,6 +167,7 @@ fun FeaturedCircularProgressIndicator(magnetViewModel: MagnetViewModel) {
                 color = Purple500,
                 strokeWidth = 5.dp
             )
+             */
         }
     }
 }
