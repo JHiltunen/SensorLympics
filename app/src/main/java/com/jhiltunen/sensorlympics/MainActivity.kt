@@ -72,7 +72,6 @@ class MainActivity : ComponentActivity(), SensorEventListener {
          */
         setContent {
             SensorLympicsTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
@@ -87,7 +86,7 @@ class MainActivity : ComponentActivity(), SensorEventListener {
         super.onResume()
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_FASTEST)
         sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_FASTEST)
-        sensorManager.registerListener(this, pressure, SensorManager.SENSOR_DELAY_NORMAL)
+        sensorManager.registerListener(this, pressure, SensorManager.SENSOR_DELAY_UI)
     }
 
     override fun onPause() {
