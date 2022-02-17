@@ -20,7 +20,7 @@ fun northOrBust(direction: Int) {
             MainActivity.magnetViewModel.upDateWin(2)
             score = 10 / (1/(abs(angle!!.minus(334))))
             Log.i("DIR", "Vau! $score")
-            //MainActivity.magnetViewModel.upDateScore(score)
+            MainActivity.magnetViewModel.upDateScore(score)
 
         } else MainActivity.magnetViewModel.upDateWin(1)
         //East
@@ -36,7 +36,7 @@ fun northOrBust(direction: Int) {
             MainActivity.magnetViewModel.upDateWin(2)
             score = 10 / (1/(abs(angle!!.minus(154))))
             Log.i("DIR", "Vau!  $score")
-            //MainActivity.magnetViewModel.upDateScore(score)
+            MainActivity.magnetViewModel.upDateScore(score)
 
         } else MainActivity.magnetViewModel.upDateWin(1)
         //West
@@ -44,7 +44,7 @@ fun northOrBust(direction: Int) {
             MainActivity.magnetViewModel.upDateWin(2)
             score = 10 / (1/(abs(angle!!.minus(244))))
             Log.i("DIR", "Vau!  $score")
-            //MainActivity.magnetViewModel.upDateScore(score)
+            MainActivity.magnetViewModel.upDateScore(score)
 
         } else MainActivity.magnetViewModel.upDateWin(1)
         else -> MainActivity.magnetViewModel.upDateWin(1)

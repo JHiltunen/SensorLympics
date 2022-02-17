@@ -12,6 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jhiltunen.sensorlympics.MainActivity
+import com.jhiltunen.sensorlympics.R
 import com.jhiltunen.sensorlympics.ui.theme.Purple500
 import com.jhiltunen.sensorlympics.ui.theme.SensorLympicsTheme
 import kotlin.math.round
@@ -52,11 +53,13 @@ fun ShowPressureData(pressureViewModel: PressureViewModel) {
     val value by pressureViewModel.value.observeAsState()
     Text(value ?: "", Modifier.padding(18.dp))
 }
+
 var begin = System.nanoTime()
 var end = System.nanoTime()
 
 @Composable
 fun FeaturedCircularProgressIndicator(pressureViewModelProgress: PressureViewModelProgress) {
+    val highScore by  pressureViewModelProgress.highScore.observeAsState(0.0)
     val value by pressureViewModelProgress.value.observeAsState(0.0F)
     var valueMax by remember { mutableStateOf(0.0F) }
     var valueMin by remember { mutableStateOf(0.0F) }
@@ -78,11 +81,14 @@ fun FeaturedCircularProgressIndicator(pressureViewModelProgress: PressureViewMod
 
     val value3 = value.minus(valueMin).div((valueMax.minus(valueMin)))
 
-    val difference = (valueMax.minus(valueMin).times(1000).let { round(it) }).toInt()
+    val difference = (valueMax.minus(valueMin).times(1000).let { round(it) }).toInt() + 1
 
     val gameValue = (value.minus(900).let { round(it) }).toInt()
 
     var winOrLose by remember { mutableStateOf(false) }
+    var gameOver by remember { mutableStateOf(true) }
+
+    var score = 0.0
 
 
 
@@ -106,7 +112,7 @@ fun FeaturedCircularProgressIndicator(pressureViewModelProgress: PressureViewMod
                 modifier = Modifier
                     .fillMaxWidth(),
                 onClick = {
-                    if (!winOrLose) {
+                    if (!winOrLose && gameOver) {
                         // MainActivity.pressureViewModelProgress.updateValue(0.0F,0.0F,0.0F)
                         /*
                      value?.let {
@@ -123,24 +129,29 @@ fun FeaturedCircularProgressIndicator(pressureViewModelProgress: PressureViewMod
                         winOrLose = true
                         begin = System.nanoTime()
                         Log.i("PRESSURES", "?begin: $begin")
+                        gameOver = false
                     } else {
                         winOrLose = false
-
+                        gameOver = true
                     }
 
                 }
             ) {
-                if (!winOrLose) {
-                    Text("Paina perkele paina!")
+                if (!winOrLose && gameOver) {
+                    Text(stringResource(com.jhiltunen.sensorlympics.R.string.pressure_press))
+                } else if(winOrLose && gameOver){
+                    Text(stringResource(com.jhiltunen.sensorlympics.R.string.pressure_again))
                 } else {
-                    Text("Älä saatana paina!")
+                    Text(stringResource(com.jhiltunen.sensorlympics.R.string.pressure_quit))
                 }
             }
             Text("$value")
             Text("$valueMax")
             Text("$valueMin")
             Text("$difference")
+            Text(stringResource(com.jhiltunen.sensorlympics.R.string.pressure_high, highScore))
             Text(stringResource(com.jhiltunen.sensorlympics.R.string.currentMaxMin))
+
             if (!winOrLose) {
                 Text(
                     "\uD83C\uDF88",
@@ -154,8 +165,11 @@ fun FeaturedCircularProgressIndicator(pressureViewModelProgress: PressureViewMod
                     )
                     end = System.nanoTime()
                 } else if (difference > 180){
+                    val timeDifference = (end.minus(begin)).div(1000000000) + 1
+                    if (timeDifference in 1..1000) {
+                        score = (100/timeDifference).toDouble()
+                    }
 
-                    val timeDifference = end.minus(begin)
                     Log.i("PRESSURES", "?end: $end")
                     Log.i("PRESSURES", "?difference: $timeDifference")
 
@@ -163,9 +177,16 @@ fun FeaturedCircularProgressIndicator(pressureViewModelProgress: PressureViewMod
                         "\uD83D\uDCA5",
                         fontSize = 180.sp
                     )
-                    Text("Hyvä hyvä!")
+                    Text(stringResource(com.jhiltunen.sensorlympics.R.string.pressure_good))
+                    Text(stringResource(com.jhiltunen.sensorlympics.R.string.pressure_time, timeDifference))
+                    Text(stringResource(com.jhiltunen.sensorlympics.R.string.pressure_score, score))
+                    pressureViewModelProgress.upDateScore(score)
 
-                    Text("Elapsed time in milliseconds: ${timeDifference}")
+                    if (score > highScore) {
+                        Text(stringResource(com.jhiltunen.sensorlympics.R.string.pressure_new_high))
+                    }
+
+                    gameOver = true
                     //winOrLose = false
                 }
             }
@@ -180,6 +201,7 @@ fun FeaturedCircularProgressIndicator(pressureViewModelProgress: PressureViewMod
                 color = Purple500,
                 backgroundColor = Color.Blue
             )
+            Spacer(modifier = Modifier.height(17.dp))
         }
     }
 }

@@ -14,5 +14,14 @@
     <string name="result_not_yet">Jännittääkö?</string>
     <string name="game1">Magneettipeli</string>
     <string name="magnet_high">Uusi ennätys!</string>
+    <string name="pressure_new_high">Uusi ennätys!</string>
+    <string name="pressure_high">Korkeat pisteet: %s</string>
+    <string name="pressure_press">Aloita</string>
+    <string name="pressure_quit">Lopeta</string>
+    <string name="pressure_score">Pisteet: %s</string>
+    <string name="pressure_good">Hyvä hyvä!</string>
+    <string name="pressure_time">Sekunteja kului: %s</string>
+    <string name="pressure_again">Uudestaan?</string>
+
 
 </resources>

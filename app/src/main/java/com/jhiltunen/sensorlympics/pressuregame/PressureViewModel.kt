@@ -25,11 +25,11 @@ class PressureViewModelProgress : ViewModel() {
     private val _valueMin: MutableLiveData<Float> = MutableLiveData()
     val valueMin: LiveData<Float> = _valueMin
 
-    private val _score: MutableLiveData<Float> = MutableLiveData()
-    val score: LiveData<Float> = _score
+    private val _score: MutableLiveData<Double> = MutableLiveData()
+    val score: LiveData<Double> = _score
 
-    private val _highScore: MutableLiveData<Float> = MutableLiveData()
-    val highScore: LiveData<Float> = _highScore
+    private val _highScore: MutableLiveData<Double> = MutableLiveData()
+    val highScore: LiveData<Double> = _highScore
 
 
     fun updateValue(value: Float, valueMax: Float, valueMin: Float) {
@@ -38,7 +38,7 @@ class PressureViewModelProgress : ViewModel() {
         _valueMin.value = valueMin
     }
 
-    fun upDateScore(score: Float) {
+    fun upDateScore(score: Double) {
         _score.value = score
         if (_highScore.value == null) {
             _highScore.value = score
@@ -52,4 +52,6 @@ class PressureViewModelProgress : ViewModel() {
              */
         }
     }
+
+
 }
