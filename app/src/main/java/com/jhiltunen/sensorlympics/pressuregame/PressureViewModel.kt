@@ -53,5 +53,4 @@ class PressureViewModelProgress : ViewModel() {
         }
     }
 
-
 }

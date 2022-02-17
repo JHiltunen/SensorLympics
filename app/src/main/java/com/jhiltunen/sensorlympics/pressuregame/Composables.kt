@@ -91,8 +91,6 @@ fun FeaturedCircularProgressIndicator(pressureViewModelProgress: PressureViewMod
     var score = 0.0
 
 
-
-
     Log.i("PRESSURE", "?: $gameValue")
     Log.i("PRESSURE", "??: $difference")
 
@@ -165,10 +163,8 @@ fun FeaturedCircularProgressIndicator(pressureViewModelProgress: PressureViewMod
                     )
                     end = System.nanoTime()
                 } else if (difference > 180){
-                    val timeDifference = (end.minus(begin)).div(1000000000) + 1
-                    if (timeDifference in 1..1000) {
-                        score = (100/timeDifference).toDouble()
-                    }
+                    val timeDifference = (end.minus(begin)).div(1000000000) + 0.3
+                    score = (100/timeDifference).toDouble()
 
                     Log.i("PRESSURES", "?end: $end")
                     Log.i("PRESSURES", "?difference: $timeDifference")
@@ -180,11 +176,14 @@ fun FeaturedCircularProgressIndicator(pressureViewModelProgress: PressureViewMod
                     Text(stringResource(com.jhiltunen.sensorlympics.R.string.pressure_good))
                     Text(stringResource(com.jhiltunen.sensorlympics.R.string.pressure_time, timeDifference))
                     Text(stringResource(com.jhiltunen.sensorlympics.R.string.pressure_score, score))
-                    pressureViewModelProgress.upDateScore(score)
 
-                    if (score > highScore) {
+                    Log.i("PRESSURES2", "??score: $score")
+                    Log.i("PRESSURES2", "??highscore: $highScore")
+
+                    if (score == highScore){
                         Text(stringResource(com.jhiltunen.sensorlympics.R.string.pressure_new_high))
                     }
+                    pressureViewModelProgress.upDateScore(score)
 
                     gameOver = true
                     //winOrLose = false
