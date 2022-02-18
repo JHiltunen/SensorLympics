@@ -89,8 +89,8 @@ fun DrawerContentComponent(
 // Returns the corresponding DrawerAppScreen based on the index passed to it.
 fun getScreenBasedOnIndex(index: Int) = when (index) {
     0 -> DrawerAppScreen.MagnetoGame
-    1 -> DrawerAppScreen.Screen2
-    2 -> DrawerAppScreen.Screen3
+    1 -> DrawerAppScreen.PressureGame
+    2 -> DrawerAppScreen.TicTacToe
     3 -> DrawerAppScreen.Screen4
     else -> DrawerAppScreen.MagnetoGame
 }
@@ -105,10 +105,10 @@ fun BodyContentComponent(
         DrawerAppScreen.MagnetoGame -> MagnetoGame(
             openDrawer
         )
-        DrawerAppScreen.Screen2 -> Screen2(
+        DrawerAppScreen.PressureGame -> PressureGame(
             openDrawer
         )
-        DrawerAppScreen.Screen3 -> Screen3(
+        DrawerAppScreen.TicTacToe -> TicTacToe(
             openDrawer
         )
         DrawerAppScreen.Screen4 -> Screen4(
@@ -146,7 +146,7 @@ fun MagnetoGame (openDrawer: () -> Unit) {
 }
 
 @Composable
-fun Screen2(openDrawer: () -> Unit) {
+fun PressureGame(openDrawer: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -179,7 +179,7 @@ fun Screen2(openDrawer: () -> Unit) {
 }
 
 @Composable
-fun Screen3(openDrawer: () -> Unit) {
+fun TicTacToe(openDrawer: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -238,7 +238,7 @@ fun Screen4(openDrawer: () -> Unit) {
 
 enum class DrawerAppScreen {
     MagnetoGame,
-    Screen2,
-    Screen3,
+    PressureGame,
+    TicTacToe,
     Screen4
 }
