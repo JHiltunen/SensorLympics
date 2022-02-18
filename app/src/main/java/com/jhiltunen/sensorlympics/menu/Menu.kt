@@ -18,13 +18,15 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.jhiltunen.sensorlympics.R
 import com.jhiltunen.sensorlympics.pressuregame.PressureApp
 import com.jhiltunen.sensorlympics.ui.theme.Purple200
+import com.jhiltunen.sensorlympics.ui.views.TicTacToeView
+import com.jhiltunen.sensorlympics.tictactoe.TicTacToeViewModel
 import kotlinx.coroutines.launch
 
 @Composable
-fun Menu() {
+fun Menu(screen: DrawerAppScreen) {
 
     val drawerState = rememberDrawerState(DrawerValue.Closed)
-    val currentScreen = remember { mutableStateOf(DrawerAppScreen.Screen1) }
+    val currentScreen = remember { mutableStateOf(screen) }
     val coroutineScope = rememberCoroutineScope()
     val systemUiController = rememberSystemUiController()
     val useDarkIcons = MaterialTheme.colors.isLight
@@ -181,6 +183,7 @@ fun Screen2(openDrawer: () -> Unit) {
 
 @Composable
 fun Screen3(openDrawer: () -> Unit) {
+    val ticTacToe = TicTacToeViewModel()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -203,7 +206,7 @@ fun Screen3(openDrawer: () -> Unit) {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
                 content = {
-                    Text(text = "Screen 3")
+                    TicTacToeView(ticTacToe)
                 }
             )
         }
