@@ -1,12 +1,10 @@
 package com.jhiltunen.sensorlympics.utils
 
 import android.annotation.SuppressLint
-import android.app.ProgressDialog
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothServerSocket
 import android.bluetooth.BluetoothSocket
-import android.content.Context
 import android.util.Log
 import java.io.IOException
 import java.io.InputStream
@@ -15,14 +13,12 @@ import java.nio.charset.Charset
 import java.util.*
 
 
-class BluetoothConnectionService(context: Context) {
+class BluetoothConnectionService() {
     private val mBluetoothAdapter: BluetoothAdapter
-    private var mContext: Context = context
     private var mInsecureAcceptThread: AcceptThread? = null
     private var mConnectThread: ConnectThread? = null
     private var mmDevice: BluetoothDevice? = null
     private var deviceUUID: UUID? = null
-    var mProgressDialog: ProgressDialog? = null
     private var mConnectedThread: ConnectedThread? = null
 
     /**
@@ -174,9 +170,7 @@ class BluetoothConnectionService(context: Context) {
         Log.d(TAG, "startClient: Started.")
 
         //initprogress dialog
-        mProgressDialog = ProgressDialog.show(
-            mContext, "Connecting Bluetooth", "Please Wait...", true
-        )
+
         mConnectThread = ConnectThread(device, uuid)
         mConnectThread?.start()
     }
@@ -234,7 +228,7 @@ class BluetoothConnectionService(context: Context) {
 
             //dismiss the progressdialog when connection is established
             try {
-                mProgressDialog?.dismiss()
+
             } catch (e: NullPointerException) {
                 e.printStackTrace()
             }

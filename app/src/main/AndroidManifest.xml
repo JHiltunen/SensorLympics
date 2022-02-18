@@ -2,7 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jhiltunen.sensorlympics">
 
-    <uses-feature android:name="android.hardware.sensor.magnetometer" android:required="true" />
+    <uses-feature
+        android:name="android.hardware.sensor.magnetometer"
+        android:required="true" />
+    <uses-feature android:name="android.hardware.bluetooth" />
+
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
 
     <application
         android:allowBackup="true"
@@ -11,6 +21,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SensorLympics">
+        <activity
+            android:name=".BluetoothActivity"
+            android:exported="false"
+            android:label="@string/title_activity_bluetooth"
+            android:theme="@style/Theme.SensorLympics" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

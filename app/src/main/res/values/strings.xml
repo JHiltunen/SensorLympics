@@ -22,5 +22,6 @@
     <string name="result_not_yet">Nervous?</string>
     <string name="game1" translatable="false">Magneto game</string>
     <string name="game3" translatable="false">Tic Tac Toe</string>
+    <string name="title_activity_bluetooth">BluetoothActivity</string>
 
 </resources>
