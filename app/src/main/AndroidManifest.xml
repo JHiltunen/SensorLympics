@@ -3,6 +3,7 @@
     package="com.jhiltunen.sensorlympics">
 
     <uses-feature android:name="android.hardware.sensor.magnetometer" android:required="true" />
+    <uses-feature android:name="android.hardware.sensor.barometer" android:required="true" />
 
     <application
         android:allowBackup="true"

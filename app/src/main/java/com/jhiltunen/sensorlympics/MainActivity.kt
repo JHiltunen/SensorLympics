@@ -1,6 +1,5 @@
 package com.jhiltunen.sensorlympics
 
-import com.jhiltunen.sensorlympics.magnetgame.MagnetViewModel
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -13,9 +12,8 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import com.jhiltunen.sensorlympics.magnetgame.MagnetViewModel
 import com.jhiltunen.sensorlympics.magnetgame.chooseDirection
 import com.jhiltunen.sensorlympics.magnetgame.readFile
 import com.jhiltunen.sensorlympics.navigator.MainAppNav
@@ -32,25 +30,28 @@ class MainActivity : ComponentActivity(), SensorEventListener {
         val magnetViewModel = MagnetViewModel()
         val pressureViewModel = PressureViewModel()
         val pressureViewModelProgress = PressureViewModelProgress()
+        var pressureSensorExists = true
+        var magnetometerSensorExists = true
+        var accelerometerSensorExists = true
     }
 
-    var boilingPoint: Float = 100.0F
-    var min: Float = 0.0F
-    var max: Float = 0.0F
-    var heightDifference: Float = 0.0F
+    private var boilingPoint: Float = 100.0F
+    private var min: Float = 0.0F
+    private var max: Float = 0.0F
+    private var heightDifference: Float = 0.0F
 
 
-    lateinit var sensorManager: SensorManager
-    lateinit var accelerometer: Sensor
-    lateinit var magnetometer: Sensor
-    lateinit var pressure: Sensor
+    private lateinit var sensorManager: SensorManager
+    private lateinit var accelerometer: Sensor
+    private lateinit var magnetometer: Sensor
+    private var pressure: Sensor? = null
 
 
-    var currentDegree = 0.0f
-    var lastAccelerometer = FloatArray(3)
-    var lastMagnetometer = FloatArray(3)
-    var lastAccelerometerSet = false
-    var lastMagnetometerSet = false
+    private var currentDegree = 0.0f
+    private var lastAccelerometer = FloatArray(3)
+    private var lastMagnetometer = FloatArray(3)
+    private var lastAccelerometerSet = false
+    private var lastMagnetometerSet = false
 
 
     @ExperimentalFoundationApi
@@ -58,9 +59,20 @@ class MainActivity : ComponentActivity(), SensorEventListener {
         super.onCreate(savedInstanceState)
 
         sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
-        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
-        magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)
-        pressure = sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE)
+
+        sensorsExists()
+
+        if (accelerometerSensorExists) {
+            accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+        }
+
+        if (magnetometerSensorExists) {
+            magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)
+        }
+
+        if (pressureSensorExists) {
+            pressure = sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE)
+        }
         magnetViewModel.upDateWin(0)
         chooseDirection()
 
@@ -84,16 +96,32 @@ class MainActivity : ComponentActivity(), SensorEventListener {
 
     override fun onResume() {
         super.onResume()
-        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_FASTEST)
-        sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_FASTEST)
-        sensorManager.registerListener(this, pressure, SensorManager.SENSOR_DELAY_UI)
+        if (accelerometerSensorExists) {
+            sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_FASTEST)
+        }
+
+        if (magnetometerSensorExists) {
+            sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_FASTEST)
+        }
+
+        if (pressureSensorExists) {
+            sensorManager.registerListener(this, pressure, SensorManager.SENSOR_DELAY_UI)
+        }
     }
 
     override fun onPause() {
         super.onPause()
-        sensorManager.unregisterListener(this, accelerometer)
-        sensorManager.unregisterListener(this, magnetometer)
-        sensorManager.unregisterListener(this, pressure)
+        if (accelerometerSensorExists) {
+            sensorManager.unregisterListener(this, accelerometer)
+        }
+
+        if (magnetometerSensorExists) {
+            sensorManager.unregisterListener(this, magnetometer)
+        }
+
+        if (pressureSensorExists) {
+            sensorManager.unregisterListener(this, pressure)
+        }
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
@@ -165,11 +193,20 @@ class MainActivity : ComponentActivity(), SensorEventListener {
 
     }
 
-    fun lowPass(input: FloatArray, output: FloatArray) {
+    private fun lowPass(input: FloatArray, output: FloatArray) {
         val alpha = 0.05f
 
         for (i in input.indices) {
             output[i] = output[i] + alpha * (input[i] - output[i])
         }
     }
+
+    private fun sensorsExists() =
+        (sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE) != null).also {
+            pressureSensorExists = it
+        } && (sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD) != null).also {
+            magnetometerSensorExists = it
+        } && (sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null).also {
+            accelerometerSensorExists = it
+        }
 }

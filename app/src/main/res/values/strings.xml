@@ -30,5 +30,6 @@
     <string name="pressure_good">Good job!</string>
     <string name="pressure_time">Elapsed time in seconds: %s</string>
     <string name="pressure_again">Again?</string>
+    <string name="buy_new_phone">Go buy new phone ASAP!</string>
 
 </resources>
