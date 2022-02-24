@@ -102,7 +102,7 @@ fun MainAppNav() {
                             .fillMaxWidth()
                     )
                     {
-                        Text(text = "Stats")
+                        Text(text = "Statistics")
                     }
                 }
             }

@@ -1,6 +1,5 @@
 package com.jhiltunen.sensorlympics.menu
 
-import com.jhiltunen.sensorlympics.magnetgame.SensorMagnetApp
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -15,10 +14,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.jhiltunen.sensorlympics.R
+import com.jhiltunen.sensorlympics.magnetgame.SensorMagnetApp
 import com.jhiltunen.sensorlympics.pressuregame.PressureApp
+import com.jhiltunen.sensorlympics.tictactoe.TicTacToeViewModel
 import com.jhiltunen.sensorlympics.ui.theme.Purple200
 import com.jhiltunen.sensorlympics.ui.views.TicTacToeView
-import com.jhiltunen.sensorlympics.tictactoe.TicTacToeViewModel
 import kotlinx.coroutines.launch
 
 @Composable
@@ -94,7 +94,7 @@ fun getScreenBasedOnIndex(index: Int) = when (index) {
     1 -> DrawerAppScreen.PressureGame
     2 -> DrawerAppScreen.TicTacToe
     3 -> DrawerAppScreen.BallGame
-    4 -> DrawerAppScreen.Stats
+    4 -> DrawerAppScreen.Statistics
     else -> DrawerAppScreen.MagnetoGame
 }
 
@@ -117,7 +117,7 @@ fun BodyContentComponent(
         DrawerAppScreen.BallGame -> BallGame(
             openDrawer
         )
-        DrawerAppScreen.Stats -> Stats(
+        DrawerAppScreen.Statistics -> Statistics(
             openDrawer
         )
     }
@@ -170,8 +170,7 @@ fun PressureGame(openDrawer: () -> Unit) {
             color = Color(0xFFffe9d6.toInt()),
             modifier = Modifier
                 .weight(1f)
-        )
-        {
+        ) {
             Column(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
@@ -208,8 +207,7 @@ fun TicTacToe(openDrawer: () -> Unit) {
         ) {
             Surface(
                 modifier = Modifier.weight(1f)
-            )
-            {
+            ) {
                 Column(modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -221,6 +219,7 @@ fun TicTacToe(openDrawer: () -> Unit) {
         }
     }
 }
+
 @Composable
 fun BallGame(openDrawer: () -> Unit) {
     Column(
@@ -236,7 +235,10 @@ fun BallGame(openDrawer: () -> Unit) {
                 }
             }
         )
-        Surface(color = Color(0xFFfffbd0.toInt()), modifier = Modifier.weight(1f)) {
+        Surface(
+            modifier = Modifier
+                .weight(1f)
+        ) {
             Column(modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -249,26 +251,29 @@ fun BallGame(openDrawer: () -> Unit) {
 }
 
 @Composable
-fun Stats(openDrawer: () -> Unit) {
+fun Statistics(openDrawer: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
     )
     {
         TopAppBar(
-            title = { Text(stringResource(R.string.title4)) },
+            title = { Text(stringResource(R.string.title5)) },
             navigationIcon = {
                 IconButton(onClick = openDrawer) {
                     Icon(imageVector = Icons.Filled.Menu, contentDescription = "Menu")
                 }
             }
         )
-        Surface(color = Color(0xFFfffbd0.toInt()), modifier = Modifier.weight(1f)) {
+        Surface(
+            modifier = Modifier
+                .weight(1f)
+        ) {
             Column(modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
                 content = {
-                    Text(text = "Screen 4")
+                    Text(text = "Screen 5")
                 }
             )
         }
@@ -280,5 +285,5 @@ enum class DrawerAppScreen {
     PressureGame,
     TicTacToe,
     BallGame,
-    Stats
+    Statistics
 }
