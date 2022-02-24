@@ -2,6 +2,8 @@ package com.jhiltunen.sensorlympics.navigator
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -9,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -19,6 +22,8 @@ import androidx.navigation.compose.rememberNavController
 import com.jhiltunen.sensorlympics.R
 import com.jhiltunen.sensorlympics.menu.DrawerAppScreen
 import com.jhiltunen.sensorlympics.menu.Menu
+import com.jhiltunen.sensorlympics.ui.theme.Black
+import com.jhiltunen.sensorlympics.ui.theme.GreenBLue
 
 @ExperimentalFoundationApi
 @Composable
@@ -73,6 +78,7 @@ fun MainAppNav() {
                                 onClick = { navController.navigate("pressuregame") },
                                 modifier = Modifier
                                     .fillMaxWidth()
+                                    .border(1.dp, color = Black)
                             ) {
                                 Text(stringResource(R.string.game2))
                             }
