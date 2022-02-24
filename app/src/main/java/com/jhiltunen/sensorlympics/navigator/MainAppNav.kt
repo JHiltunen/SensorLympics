@@ -92,7 +92,7 @@ fun MainAppNav() {
                                 .fillMaxWidth()
                                 .border(1.dp, color = Black)
                         ) {
-                            Text(text = "Ball Game")
+                            Text(stringResource(id = R.string.game4))
 
                         }
                     }

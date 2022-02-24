@@ -37,6 +37,7 @@ fun SensorMagnetApp(context: Context) {
                         Card(
                             modifier = Modifier
                                 .fillMaxWidth()
+                                .fillMaxHeight()
                                 .padding(15.dp),
                             elevation = 10.dp
                         ) {

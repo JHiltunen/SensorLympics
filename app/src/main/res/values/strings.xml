@@ -1,11 +1,12 @@
 <resources>
     <string name="app_name">SensorLympics</string>
-    <string name="stats" translatable="false">Stats</string>
+    <string name="stats">Stats</string>
     <string name="main" translatable="false">Main</string>
+
     <string name="title1" translatable="false">Magneto Game</string>
     <string name="title2" translatable="false">Pressure Game</string>
     <string name="title3" translatable="false">Tic Tac Toe</string>
-    <string name="title4" translatable="false">Screen 4 title</string>
+    <string name="title4" translatable="false">Ball Game</string>
 
     <string name="sensor_val" translatable="false">x: %.2f \n y: %.2f \n z: %.2f</string>
     <string name="sensor_val3">Current: %.2f \nCurrent boiling point for water %.2f C° \nMax: %.2f \nMin: %.2f \nMax - Min in meters: %.2f </string>
@@ -30,9 +31,11 @@
     <string name="pressure_good">Good job!</string>
     <string name="pressure_time">Elapsed time in seconds: %s</string>
     <string name="pressure_again">Again?</string>
-    <string name="buy_new_phone" translatable="false">Go buy new phone ASAP!</string>
-    <string name="game1">Magneto game</string>
+    <string name="buy_new_phone">Go buy new phone ASAP!</string>
+
+    <string name="game1" translatable="false">Magneto game</string>
     <string name="game2">Pressure game</string>
-    <string name="game3" translatable="false">Tic Tac Toe</string>
+    <string name="game3">Tic Tac Toe</string>
+    <string name="game4" translatable="false">Ball game</string>
 
 </resources>

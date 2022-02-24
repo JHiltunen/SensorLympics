@@ -14,7 +14,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-//import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.jhiltunen.sensorlympics.R
 import com.jhiltunen.sensorlympics.pressuregame.PressureApp
 import com.jhiltunen.sensorlympics.ui.theme.Purple200
@@ -201,22 +200,27 @@ fun TicTacToe(openDrawer: () -> Unit) {
                 }
             }
         )
-        Surface(
-            color = Color(0xFFfffbd0.toInt()),
-            modifier = Modifier.weight(1f)
-        )
-        {
-            Column(modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-                content = {
-                    TicTacToeView(ticTacToe)
-                }
+        Card(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
+            elevation = 16.dp
+        ) {
+            Surface(
+                modifier = Modifier.weight(1f)
             )
+            {
+                Column(modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    content = {
+                        TicTacToeView(ticTacToe)
+                    }
+                )
+            }
         }
     }
 }
-
 @Composable
 fun BallGame(openDrawer: () -> Unit) {
     Column(

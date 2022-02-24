@@ -23,8 +23,7 @@ fun PressureApp() {
 
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Open))
 
-
-    SensorLympicsTheme() {
+    SensorLympicsTheme {
         Scaffold(
             scaffoldState = scaffoldState,
 
@@ -32,12 +31,15 @@ fun PressureApp() {
                 Surface(color = MaterialTheme.colors.background) {
                     Card(
                         modifier = Modifier
+                            .padding(15.dp)
                             .fillMaxWidth()
-                            .fillMaxHeight()
-                            .padding(15.dp),
-                        elevation = 10.dp
+                            .fillMaxHeight(),
+                        elevation = 10.dp,
                     ) {
-                        Column(modifier = Modifier.padding(15.dp)) {
+                        Column(modifier = Modifier.padding(15.dp),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                        ) {
                             //ShowPressureData(MainActivity.pressureViewModel)
                             FeaturedCircularProgressIndicator(MainActivity.pressureViewModelProgress)
                         }
@@ -48,11 +50,11 @@ fun PressureApp() {
     }
 }
 
-@Composable
+/*@Composable
 fun ShowPressureData(pressureViewModel: PressureViewModel) {
     val value by pressureViewModel.value.observeAsState()
     Text(value ?: "", Modifier.padding(18.dp))
-}
+}*/
 
 var begin = System.nanoTime()
 var end = System.nanoTime()
@@ -83,7 +85,7 @@ fun FeaturedCircularProgressIndicator(pressureViewModelProgress: PressureViewMod
 
     val difference = (valueMax.minus(valueMin).times(1000).let { round(it) }).toInt() + 1
 
-    val gameValue = (value.minus(900).let { round(it) }).toInt()
+    val gameValue = (round(value.minus(900))).toInt()
 
     var winOrLose by remember { mutableStateOf(false) }
     var gameOver by remember { mutableStateOf(true) }
@@ -94,127 +96,119 @@ fun FeaturedCircularProgressIndicator(pressureViewModelProgress: PressureViewMod
     Log.i("PRESSURE", "?: $gameValue")
     Log.i("PRESSURE", "??: $difference")
 
-    Card(
-        modifier = Modifier
-            .padding(12.dp)
-            .fillMaxHeight(fraction = 0.95f)
-            .fillMaxWidth()
-            .fillMaxHeight(fraction = 1.75f),
-        elevation = 8.dp
+
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceEvenly,
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceEvenly,
-        ) {
-            if (MainActivity.pressureSensorExists) {
-                Button(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    onClick = {
-                        if (!winOrLose && gameOver) {
-                            // MainActivity.pressureViewModelProgress.updateValue(0.0F,0.0F,0.0F)
-                            /*
-                         value?.let {
-                             MainActivity.pressureViewModelProgress.updateValue(
-                                 it,
-                                 value!!, value!!
-                             )
-                         }
-                             */
-                            valueMax = value
-                            valueMin = value
-
-                            Log.i("PRESSURES", "??? $value")
-                            winOrLose = true
-                            begin = System.nanoTime()
-                            Log.i("PRESSURES", "?begin: $begin")
-                            gameOver = false
-                        } else {
-                            winOrLose = false
-                            gameOver = true
-                        }
-
-                    }
-                ) {
+        if (MainActivity.pressureSensorExists) {
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                onClick = {
                     if (!winOrLose && gameOver) {
-                        Text(stringResource(com.jhiltunen.sensorlympics.R.string.pressure_press))
-                    } else if (winOrLose && gameOver) {
-                        Text(stringResource(com.jhiltunen.sensorlympics.R.string.pressure_again))
-                    } else {
-                        Text(stringResource(com.jhiltunen.sensorlympics.R.string.pressure_quit))
-                    }
-                }
-                Text("$value")
-                Text("$valueMax")
-                Text("$valueMin")
-                Text("$difference")
-                Text(stringResource(com.jhiltunen.sensorlympics.R.string.pressure_high, highScore))
-                Text(stringResource(com.jhiltunen.sensorlympics.R.string.currentMaxMin))
+                        // MainActivity.pressureViewModelProgress.updateValue(0.0F,0.0F,0.0F)
+                        /*
+                     value?.let {
+                         MainActivity.pressureViewModelProgress.updateValue(
+                             it,
+                             value!!, value!!
+                         )
+                     }
+                         */
+                        valueMax = value
+                        valueMin = value
 
-                if (!winOrLose) {
+                        Log.i("PRESSURES", "??? $value")
+                        winOrLose = true
+                        begin = System.nanoTime()
+                        Log.i("PRESSURES", "?begin: $begin")
+                        gameOver = false
+                    } else {
+                        winOrLose = false
+                        gameOver = true
+                    }
+
+                }
+            ) {
+                if (!winOrLose && gameOver) {
+                    Text(stringResource(R.string.pressure_press))
+                } else if (winOrLose && gameOver) {
+                    Text(stringResource(R.string.pressure_again))
+                } else {
+                    Text(stringResource(R.string.pressure_quit))
+                }
+            }
+            Text("$value")
+            Text("$valueMax")
+            Text("$valueMin")
+            Text("$difference")
+            Text(stringResource(R.string.pressure_high, highScore))
+            Text(stringResource(R.string.currentMaxMin))
+
+            if (!winOrLose) {
+                Text(
+                    "\uD83C\uDF88",
+                    fontSize = 60.sp
+                )
+            } else {
+                if (difference < 180) {
                     Text(
                         "\uD83C\uDF88",
-                        fontSize = 60.sp
+                        fontSize = difference.sp
                     )
-                } else {
-                    if (difference < 180) {
-                        Text(
-                            "\uD83C\uDF88",
-                            fontSize = difference.sp
+                    end = System.nanoTime()
+                } else if (difference > 180) {
+                    val timeDifference = (end.minus(begin)).div(1000000000) + 0.3
+                    score = (100 / timeDifference).toDouble()
+
+                    Log.i("PRESSURES", "?end: $end")
+                    Log.i("PRESSURES", "?difference: $timeDifference")
+
+                    Text(
+                        "\uD83D\uDCA5",
+                        fontSize = 180.sp
+                    )
+                    Text(stringResource(R.string.pressure_good))
+                    Text(
+                        stringResource(
+                            R.string.pressure_time,
+                            timeDifference
                         )
-                        end = System.nanoTime()
-                    } else if (difference > 180) {
-                        val timeDifference = (end.minus(begin)).div(1000000000) + 0.3
-                        score = (100 / timeDifference).toDouble()
-
-                        Log.i("PRESSURES", "?end: $end")
-                        Log.i("PRESSURES", "?difference: $timeDifference")
-
-                        Text(
-                            "\uD83D\uDCA5",
-                            fontSize = 180.sp
+                    )
+                    Text(
+                        stringResource(
+                            R.string.pressure_score,
+                            score
                         )
-                        Text(stringResource(com.jhiltunen.sensorlympics.R.string.pressure_good))
-                        Text(
-                            stringResource(
-                                com.jhiltunen.sensorlympics.R.string.pressure_time,
-                                timeDifference
-                            )
-                        )
-                        Text(
-                            stringResource(
-                                com.jhiltunen.sensorlympics.R.string.pressure_score,
-                                score
-                            )
-                        )
+                    )
 
-                        Log.i("PRESSURES2", "??score: $score")
-                        Log.i("PRESSURES2", "??highscore: $highScore")
+                    Log.i("PRESSURES2", "??score: $score")
+                    Log.i("PRESSURES2", "??highscore: $highScore")
 
-                        if (score == highScore) {
-                            Text(stringResource(com.jhiltunen.sensorlympics.R.string.pressure_new_high))
-                        }
-                        pressureViewModelProgress.upDateScore(score)
-
-                        gameOver = true
-                        //winOrLose = false
+                    if (score == highScore) {
+                        Text(stringResource(R.string.pressure_new_high))
                     }
+                    pressureViewModelProgress.upDateScore(score)
+
+                    gameOver = true
+                    //winOrLose = false
                 }
-
-                Spacer(modifier = Modifier.height(7.dp))
-
-                LinearProgressIndicator(
-                    progress = value3 ?: 0.4f,
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .fillMaxHeight(fraction = 0.15f),
-                    color = Purple500,
-                    backgroundColor = Color.Blue
-                )
-                Spacer(modifier = Modifier.height(17.dp))
-            } else {
-                Text(text = stringResource(R.string.buy_new_phone))
             }
+
+            Spacer(modifier = Modifier.height(7.dp))
+
+            LinearProgressIndicator(
+                progress = value3 ?: 0.4f,
+                modifier = Modifier
+                    .padding(8.dp)
+                    .fillMaxHeight(fraction = 0.15f),
+                color = Purple500,
+                backgroundColor = Color.Blue
+            )
+            Spacer(modifier = Modifier.height(17.dp))
+        } else {
+            Text(text = stringResource(R.string.buy_new_phone))
         }
     }
 }
