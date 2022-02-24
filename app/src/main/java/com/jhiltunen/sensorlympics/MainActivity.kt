@@ -149,7 +149,7 @@ class MainActivity : ComponentActivity(), SensorEventListener {
                 val orientation = FloatArray(3)
                 SensorManager.getOrientation(r, orientation)
                 val degree = (Math.toDegrees(orientation[0].toDouble()) + 360).toFloat() % 360
-                Log.i("JOO", "${degree}")
+                Log.i("JOO", "$degree")
                 currentDegree = degree
                 magnetViewModel.upDateDegree(currentDegree)
             }
