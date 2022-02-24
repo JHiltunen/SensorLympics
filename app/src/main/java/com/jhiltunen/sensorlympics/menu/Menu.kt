@@ -94,7 +94,8 @@ fun getScreenBasedOnIndex(index: Int) = when (index) {
     0 -> DrawerAppScreen.MagnetoGame
     1 -> DrawerAppScreen.PressureGame
     2 -> DrawerAppScreen.TicTacToe
-    3 -> DrawerAppScreen.Screen4
+    3 -> DrawerAppScreen.BallGame
+    4 -> DrawerAppScreen.Stats
     else -> DrawerAppScreen.MagnetoGame
 }
 
@@ -114,7 +115,10 @@ fun BodyContentComponent(
         DrawerAppScreen.TicTacToe -> TicTacToe(
             openDrawer
         )
-        DrawerAppScreen.Screen4 -> Screen4(
+        DrawerAppScreen.BallGame -> BallGame(
+            openDrawer
+        )
+        DrawerAppScreen.Stats -> Stats(
             openDrawer
         )
     }
@@ -214,7 +218,34 @@ fun TicTacToe(openDrawer: () -> Unit) {
 }
 
 @Composable
-fun Screen4(openDrawer: () -> Unit) {
+fun BallGame(openDrawer: () -> Unit) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+    )
+    {
+        TopAppBar(
+            title = { Text(stringResource(R.string.title4)) },
+            navigationIcon = {
+                IconButton(onClick = openDrawer) {
+                    Icon(imageVector = Icons.Filled.Menu, contentDescription = "Menu")
+                }
+            }
+        )
+        Surface(color = Color(0xFFfffbd0.toInt()), modifier = Modifier.weight(1f)) {
+            Column(modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                content = {
+                    Text(text = "Screen 4")
+                }
+            )
+        }
+    }
+}
+
+@Composable
+fun Stats(openDrawer: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -244,5 +275,6 @@ enum class DrawerAppScreen {
     MagnetoGame,
     PressureGame,
     TicTacToe,
-    Screen4
+    BallGame,
+    Stats
 }
