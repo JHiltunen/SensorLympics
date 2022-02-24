@@ -91,11 +91,11 @@ fun DrawerContentComponent(
 
 // Returns the corresponding DrawerAppScreen based on the index passed to it.
 fun getScreenBasedOnIndex(index: Int) = when (index) {
-    0 -> DrawerAppScreen.Screen1
-    1 -> DrawerAppScreen.Screen2
-    2 -> DrawerAppScreen.Screen3
+    0 -> DrawerAppScreen.MagnetoGame
+    1 -> DrawerAppScreen.PressureGame
+    2 -> DrawerAppScreen.TicTacToe
     3 -> DrawerAppScreen.Screen4
-    else -> DrawerAppScreen.Screen1
+    else -> DrawerAppScreen.MagnetoGame
 }
 
 // Passed the corresponding screen composable based on the current screen that's active.
@@ -105,13 +105,13 @@ fun BodyContentComponent(
     openDrawer: () -> Unit
 ) {
     when (currentScreen) {
-        DrawerAppScreen.Screen1 -> Screen1(
+        DrawerAppScreen.MagnetoGame -> MagnetoGame(
             openDrawer
         )
-        DrawerAppScreen.Screen2 -> Screen2(
+        DrawerAppScreen.PressureGame -> PressureGame(
             openDrawer
         )
-        DrawerAppScreen.Screen3 -> Screen3(
+        DrawerAppScreen.TicTacToe -> TicTacToe(
             openDrawer
         )
         DrawerAppScreen.Screen4 -> Screen4(
@@ -121,7 +121,7 @@ fun BodyContentComponent(
 }
 
 @Composable
-fun Screen1(openDrawer: () -> Unit) {
+fun MagnetoGame(openDrawer: () -> Unit) {
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(
             title = { Text(stringResource(R.string.title1)) },
@@ -149,7 +149,7 @@ fun Screen1(openDrawer: () -> Unit) {
 }
 
 @Composable
-fun Screen2(openDrawer: () -> Unit) {
+fun PressureGame(openDrawer: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -182,7 +182,7 @@ fun Screen2(openDrawer: () -> Unit) {
 }
 
 @Composable
-fun Screen3(openDrawer: () -> Unit) {
+fun TicTacToe(openDrawer: () -> Unit) {
     val ticTacToe = TicTacToeViewModel()
     Column(
         modifier = Modifier
@@ -241,8 +241,8 @@ fun Screen4(openDrawer: () -> Unit) {
 }
 
 enum class DrawerAppScreen {
-    Screen1,
-    Screen2,
-    Screen3,
+    MagnetoGame,
+    PressureGame,
+    TicTacToe,
     Screen4
 }
