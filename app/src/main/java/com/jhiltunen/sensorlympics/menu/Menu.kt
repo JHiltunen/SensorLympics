@@ -135,7 +135,7 @@ fun MagnetoGame(openDrawer: () -> Unit) {
             }
         )
         Surface(
-            color = Color(0xFFffd7d7.toInt()),
+            color = Color(0xFFffd7d7),
             modifier = Modifier
                 .weight(1f)
         ) {
@@ -167,7 +167,7 @@ fun PressureGame(openDrawer: () -> Unit) {
             }
         )
         Surface(
-            color = Color(0xFFffe9d6.toInt()),
+            color = Color(0xFFffe9d6),
             modifier = Modifier
                 .weight(1f)
         ) {

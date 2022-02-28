@@ -4,7 +4,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.OutlinedButton
@@ -45,12 +45,12 @@ fun MainAppNav() {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    Text(text = "SensorLympics", fontSize = 30.sp)
+                    Text(text = "SensorLympics", fontSize = 40.sp)
                     Image(
                         painter = painterResource(R.drawable.rings),
                         contentDescription = "Application logo",
                         modifier = Modifier
-                            .clip(RoundedCornerShape(10.dp))
+                            .clip(CutCornerShape(10.dp))
                     )
                     Column(
                         modifier = Modifier
