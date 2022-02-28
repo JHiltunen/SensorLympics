@@ -1,9 +1,11 @@
 package com.jhiltunen.sensorlympics
 
+import android.content.pm.PackageManager
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -20,11 +22,31 @@ import com.jhiltunen.sensorlympics.navigator.MainAppNav
 import com.jhiltunen.sensorlympics.pressuregame.PressureViewModel
 import com.jhiltunen.sensorlympics.pressuregame.PressureViewModelProgress
 import com.jhiltunen.sensorlympics.ui.theme.SensorLympicsTheme
+import android.location.Location
+import org.osmdroid.config.Configuration
+import org.osmdroid.library.BuildConfig
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import com.jhiltunen.sensorlympics.olympicmap.LocationHandler
+
+import androidx.compose.foundation.layout.*
+
+import androidx.compose.material.*
+import androidx.compose.runtime.*
+import com.jhiltunen.sensorlympics.olympicmap.MapViewModel
+import com.jhiltunen.sensorlympics.olympicmap.ShowMap
+import com.jhiltunen.sensorlympics.olympicmap.WikiViewModel
+
 
 internal const val FILENAMEMAGNET = "magnetHighScore.txt"
 
 
 class MainActivity : ComponentActivity(), SensorEventListener {
+
+    private lateinit var locationHandler: LocationHandler
+    private lateinit var lastKnownLocation: State<Location?>
+    private lateinit var startLocation: State<Location?>
+    private lateinit var mapViewModel: MapViewModel
 
     companion object {
         val magnetViewModel = MagnetViewModel()
@@ -58,6 +80,30 @@ class MainActivity : ComponentActivity(), SensorEventListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val model = WikiViewModel()
+
+        //Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this))
+        Configuration.getInstance().userAgentValue = BuildConfig.APPLICATION_ID
+
+        mapViewModel = MapViewModel()
+        //locationHandler = LocationHandler(applicationContext)
+        locationHandler = LocationHandler(context = applicationContext, mapViewModel = mapViewModel)
+
+        if ((Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) !=
+                    PackageManager.PERMISSION_GRANTED)
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                0
+            )
+        }
+        locationHandler.getStartLocation()
+        locationHandler.getMyLocation()
+
         sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
 
         sensorsExists()
@@ -89,6 +135,7 @@ class MainActivity : ComponentActivity(), SensorEventListener {
                     color = MaterialTheme.colors.background
                 ) {
                     MainAppNav()
+                    //ShowMap(mapViewModel = mapViewModel, locationHandler = locationHandler,this@MainActivity, model = model)
                 }
             }
         }
@@ -96,6 +143,7 @@ class MainActivity : ComponentActivity(), SensorEventListener {
 
     override fun onResume() {
         super.onResume()
+        locationHandler.startTracking()
         if (accelerometerSensorExists) {
             sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_FASTEST)
         }
@@ -111,6 +159,7 @@ class MainActivity : ComponentActivity(), SensorEventListener {
 
     override fun onPause() {
         super.onPause()
+        locationHandler.stopTracking()
         if (accelerometerSensorExists) {
             sensorManager.unregisterListener(this, accelerometer)
         }
@@ -122,6 +171,11 @@ class MainActivity : ComponentActivity(), SensorEventListener {
         if (pressureSensorExists) {
             sensorManager.unregisterListener(this, pressure)
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        locationHandler.stopTracking()
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
@@ -209,4 +263,6 @@ class MainActivity : ComponentActivity(), SensorEventListener {
         } && (sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null).also {
             accelerometerSensorExists = it
         }
+
+
 }
