@@ -148,7 +148,7 @@ fun FeaturedCircularProgressIndicator(pressureViewModelProgress: PressureViewMod
                 Text("$valueMax")
                 Text("$valueMin")
                 Text("$difference")
-                Text(stringResource(com.jhiltunen.sensorlympics.R.string.pressure_high, highScore))
+                Text(stringResource(com.jhiltunen.sensorlympics.R.string.pressure_high, highScore.toInt()))
                 Text(stringResource(com.jhiltunen.sensorlympics.R.string.currentMaxMin))
 
                 if (!winOrLose) {

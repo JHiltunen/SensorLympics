@@ -41,7 +41,7 @@ fun SensorMagnetApp(context: Context) {
                             elevation = 10.dp
                         ) {
                             Column(modifier = Modifier.padding(15.dp)) {
-                                Text("Highscore: ${highScore ?: 0}")
+                                Text("Highscore: ${highScore?.toInt() ?: 0}")
                                 Spacer(modifier = Modifier.height(7.dp))
                                 Button(
                                     onClick = {
