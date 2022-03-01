@@ -16,10 +16,12 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 //import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.jhiltunen.sensorlympics.R
+import com.jhiltunen.sensorlympics.ballgame.BallGameViewModel
 import com.jhiltunen.sensorlympics.pressuregame.PressureApp
 import com.jhiltunen.sensorlympics.ui.theme.Purple200
 import com.jhiltunen.sensorlympics.ui.views.TicTacToeView
 import com.jhiltunen.sensorlympics.tictactoe.TicTacToeViewModel
+import com.jhiltunen.sensorlympics.ui.views.BallGameView
 import kotlinx.coroutines.launch
 
 @Composable
@@ -215,6 +217,7 @@ fun Screen3(openDrawer: () -> Unit) {
 
 @Composable
 fun Screen4(openDrawer: () -> Unit) {
+    val ballGameViewModel = BallGameViewModel()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -233,7 +236,7 @@ fun Screen4(openDrawer: () -> Unit) {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
                 content = {
-                    Text(text = "Screen 4")
+                    BallGameView(ballGameViewModel = ballGameViewModel)
                 }
             )
         }
