@@ -144,7 +144,7 @@ fun FeaturedCircularProgressIndicator(magnetViewModel: MagnetViewModel) {
             Text((stringResource(R.string.currentMaxMin)))
             Spacer(modifier = Modifier.height(7.dp))
             Image(
-                painter = painterResource(id = R.drawable.compass_1),
+                painter = painterResource(id = R.drawable.compass_2),
                 contentDescription = null,
                 modifier = Modifier
                     .rotate(degree ?: 0f)

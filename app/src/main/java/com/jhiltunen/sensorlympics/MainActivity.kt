@@ -134,8 +134,10 @@ class MainActivity : ComponentActivity(), SensorEventListener {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    MainAppNav()
-                    //ShowMap(mapViewModel = mapViewModel, locationHandler = locationHandler,this@MainActivity, model = model)
+                    Column() {
+                        MainAppNav()
+                        ShowMap(mapViewModel = mapViewModel, locationHandler = locationHandler,this@MainActivity, model = model)
+                    }
                 }
             }
         }

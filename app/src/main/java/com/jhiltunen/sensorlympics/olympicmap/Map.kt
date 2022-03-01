@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
+import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -62,138 +63,146 @@ fun ShowMap(mapViewModel: MapViewModel, locationHandler: LocationHandler, contex
     }
     // observer (e.g. update from the location change listener)
 
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(0.75f)
+            .padding(8.dp),
+        elevation = 10.dp,
 
+        ) {
+        Column {
 
-    Column {
-
-        Button(
-            modifier = Modifier
-                .fillMaxWidth(),
-            onClick = {
-                centerUser = !centerUser
-            }) {
-            if (centerUser) {
-                Row(Modifier.padding(0.dp)) {
-                    Text(text = "Don't center user")
-                }
-            } else {
-                Row(Modifier.padding(0.dp)) {
-                    Text(text = "Center user")
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                onClick = {
+                    centerUser = !centerUser
+                }) {
+                if (centerUser) {
+                    Row(Modifier.padding(0.dp)) {
+                        Text(text = "Don't center user")
+                    }
+                } else {
+                    Row(Modifier.padding(0.dp)) {
+                        Text(text = "Center user")
+                    }
                 }
             }
-        }
-        Spacer(modifier = Modifier.height(4.dp))
-        if (totalhits!! > 0) {
-            Text(totalhits.toString())
-            Text(cityName)
-        }
-
-        Spacer(modifier = Modifier.height(4.dp))
-        //Location(locationHandler = locationHandler)
-        AndroidView({ map }) {
-            address ?: return@AndroidView
-            val dm: DisplayMetrics = context.resources.displayMetrics
-
-            val mCompassOverlay =
-                CompassOverlay(context, InternalCompassOrientationProvider(context), map)
-            mCompassOverlay.enableCompass()
-
-            /*
-            val myLocationOverlay = MyLocationNewOverlay(GpsMyLocationProvider(context), map)
-            myLocationOverlay.enableMyLocation()
-             */
-
-            val minimapOverlay = MinimapOverlay(context, map.tileRequestCompleteHandler)
-            minimapOverlay.width = dm.widthPixels / 5
-            minimapOverlay.height = dm.heightPixels / 5
-
-
-            val scaleBarOverlay = ScaleBarOverlay(map)
-            scaleBarOverlay.setCentred(true)
-            scaleBarOverlay.setScaleBarOffset(dm.widthPixels /2, 20)
-
-
-            //it.controller.setCenter(address?.geoPoint)
-            if (centerUser) {
-                it.controller.setCenter(address?.geoPoint)
+            Spacer(modifier = Modifier.height(4.dp))
+            if (totalhits!! > 0) {
+                Text(totalhits.toString())
+                Text(cityName)
             }
 
-            //map.overlays.add(myLocationOverlay)
-            map.overlays.add(mCompassOverlay)
-            map.overlays.add(scaleBarOverlay)
-            map.overlays.add(minimapOverlay)
+            Spacer(modifier = Modifier.height(4.dp))
+            //Location(locationHandler = locationHandler)
+            AndroidView({ map }) {
+                address ?: return@AndroidView
+                val dm: DisplayMetrics = context.resources.displayMetrics
+
+                val mCompassOverlay =
+                    CompassOverlay(context, InternalCompassOrientationProvider(context), map)
+                mCompassOverlay.enableCompass()
+
+                /*
+                val myLocationOverlay = MyLocationNewOverlay(GpsMyLocationProvider(context), map)
+                myLocationOverlay.enableMyLocation()
+                 */
+
+                val minimapOverlay = MinimapOverlay(context, map.tileRequestCompleteHandler)
+                minimapOverlay.width = dm.widthPixels / 5
+                minimapOverlay.height = dm.heightPixels / 5
+
+
+                val scaleBarOverlay = ScaleBarOverlay(map)
+                scaleBarOverlay.setCentred(true)
+                scaleBarOverlay.setScaleBarOffset(dm.widthPixels /2, 20)
+
+
+                //it.controller.setCenter(address?.geoPoint)
+                if (centerUser) {
+                    it.controller.setCenter(address?.geoPoint)
+                }
+
+                //map.overlays.add(myLocationOverlay)
+                map.overlays.add(mCompassOverlay)
+                map.overlays.add(scaleBarOverlay)
+                map.overlays.add(minimapOverlay)
 
 
 
-            val items = ArrayList<OverlayItem>()
-            items.add(
-                OverlayItem(
-                    "Vantaa",
-                    "K",
-                    GeoPoint(80.0, 50.0)
+                val items = ArrayList<OverlayItem>()
+                items.add(
+                    OverlayItem(
+                        "Vantaa",
+                        "K",
+                        GeoPoint(80.0, 50.0)
+                    )
                 )
-            )
 
-            /*
-            items.add(
-                OverlayItem(
-                    "Helsinki",
-                    "",
-                    GeoPoint(80.0, 61.0)
+                /*
+                items.add(
+                    OverlayItem(
+                        "Helsinki",
+                        "",
+                        GeoPoint(80.0, 61.0)
+                    )
                 )
-            )
-            val mOverlay = ItemizedOverlayWithFocus(items,
-                object : OnItemGestureListener<OverlayItem?> {
-                    override fun onItemSingleTapUp(index: Int, item: OverlayItem?): Boolean {
-                        //do something
-                        if (item != null) {
-                            model.getHits(item.title + olympics)
-                            cityName = item.title
+                val mOverlay = ItemizedOverlayWithFocus(items,
+                    object : OnItemGestureListener<OverlayItem?> {
+                        override fun onItemSingleTapUp(index: Int, item: OverlayItem?): Boolean {
+                            //do something
+                            if (item != null) {
+                                model.getHits(item.title + olympics)
+                                cityName = item.title
+                            }
+                            Log.i("MAPPI","${item?.title}" )
+                            Log.i("MAPPI","$totalhits" )
+                            return true
                         }
-                        Log.i("MAPPI","${item?.title}" )
-                        Log.i("MAPPI","$totalhits" )
-                        return true
+
+                        override fun onItemLongPress(index: Int, item: OverlayItem?): Boolean {
+                            return false
+                        }
+                    }, context
+                )
+                mOverlay.setFocusItemsOnTap(false)
+                map.overlays.add(mOverlay)
+
+                 */
+
+
+                cities.forEach{
+                    val cityMarker = Marker(map)
+                    cityMarker.setOnMarkerClickListener { _, _ ->
+                        if (cityMarker.isInfoWindowShown) {
+                            cityMarker.closeInfoWindow()
+                            Log.i("SNIPPET", "FUCK YOU")
+                        } else {
+                            val jorma = (it.city + olympics)
+                            model.getHits(jorma)
+                            checker = totalhits
+                            cityName = it.city
+                            cityMarker.closeInfoWindow()
+                            //cityMarker.showInfoWindow()
+                            Log.i("SNIPPET", "FUCK ME")
+                        }
+                        true
                     }
+                    cityMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+                    cityMarker.position.latitude = it.latiTude
+                    cityMarker.position.longitude = it.longiTude
 
-                    override fun onItemLongPress(index: Int, item: OverlayItem?): Boolean {
-                        return false
-                    }
-                }, context
-            )
-            mOverlay.setFocusItemsOnTap(false)
-            map.overlays.add(mOverlay)
-
-             */
-
-
-
-            cities.forEach{
-                val cityMarker = Marker(map)
-                cityMarker.setOnMarkerClickListener { cityMarker, mapView ->
-                    if (cityMarker.isInfoWindowShown) {
-                        cityMarker.closeInfoWindow()
-                        Log.i("SNIPPET", "FUCK YOU")
-                    } else {
-                        val jorma = (it.city + olympics)
-                        model.getHits(jorma)
-                        checker = totalhits
-                        cityName = it.city
-                        cityMarker.closeInfoWindow()
-                        //cityMarker.showInfoWindow()
-                        Log.i("SNIPPET", "FUCK ME")
-                    }
-                    true
+                    cityMarker.title = it.city
+                    map.overlays.add(cityMarker)
+                    map.invalidate()
                 }
-                cityMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
-                cityMarker.position.latitude = it.latiTude
-                cityMarker.position.longitude = it.longiTude
-
-                cityMarker.title = it.city
-                map.overlays.add(cityMarker)
-                map.invalidate()
             }
         }
     }
+
+
 }
 
 class OlympicCity(
