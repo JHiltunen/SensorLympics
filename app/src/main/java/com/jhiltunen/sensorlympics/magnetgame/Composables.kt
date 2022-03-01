@@ -38,18 +38,22 @@ fun SensorMagnetApp(context: Context) {
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .fillMaxHeight()
-                                .padding(15.dp),
+                                .padding(16.dp),
                             elevation = 10.dp
                         ) {
-                            Column(modifier = Modifier.padding(15.dp)) {
-                                Text("Highscore: ${highScore ?: 0}")
-                                Spacer(modifier = Modifier.height(7.dp))
+                            Column(
+                                modifier = Modifier
+                                    .padding(24.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.SpaceBetween
+                            ) {
+
                                 Button(
                                     onClick = {
                                         if (!winOrLose) {
                                             winOrLose = true
                                             val theChosen =
-                                                MainActivity.magnetViewModel.chosen.value ?: 1
+                                                magnetViewModel.chosen.value ?: 1
                                             when (theChosen) {
                                                 1 -> direction = context.getString(R.string.north)
                                                 2 -> direction = context.getString(R.string.east)
@@ -62,15 +66,14 @@ fun SensorMagnetApp(context: Context) {
                                         } else {
                                             winOrLose = false
                                             chooseDirection()
-                                            MainActivity.magnetViewModel.upDateWin(0)
+                                            magnetViewModel.upDateWin(0)
                                         }
                                     },
-                                    modifier = Modifier.fillMaxWidth()
+                                    modifier = Modifier
+                                        .fillMaxWidth()
                                 ) {
                                     if (!winOrLose) {
-                                        val theChosen =
-                                            MainActivity.magnetViewModel.chosen.value ?: 1
-                                        when (theChosen) {
+                                        when (magnetViewModel.chosen.value ?: 1) {
                                             1 -> direction = context.getString(R.string.north)
                                             2 -> direction = context.getString(R.string.east)
                                             3 -> direction = context.getString(R.string.south)
@@ -82,9 +85,10 @@ fun SensorMagnetApp(context: Context) {
                                     }
                                 }
                                 Spacer(Modifier.height(15.dp))
-                                ShowWinOrLose(MainActivity.magnetViewModel)
+                                ShowWinOrLose(magnetViewModel)
                                 //ShowSenorData(MainActivity.sensorViewModel)
-                                FeaturedCircularProgressIndicator(MainActivity.magnetViewModel)
+                                FeaturedCircularProgressIndicator(magnetViewModel)
+                                Text(stringResource(R.string.pressure_high, highScore ?: 0))
                             }
                         }
                     } else {
@@ -102,13 +106,12 @@ fun ShowWinOrLose(magnetViewModel: MagnetViewModel) {
     val winOrLoseOr by magnetViewModel.win.observeAsState()
     val chosen by magnetViewModel.chosen.observeAsState()
     val score by magnetViewModel.score.observeAsState()
-    val direction: String
-    when (chosen) {
-        1 -> direction = stringResource(R.string.north)
-        2 -> direction = stringResource(R.string.east)
-        3 -> direction = stringResource(R.string.south)
-        4 -> direction = stringResource(R.string.west)
-        else -> direction = ""
+    val direction: String = when (chosen) {
+        1 -> stringResource(R.string.north)
+        2 -> stringResource(R.string.east)
+        3 -> stringResource(R.string.south)
+        4 -> stringResource(R.string.west)
+        else -> ""
     }
 
     Column(
@@ -133,16 +136,17 @@ fun FeaturedCircularProgressIndicator(magnetViewModel: MagnetViewModel) {
     Card(
         modifier = Modifier
             .padding(12.dp)
-            .fillMaxHeight(fraction = 0.5f)
             .fillMaxWidth()
             .fillMaxHeight(fraction = 0.5f),
         elevation = 8.dp
     ) {
         Column(
+            /*    modifier = Modifier
+                    .background(Color.Blue),*/
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly,
         ) {
-            Text((stringResource(R.string.currentMaxMin)))
+            // Text((stringResource(R.string.currentMaxMin)))
             Spacer(modifier = Modifier.height(7.dp))
             Image(
                 painter = painterResource(id = R.drawable.compass_1),

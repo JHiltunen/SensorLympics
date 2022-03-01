@@ -17,7 +17,8 @@ private val LightColorPalette = lightColors(
     primary = Purple500,
     primaryVariant = Purple700,
     secondary = SpanishGreen,
-   // surface = GreenBLue
+   // surface = BrightYellow
+
 
     /* Other default colors to override
     background = Color.White,
