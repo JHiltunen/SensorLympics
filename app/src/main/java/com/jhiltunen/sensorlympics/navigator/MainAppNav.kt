@@ -29,6 +29,9 @@ fun MainAppNav() {
                 Button(onClick = { navController.navigate("tictactoe") }) {
                     Text(stringResource(R.string.game3))
                 }
+                Button(onClick = { navController.navigate("ballgame") }) {
+                    Text(stringResource(R.string.game4))
+                }
             }
         }
         composable("magnetogame") {
@@ -41,6 +44,10 @@ fun MainAppNav() {
 
         composable("tictactoe") {
             Menu(screen = DrawerAppScreen.Screen3)
+        }
+
+        composable("ballgame") {
+            Menu(screen = DrawerAppScreen.Screen4)
         }
     }
 }

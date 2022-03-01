@@ -33,5 +33,6 @@
     <string name="buy_new_phone" translatable="false">Go buy new phone ASAP!</string>
     <string name="game3" translatable="false">Tic Tac Toe</string>
     <string name="game2">Pressure game</string>
+    <string name="game4">Ball game</string>
 
 </resources>
