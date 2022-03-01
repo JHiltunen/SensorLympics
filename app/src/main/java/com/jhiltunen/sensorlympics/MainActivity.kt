@@ -1,11 +1,9 @@
 package com.jhiltunen.sensorlympics
 
-import android.content.pm.PackageManager
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -205,7 +203,7 @@ class MainActivity : ComponentActivity(), SensorEventListener {
                 val orientation = FloatArray(3)
                 SensorManager.getOrientation(r, orientation)
                 val degree = (Math.toDegrees(orientation[0].toDouble()) + 360).toFloat() % 360
-                Log.i("JOO", "${degree}")
+                Log.i("JOO", "$degree")
                 currentDegree = degree
                 magnetViewModel.upDateDegree(currentDegree)
             }
@@ -265,6 +263,4 @@ class MainActivity : ComponentActivity(), SensorEventListener {
         } && (sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null).also {
             accelerometerSensorExists = it
         }
-
-
 }

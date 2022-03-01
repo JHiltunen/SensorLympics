@@ -1,6 +1,5 @@
 package com.jhiltunen.sensorlympics.menu
 
-import com.jhiltunen.sensorlympics.magnetgame.SensorMagnetApp
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -14,12 +13,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-//import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.jhiltunen.sensorlympics.R
+import com.jhiltunen.sensorlympics.magnetgame.SensorMagnetApp
 import com.jhiltunen.sensorlympics.pressuregame.PressureApp
+import com.jhiltunen.sensorlympics.tictactoe.TicTacToeViewModel
 import com.jhiltunen.sensorlympics.ui.theme.Purple200
 import com.jhiltunen.sensorlympics.ui.views.TicTacToeView
-import com.jhiltunen.sensorlympics.tictactoe.TicTacToeViewModel
 import kotlinx.coroutines.launch
 
 @Composable
@@ -91,11 +90,12 @@ fun DrawerContentComponent(
 
 // Returns the corresponding DrawerAppScreen based on the index passed to it.
 fun getScreenBasedOnIndex(index: Int) = when (index) {
-    0 -> DrawerAppScreen.Screen1
-    1 -> DrawerAppScreen.Screen2
-    2 -> DrawerAppScreen.Screen3
-    3 -> DrawerAppScreen.Screen4
-    else -> DrawerAppScreen.Screen1
+    0 -> DrawerAppScreen.MagnetoGame
+    1 -> DrawerAppScreen.PressureGame
+    2 -> DrawerAppScreen.TicTacToe
+    3 -> DrawerAppScreen.BallGame
+    4 -> DrawerAppScreen.Statistics
+    else -> DrawerAppScreen.MagnetoGame
 }
 
 // Passed the corresponding screen composable based on the current screen that's active.
@@ -105,23 +105,26 @@ fun BodyContentComponent(
     openDrawer: () -> Unit
 ) {
     when (currentScreen) {
-        DrawerAppScreen.Screen1 -> Screen1(
+        DrawerAppScreen.MagnetoGame -> MagnetoGame(
             openDrawer
         )
-        DrawerAppScreen.Screen2 -> Screen2(
+        DrawerAppScreen.PressureGame -> PressureGame(
             openDrawer
         )
-        DrawerAppScreen.Screen3 -> Screen3(
+        DrawerAppScreen.TicTacToe -> TicTacToe(
             openDrawer
         )
-        DrawerAppScreen.Screen4 -> Screen4(
+        DrawerAppScreen.BallGame -> BallGame(
+            openDrawer
+        )
+        DrawerAppScreen.Statistics -> Statistics(
             openDrawer
         )
     }
 }
 
 @Composable
-fun Screen1(openDrawer: () -> Unit) {
+fun MagnetoGame(openDrawer: () -> Unit) {
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(
             title = { Text(stringResource(R.string.title1)) },
@@ -132,7 +135,7 @@ fun Screen1(openDrawer: () -> Unit) {
             }
         )
         Surface(
-            color = Color(0xFFffd7d7.toInt()),
+            color = Color(0xFFffd7d7),
             modifier = Modifier
                 .weight(1f)
         ) {
@@ -149,7 +152,7 @@ fun Screen1(openDrawer: () -> Unit) {
 }
 
 @Composable
-fun Screen2(openDrawer: () -> Unit) {
+fun PressureGame(openDrawer: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -164,11 +167,10 @@ fun Screen2(openDrawer: () -> Unit) {
             }
         )
         Surface(
-            color = Color(0xFFffe9d6.toInt()),
+            color = Color(0xFFffe9d6),
             modifier = Modifier
                 .weight(1f)
-        )
-        {
+        ) {
             Column(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
@@ -182,7 +184,7 @@ fun Screen2(openDrawer: () -> Unit) {
 }
 
 @Composable
-fun Screen3(openDrawer: () -> Unit) {
+fun TicTacToe(openDrawer: () -> Unit) {
     val ticTacToe = TicTacToeViewModel()
     Column(
         modifier = Modifier
@@ -197,24 +199,29 @@ fun Screen3(openDrawer: () -> Unit) {
                 }
             }
         )
-        Surface(
-            color = Color(0xFFfffbd0.toInt()),
-            modifier = Modifier.weight(1f)
-        )
-        {
-            Column(modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-                content = {
-                    TicTacToeView(ticTacToe)
-                }
-            )
+        Card(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
+            elevation = 16.dp
+        ) {
+            Surface(
+                modifier = Modifier.weight(1f)
+            ) {
+                Column(modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    content = {
+                        TicTacToeView(ticTacToe)
+                    }
+                )
+            }
         }
     }
 }
 
 @Composable
-fun Screen4(openDrawer: () -> Unit) {
+fun BallGame(openDrawer: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -228,7 +235,10 @@ fun Screen4(openDrawer: () -> Unit) {
                 }
             }
         )
-        Surface(color = Color(0xFFfffbd0.toInt()), modifier = Modifier.weight(1f)) {
+        Surface(
+            modifier = Modifier
+                .weight(1f)
+        ) {
             Column(modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -240,9 +250,40 @@ fun Screen4(openDrawer: () -> Unit) {
     }
 }
 
+@Composable
+fun Statistics(openDrawer: () -> Unit) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+    )
+    {
+        TopAppBar(
+            title = { Text(stringResource(R.string.title5)) },
+            navigationIcon = {
+                IconButton(onClick = openDrawer) {
+                    Icon(imageVector = Icons.Filled.Menu, contentDescription = "Menu")
+                }
+            }
+        )
+        Surface(
+            modifier = Modifier
+                .weight(1f)
+        ) {
+            Column(modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                content = {
+                    Text(text = "Screen 5")
+                }
+            )
+        }
+    }
+}
+
 enum class DrawerAppScreen {
-    Screen1,
-    Screen2,
-    Screen3,
-    Screen4
+    MagnetoGame,
+    PressureGame,
+    TicTacToe,
+    BallGame,
+    Statistics
 }
