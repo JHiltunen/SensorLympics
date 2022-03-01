@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -20,14 +21,19 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.jhiltunen.sensorlympics.MainActivity.Companion.mapViewModel
 import com.jhiltunen.sensorlympics.R
 import com.jhiltunen.sensorlympics.menu.DrawerAppScreen
 import com.jhiltunen.sensorlympics.menu.Menu
+import com.jhiltunen.sensorlympics.olympicmap.LocationHandler
+import com.jhiltunen.sensorlympics.olympicmap.ShowMap
+import com.jhiltunen.sensorlympics.olympicmap.WikiApi.Model
+import com.jhiltunen.sensorlympics.olympicmap.WikiViewModel
 import com.jhiltunen.sensorlympics.ui.theme.Black
 
 @ExperimentalFoundationApi
 @Composable
-fun MainAppNav() {
+fun MainAppNav(locationHandler: LocationHandler, model: WikiViewModel) {
     val navController = rememberNavController()
     NavHost(navController, startDestination = "main") {
         composable("main") {
@@ -96,6 +102,7 @@ fun MainAppNav() {
 
                         }
                     }
+                    ShowMap(mapViewModel = mapViewModel, locationHandler = locationHandler, context = LocalContext.current, model = model)
                     Button(
                         onClick = { },
                         modifier = Modifier

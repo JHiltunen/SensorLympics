@@ -72,23 +72,6 @@ fun ShowMap(mapViewModel: MapViewModel, locationHandler: LocationHandler, contex
 
         ) {
         Column {
-
-            Button(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                onClick = {
-                    centerUser = !centerUser
-                }) {
-                if (centerUser) {
-                    Row(Modifier.padding(0.dp)) {
-                        Text(text = "Don't center user")
-                    }
-                } else {
-                    Row(Modifier.padding(0.dp)) {
-                        Text(text = "Center user")
-                    }
-                }
-            }
             Spacer(modifier = Modifier.height(4.dp))
             if (totalhits!! > 0) {
                 Text(totalhits.toString())

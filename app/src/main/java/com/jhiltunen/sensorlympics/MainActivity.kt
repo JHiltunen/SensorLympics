@@ -1,5 +1,6 @@
 package com.jhiltunen.sensorlympics
 
+import android.content.pm.PackageManager
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -21,19 +22,17 @@ import com.jhiltunen.sensorlympics.pressuregame.PressureViewModel
 import com.jhiltunen.sensorlympics.pressuregame.PressureViewModelProgress
 import com.jhiltunen.sensorlympics.ui.theme.SensorLympicsTheme
 import android.location.Location
+import android.os.Build
 import org.osmdroid.config.Configuration
 import org.osmdroid.library.BuildConfig
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.jhiltunen.sensorlympics.olympicmap.LocationHandler
 
 import androidx.compose.foundation.layout.*
 
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import com.jhiltunen.sensorlympics.olympicmap.MapViewModel
-import com.jhiltunen.sensorlympics.olympicmap.ShowMap
-import com.jhiltunen.sensorlympics.olympicmap.WikiViewModel
+import com.jhiltunen.sensorlympics.olympicmap.*
 
 
 internal const val FILENAMEMAGNET = "magnetHighScore.txt"
@@ -44,12 +43,11 @@ class MainActivity : ComponentActivity(), SensorEventListener {
     private lateinit var locationHandler: LocationHandler
     private lateinit var lastKnownLocation: State<Location?>
     private lateinit var startLocation: State<Location?>
-    private lateinit var mapViewModel: MapViewModel
-
     companion object {
         val magnetViewModel = MagnetViewModel()
         val pressureViewModel = PressureViewModel()
         val pressureViewModelProgress = PressureViewModelProgress()
+        val mapViewModel = MapViewModel()
         var pressureSensorExists = true
         var magnetometerSensorExists = true
         var accelerometerSensorExists = true
@@ -83,7 +81,6 @@ class MainActivity : ComponentActivity(), SensorEventListener {
         //Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this))
         Configuration.getInstance().userAgentValue = BuildConfig.APPLICATION_ID
 
-        mapViewModel = MapViewModel()
         //locationHandler = LocationHandler(applicationContext)
         locationHandler = LocationHandler(context = applicationContext, mapViewModel = mapViewModel)
 
@@ -133,8 +130,7 @@ class MainActivity : ComponentActivity(), SensorEventListener {
                     color = MaterialTheme.colors.background
                 ) {
                     Column() {
-                        MainAppNav()
-                        ShowMap(mapViewModel = mapViewModel, locationHandler = locationHandler,this@MainActivity, model = model)
+                        MainAppNav(locationHandler, WikiViewModel())
                     }
                 }
             }
