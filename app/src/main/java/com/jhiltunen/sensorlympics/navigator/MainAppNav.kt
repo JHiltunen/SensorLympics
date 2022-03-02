@@ -5,10 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CutCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.Card
-import androidx.compose.material.OutlinedButton
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,9 +24,9 @@ import com.jhiltunen.sensorlympics.menu.DrawerAppScreen
 import com.jhiltunen.sensorlympics.menu.Menu
 import com.jhiltunen.sensorlympics.olympicmap.LocationHandler
 import com.jhiltunen.sensorlympics.olympicmap.ShowMap
-import com.jhiltunen.sensorlympics.olympicmap.WikiApi.Model
 import com.jhiltunen.sensorlympics.olympicmap.WikiViewModel
 import com.jhiltunen.sensorlympics.ui.theme.Black
+import com.jhiltunen.sensorlympics.ui.theme.RichBlack
 
 @ExperimentalFoundationApi
 @Composable
@@ -60,14 +57,15 @@ fun MainAppNav(locationHandler: LocationHandler, model: WikiViewModel) {
                     )
                     Column(
                         modifier = Modifier
-                            .padding(32.dp),
+                            .padding(24.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         OutlinedButton(
                             onClick = { navController.navigate("magnetogame") },
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .border(1.dp, color = Black)
+                                .border(1.dp, color = Black),
+                            colors = ButtonDefaults.outlinedButtonColors(contentColor = RichBlack)
                         ) {
                             Text(stringResource(R.string.game1))
                         }
@@ -77,7 +75,8 @@ fun MainAppNav(locationHandler: LocationHandler, model: WikiViewModel) {
                             onClick = { navController.navigate("pressuregame") },
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .border(1.dp, color = Black)
+                                .border(1.dp, color = Black),
+                            colors = ButtonDefaults.outlinedButtonColors(contentColor = RichBlack)
                         ) {
                             Text(stringResource(R.string.game2))
                         }
@@ -87,7 +86,8 @@ fun MainAppNav(locationHandler: LocationHandler, model: WikiViewModel) {
                             onClick = { navController.navigate("tictactoe") },
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .border(1.dp, color = Black)
+                                .border(1.dp, color = Black),
+                            colors = ButtonDefaults.outlinedButtonColors(contentColor = RichBlack)
                         ) {
                             Text(stringResource(R.string.game3))
                         }
@@ -96,13 +96,19 @@ fun MainAppNav(locationHandler: LocationHandler, model: WikiViewModel) {
                             onClick = { navController.navigate("") },
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .border(1.dp, color = Black)
+                                .border(1.dp, color = Black),
+                            colors = ButtonDefaults.outlinedButtonColors(contentColor = RichBlack)
                         ) {
                             Text(stringResource(id = R.string.game4))
 
                         }
                     }
-                    ShowMap(mapViewModel = mapViewModel, locationHandler = locationHandler, context = LocalContext.current, model = model)
+                    ShowMap(
+                        mapViewModel = mapViewModel,
+                        locationHandler = locationHandler,
+                        context = LocalContext.current,
+                        model = model
+                    )
                     Button(
                         onClick = { },
                         modifier = Modifier
@@ -126,5 +132,6 @@ fun MainAppNav(locationHandler: LocationHandler, model: WikiViewModel) {
         composable("tictactoe") {
             Menu(screen = DrawerAppScreen.TicTacToe)
         }
+
     }
 }

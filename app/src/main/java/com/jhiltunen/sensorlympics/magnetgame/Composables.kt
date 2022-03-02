@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.jhiltunen.sensorlympics.MainActivity
 import com.jhiltunen.sensorlympics.MainActivity.Companion.magnetViewModel
 import com.jhiltunen.sensorlympics.R
+import com.jhiltunen.sensorlympics.gameRules.MagnetoRules
 import com.jhiltunen.sensorlympics.ui.theme.SensorLympicsTheme
 
 
@@ -47,7 +48,6 @@ fun SensorMagnetApp(context: Context) {
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 verticalArrangement = Arrangement.SpaceBetween
                             ) {
-
                                 Button(
                                     onClick = {
                                         if (!winOrLose) {
@@ -88,7 +88,13 @@ fun SensorMagnetApp(context: Context) {
                                 ShowWinOrLose(magnetViewModel)
                                 //ShowSenorData(MainActivity.sensorViewModel)
                                 FeaturedCircularProgressIndicator(magnetViewModel)
-                                Text(stringResource(R.string.pressure_high, highScore ?: 0))
+                                Row(
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(stringResource(R.string.pressure_high, highScore ?: 0))
+                                    MagnetoRules()
+                                }
                             }
                         }
                     } else {

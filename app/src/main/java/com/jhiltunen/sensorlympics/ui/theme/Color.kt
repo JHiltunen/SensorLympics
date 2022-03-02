@@ -18,4 +18,11 @@ val AliceBlue = Color(0xFFDCEDFF)
 val BlueCrayola = Color(0xFF2176FF)
 val RedRyb = Color(0xFFFF1D15)
 val RichBlack = Color(0xFF071013)
+val Ivory = Color(0xFFF6F7EB)
 
+
+val Lemon = Color(0xFFEAE2B7)
+val YellowRed = Color(0xFFFCBF49)
+val Orange = Color(0xFFF77F00)
+val MaxRed = Color(0xFFD62828)
+val PrussianBlue = Color(0xFF003049)

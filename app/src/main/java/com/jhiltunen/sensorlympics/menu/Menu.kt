@@ -17,7 +17,10 @@ import com.jhiltunen.sensorlympics.R
 import com.jhiltunen.sensorlympics.magnetgame.SensorMagnetApp
 import com.jhiltunen.sensorlympics.pressuregame.PressureApp
 import com.jhiltunen.sensorlympics.tictactoe.TicTacToeViewModel
+import com.jhiltunen.sensorlympics.ui.theme.MiddleYellow
 import com.jhiltunen.sensorlympics.ui.theme.Purple200
+import com.jhiltunen.sensorlympics.ui.theme.RedCrayola
+import com.jhiltunen.sensorlympics.ui.theme.YellowRed
 import com.jhiltunen.sensorlympics.ui.views.TicTacToeView
 import kotlinx.coroutines.launch
 
@@ -53,7 +56,7 @@ fun Menu(screen: DrawerAppScreen) {
         // Update all of the system bar colors to be transparent, and use
         // dark icons if we're in light theme
         systemUiController.setStatusBarColor(
-            color = Purple200,
+            color = YellowRed,
             darkIcons = useDarkIcons
         )
     }
