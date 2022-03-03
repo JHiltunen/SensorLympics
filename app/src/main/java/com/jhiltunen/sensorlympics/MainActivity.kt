@@ -1,5 +1,7 @@
 package com.jhiltunen.sensorlympics
 
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -53,7 +55,6 @@ class MainActivity : ComponentActivity(), SensorEventListener {
         var accelerometerSensorExists = true
 
     }
-
     private var boilingPoint: Float = 100.0F
     private var min: Float = 0.0F
     private var max: Float = 0.0F
@@ -71,6 +72,8 @@ class MainActivity : ComponentActivity(), SensorEventListener {
     private var lastMagnetometer = FloatArray(3)
     private var lastAccelerometerSet = false
     private var lastMagnetometerSet = false
+
+    private lateinit var receiver: AirPlaneModeReceiver
 
 
     @ExperimentalFoundationApi
@@ -118,7 +121,7 @@ class MainActivity : ComponentActivity(), SensorEventListener {
         magnetViewModel.upDateWin(0)
         chooseDirection()
 
-        readFile(application)
+        //readFile(application)
         /*
         val readMagnetFile = readFile(application)
         val scoreHigh = readMagnetFile.toString().drop(1).dropLast(1).toInt()
@@ -136,6 +139,13 @@ class MainActivity : ComponentActivity(), SensorEventListener {
                 }
             }
         }
+        //for airplanemode receiver
+        receiver = AirPlaneModeReceiver()
+
+        IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED).also {
+            registerReceiver(receiver, it)
+        }
+
     }
 
     override fun onResume() {
@@ -173,6 +183,7 @@ class MainActivity : ComponentActivity(), SensorEventListener {
     override fun onStop() {
         super.onStop()
         locationHandler.stopTracking()
+        unregisterReceiver(receiver)
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
