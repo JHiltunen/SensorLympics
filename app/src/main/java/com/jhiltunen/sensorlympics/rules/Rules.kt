@@ -1,10 +1,9 @@
-package com.jhiltunen.sensorlympics.gameRules
+package com.jhiltunen.sensorlympics.rules
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.sharp.HelpOutline
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -57,7 +56,7 @@ fun PressureRules() {
             IconButton(onClick = {
                 openDialog.value = true
             }) {
-                Icon(Icons.Default.Check, "menu")
+                Icon(Icons.Sharp.HelpOutline, "menu")
             }
             if (openDialog.value) {
                 AlertDialog(
@@ -93,7 +92,7 @@ fun TicTacToeRules() {
             IconButton(onClick = {
                 openDialog.value = true
             }) {
-                Icon(Icons.Default.Check, "menu")
+                Icon(Icons.Sharp.HelpOutline, "menu")
             }
             if (openDialog.value) {
                 AlertDialog(
@@ -129,7 +128,7 @@ fun BallGameRules() {
             IconButton(onClick = {
                 openDialog.value = true
             }) {
-                Icon(Icons.Default.Check, "menu")
+                Icon(Icons.Sharp.HelpOutline, "menu")
             }
             if (openDialog.value) {
                 AlertDialog(

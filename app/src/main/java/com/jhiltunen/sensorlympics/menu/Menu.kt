@@ -1,5 +1,7 @@
 package com.jhiltunen.sensorlympics.menu
 
+import android.content.Context
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -15,11 +17,11 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.jhiltunen.sensorlympics.R
 import com.jhiltunen.sensorlympics.magnetgame.SensorMagnetApp
+import com.jhiltunen.sensorlympics.olympicmap.MapViewModel
+import com.jhiltunen.sensorlympics.olympicmap.ShowMap
+import com.jhiltunen.sensorlympics.olympicmap.WikiViewModel
 import com.jhiltunen.sensorlympics.pressuregame.PressureApp
 import com.jhiltunen.sensorlympics.tictactoe.TicTacToeViewModel
-import com.jhiltunen.sensorlympics.ui.theme.MiddleYellow
-import com.jhiltunen.sensorlympics.ui.theme.Purple200
-import com.jhiltunen.sensorlympics.ui.theme.RedCrayola
 import com.jhiltunen.sensorlympics.ui.theme.YellowRed
 import com.jhiltunen.sensorlympics.ui.views.TicTacToeView
 import kotlinx.coroutines.launch
@@ -98,6 +100,7 @@ fun getScreenBasedOnIndex(index: Int) = when (index) {
     2 -> DrawerAppScreen.TicTacToe
     3 -> DrawerAppScreen.BallGame
     4 -> DrawerAppScreen.Statistics
+    5 -> DrawerAppScreen.OlympicsCities
     else -> DrawerAppScreen.MagnetoGame
 }
 
@@ -121,6 +124,9 @@ fun BodyContentComponent(
             openDrawer
         )
         DrawerAppScreen.Statistics -> Statistics(
+            openDrawer
+        )
+        DrawerAppScreen.OlympicsCities -> OlympicsCities(
             openDrawer
         )
     }
@@ -283,10 +289,46 @@ fun Statistics(openDrawer: () -> Unit) {
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun OlympicsCities(openDrawer: () -> Unit) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+    )
+    {
+        TopAppBar(
+            title = { Text(text = "Olympic Cities") },
+            navigationIcon = {
+                IconButton(onClick = openDrawer) {
+                    Icon(imageVector = Icons.Filled.Menu, contentDescription = "Menu")
+                }
+            }
+        )
+        Surface(
+            modifier = Modifier
+                .weight(1f)
+        ) {
+            Column(modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                content = {
+                    ShowMap(
+                        mapViewModel = MapViewModel(),
+                        context = LocalContext.current,
+                        model = WikiViewModel()
+                    )
+                }
+            )
+        }
+    }
+}
+
 enum class DrawerAppScreen {
     MagnetoGame,
     PressureGame,
     TicTacToe,
     BallGame,
-    Statistics
+    Statistics,
+    OlympicsCities
 }

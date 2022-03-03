@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.jhiltunen.sensorlympics.MainActivity
 import com.jhiltunen.sensorlympics.MainActivity.Companion.magnetViewModel
 import com.jhiltunen.sensorlympics.R
-import com.jhiltunen.sensorlympics.gameRules.MagnetoRules
+import com.jhiltunen.sensorlympics.rules.MagnetoRules
 import com.jhiltunen.sensorlympics.ui.theme.SensorLympicsTheme
 
 

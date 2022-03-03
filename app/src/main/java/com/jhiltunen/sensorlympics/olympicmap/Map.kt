@@ -6,7 +6,6 @@ import android.util.DisplayMetrics
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -20,8 +19,10 @@ import com.jhiltunen.sensorlympics.olympicmap.GlobalModel.cities
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
-import org.osmdroid.views.overlay.*
-import org.osmdroid.views.overlay.ItemizedIconOverlay.OnItemGestureListener
+import org.osmdroid.views.overlay.Marker
+import org.osmdroid.views.overlay.MinimapOverlay
+import org.osmdroid.views.overlay.OverlayItem
+import org.osmdroid.views.overlay.ScaleBarOverlay
 import org.osmdroid.views.overlay.compass.CompassOverlay
 import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider
 
@@ -39,17 +40,17 @@ fun composeMap(): MapView {
 
 @ExperimentalFoundationApi
 @Composable
-fun ShowMap(mapViewModel: MapViewModel, locationHandler: LocationHandler, context: Context, model: WikiViewModel) {
+fun ShowMap(mapViewModel: MapViewModel, context: Context, model: WikiViewModel) {
     val map = composeMap()
     val totalhits: Int? by model.changeNotifier.observeAsState(0)
-    var checker by remember { mutableStateOf(totalhits)}
+    var checker by remember { mutableStateOf(totalhits) }
     var cityName by remember { mutableStateOf("") }
     // hard coded zoom level and map center only at start
-    var mapInitialized by remember(map) { mutableStateOf(false) }
+    val mapInitialized by remember(map) { mutableStateOf(false) }
     val address by mapViewModel.mapData.observeAsState()
-    var centerUser by remember { mutableStateOf(false) }
-    val safetyPoint: GeoPoint = GeoPoint(60.24104, 24.73840)
-    val safetyPoint2: GeoPoint = GeoPoint(0.24104, 4.73840)
+    val centerUser by remember { mutableStateOf(false) }
+    val safetyPoint = GeoPoint(60.24104, 24.73840)
+    // val safetyPoint2 = GeoPoint(0.24104, 4.73840)
     val jotain = addressGetter3(safetyPoint.latitude, safetyPoint.longitude)
     val olympics = " olympic games"
 
@@ -57,7 +58,6 @@ fun ShowMap(mapViewModel: MapViewModel, locationHandler: LocationHandler, contex
     if (!mapInitialized) {
         map.setTileSource(TileSourceFactory.MAPNIK)
         map.controller.setZoom(2.5)
-        mapInitialized = true
         //map.controller.setCenter(GeoPoint(60.166640739, 24.943536799))
         map.controller.setCenter(GeoPoint(address?.geoPoint ?: safetyPoint))
     }
@@ -66,8 +66,8 @@ fun ShowMap(mapViewModel: MapViewModel, locationHandler: LocationHandler, contex
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .fillMaxHeight(0.75f)
-            .padding(8.dp),
+            .fillMaxHeight(0.8f)
+            .padding(16.dp),
         elevation = 10.dp,
 
         ) {
@@ -100,7 +100,7 @@ fun ShowMap(mapViewModel: MapViewModel, locationHandler: LocationHandler, contex
 
                 val scaleBarOverlay = ScaleBarOverlay(map)
                 scaleBarOverlay.setCentred(true)
-                scaleBarOverlay.setScaleBarOffset(dm.widthPixels /2, 20)
+                scaleBarOverlay.setScaleBarOffset(dm.widthPixels / 2, 20)
 
 
                 //it.controller.setCenter(address?.geoPoint)
@@ -112,7 +112,6 @@ fun ShowMap(mapViewModel: MapViewModel, locationHandler: LocationHandler, contex
                 map.overlays.add(mCompassOverlay)
                 map.overlays.add(scaleBarOverlay)
                 map.overlays.add(minimapOverlay)
-
 
 
                 val items = ArrayList<OverlayItem>()
@@ -155,8 +154,7 @@ fun ShowMap(mapViewModel: MapViewModel, locationHandler: LocationHandler, contex
 
                  */
 
-
-                cities.forEach{
+                cities.forEach {
                     val cityMarker = Marker(map)
                     cityMarker.setOnMarkerClickListener { _, _ ->
                         if (cityMarker.isInfoWindowShown) {
@@ -184,8 +182,6 @@ fun ShowMap(mapViewModel: MapViewModel, locationHandler: LocationHandler, contex
             }
         }
     }
-
-
 }
 
 class OlympicCity(
@@ -195,7 +191,8 @@ class OlympicCity(
 )
 
 object GlobalModel {
-    val cities: kotlin.collections.MutableList<OlympicCity> = java.util.ArrayList()
+    val cities: MutableList<OlympicCity> = java.util.ArrayList()
+
     init {
         Log.d("USR", "This ($this) is a singleton")
 // construct the data source
@@ -243,8 +240,6 @@ object GlobalModel {
         cities.add(OlympicCity("Turin", 45.06903836909705, 7.678346927901791))
         cities.add(OlympicCity("Vancouver", 49.29438458373852, -123.10949023081135))
 
-
-
-        cities.sortByDescending{it.city}
+        cities.sortByDescending { it.city }
     }
 }

@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jhiltunen.sensorlympics.MainActivity
 import com.jhiltunen.sensorlympics.R
+import com.jhiltunen.sensorlympics.rules.PressureRules
 import com.jhiltunen.sensorlympics.ui.theme.SensorLympicsTheme
 import kotlin.math.round
 
@@ -227,6 +228,7 @@ fun FeaturedCircularProgressIndicator(pressureViewModelProgress: PressureViewMod
             }
         }*/
         Text(stringResource(R.string.pressure_high, highScore))
+        PressureRules()
     }
 }
 

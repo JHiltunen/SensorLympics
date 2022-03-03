@@ -130,7 +130,7 @@ class MainActivity : ComponentActivity(), SensorEventListener {
                     color = MaterialTheme.colors.background
                 ) {
                     Column() {
-                        MainAppNav(locationHandler, WikiViewModel())
+                        MainAppNav()
                     }
                 }
             }
