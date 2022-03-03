@@ -1,39 +1,56 @@
 package com.jhiltunen.sensorlympics.ballgame
 
-import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class BallGameViewModel() : ViewModel() {
-    var xMax = 0f
-    var yMax: Float = 0f
-    val xPosition: MutableLiveData<Float> = MutableLiveData(0f)
-    val yPosition: MutableLiveData<Float> = MutableLiveData(0f)
+class BallGameViewModel: ViewModel() {
+    private val _xPosition = MutableLiveData(0f)
+    var xPosition: LiveData<Float> = _xPosition
+    private val _yPosition = MutableLiveData(0f)
+    var yPosition: LiveData<Float> = _yPosition
 
-    var xAcceleration: MutableLiveData<Float> = MutableLiveData(0f)
-    var xVelocity: MutableLiveData<Float> = MutableLiveData(0f)
-    var yAcceleration:MutableLiveData<Float> = MutableLiveData(0f)
-    var yVelocity: MutableLiveData<Float> = MutableLiveData(0f)
+    private var xMax: Float = 0f
+    private var yMax: Float = 0f
+
+    private var xAcceleration: Float = 0f
+    private var xVelocity: Float = 0.0f
+
+    private var yAcceleration:Float = 0f
+    private var yVelocity: Float = 0.0f
 
     fun updateBall() {
-        val frameTime = 0.666f
-        xVelocity.postValue(xVelocity.value!! + xAcceleration.value!! * frameTime)
-        yVelocity.postValue(yVelocity.value!! + yAcceleration.value!! * frameTime)
-        val xS: Float = xVelocity.value!! / 2 * frameTime
-        val yS: Float = yVelocity.value!! / 2 * frameTime
-        xPosition.postValue(xPosition.value!! - xS)
-        yPosition.postValue(yPosition.value!! - yS)
+        val frameTime = 0.222f
+        xVelocity += xAcceleration * frameTime
+        yVelocity += yAcceleration * frameTime
+        val xS: Float = xVelocity / 2 * frameTime
+        val yS: Float = yVelocity / 2 * frameTime
+
+        _xPosition.postValue(xPosition.value?.minus(xS) ?: 0f)
+        _yPosition.postValue(yPosition.value?.minus(yS) ?: 0f)
+
         if (xPosition.value!! > xMax) {
-            xPosition.postValue(xMax)
+            _xPosition.value = xMax
         } else if (xPosition.value!! < 0) {
-            xPosition.postValue(0f)
+            _xPosition.value = 0f
         }
         if (yPosition.value!! > yMax) {
-            yPosition.postValue(yMax)
+            _yPosition.value = yMax
         } else if (yPosition.value!! < 0) {
-            yPosition.postValue(0f)
+            _yPosition.value = 0f
         }
+    }
 
-        Log.d("DBG", "UPDATE")
+    fun setMaxValues(xMax: Float, yMax: Float) {
+        this.xMax = xMax
+        this.yMax = yMax
+    }
+
+    fun updateXAcceleration(xAcceleration: Float) {
+        this.xAcceleration = xAcceleration
+    }
+
+    fun updateYAcceleration(yAcceleration: Float) {
+        this.yAcceleration = yAcceleration
     }
 }

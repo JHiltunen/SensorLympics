@@ -10,12 +10,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.jhiltunen.sensorlympics.R
+import com.jhiltunen.sensorlympics.ballgame.BallGameViewModel
 import com.jhiltunen.sensorlympics.menu.DrawerAppScreen
 import com.jhiltunen.sensorlympics.menu.Menu
 
 @ExperimentalFoundationApi
 @Composable
-fun MainAppNav() {
+fun MainAppNav(ballGameViewModel: BallGameViewModel) {
     val navController = rememberNavController()
     NavHost(navController, startDestination = "main") {
         composable("main") {
@@ -35,19 +36,19 @@ fun MainAppNav() {
             }
         }
         composable("magnetogame") {
-           Menu(screen = DrawerAppScreen.Screen1)
+           Menu(screen = DrawerAppScreen.Screen1, null)
         }
 
         composable("pressuregame") {
-            Menu(screen = DrawerAppScreen.Screen2)
+            Menu(screen = DrawerAppScreen.Screen2, null)
         }
 
         composable("tictactoe") {
-            Menu(screen = DrawerAppScreen.Screen3)
+            Menu(screen = DrawerAppScreen.Screen3, null)
         }
 
         composable("ballgame") {
-            Menu(screen = DrawerAppScreen.Screen4)
+            Menu(screen = DrawerAppScreen.Screen4, ballGameViewModel = ballGameViewModel)
         }
     }
 }

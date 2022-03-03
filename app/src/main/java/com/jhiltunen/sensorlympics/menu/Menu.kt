@@ -25,7 +25,7 @@ import com.jhiltunen.sensorlympics.ui.views.BallGameView
 import kotlinx.coroutines.launch
 
 @Composable
-fun Menu(screen: DrawerAppScreen) {
+fun Menu(screen: DrawerAppScreen, ballGameViewModel: BallGameViewModel?) {
 
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val currentScreen = remember { mutableStateOf(screen) }
@@ -44,6 +44,7 @@ fun Menu(screen: DrawerAppScreen) {
         },
         content = {
             BodyContentComponent(
+                ballGameViewModel = ballGameViewModel,
                 currentScreen = currentScreen.value,
                 openDrawer = {
                     coroutineScope.launch { drawerState.open() }
@@ -103,6 +104,7 @@ fun getScreenBasedOnIndex(index: Int) = when (index) {
 // Passed the corresponding screen composable based on the current screen that's active.
 @Composable
 fun BodyContentComponent(
+    ballGameViewModel: BallGameViewModel?,
     currentScreen: DrawerAppScreen,
     openDrawer: () -> Unit
 ) {
@@ -116,9 +118,7 @@ fun BodyContentComponent(
         DrawerAppScreen.Screen3 -> Screen3(
             openDrawer
         )
-        DrawerAppScreen.Screen4 -> Screen4(
-            openDrawer
-        )
+        DrawerAppScreen.Screen4 -> Screen4(ballGameViewModel = ballGameViewModel!!, openDrawer)
     }
 }
 
@@ -216,8 +216,7 @@ fun Screen3(openDrawer: () -> Unit) {
 }
 
 @Composable
-fun Screen4(openDrawer: () -> Unit) {
-    val ballGameViewModel = BallGameViewModel()
+fun Screen4(ballGameViewModel: BallGameViewModel, openDrawer: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()

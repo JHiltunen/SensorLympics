@@ -1,7 +1,6 @@
 package com.jhiltunen.sensorlympics
 
 import android.app.Activity
-import android.graphics.Bitmap
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -36,7 +35,6 @@ class MainActivity : ComponentActivity(), SensorEventListener {
         val magnetViewModel = MagnetViewModel()
         val pressureViewModel = PressureViewModel()
         val pressureViewModelProgress = PressureViewModelProgress()
-        val ballGameViewModel = BallGameViewModel()
         var pressureSensorExists = true
         var magnetometerSensorExists = true
         var accelerometerSensorExists = true
@@ -47,6 +45,7 @@ class MainActivity : ComponentActivity(), SensorEventListener {
     private var max: Float = 0.0F
     private var heightDifference: Float = 0.0F
 
+    private lateinit var ballGameViewModel: BallGameViewModel
 
     private lateinit var sensorManager: SensorManager
     private lateinit var accelerometer: Sensor
@@ -64,8 +63,10 @@ class MainActivity : ComponentActivity(), SensorEventListener {
     @ExperimentalFoundationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ballGameViewModel.xMax = getScreenDimensions(this)!![0].toFloat() - 100
-        ballGameViewModel.yMax = getScreenDimensions(this)!![1].toFloat() - 300
+
+        ballGameViewModel = BallGameViewModel()
+
+        ballGameViewModel.setMaxValues(getScreenDimensions(this)!![0].toFloat() - 100, getScreenDimensions(this)!![1].toFloat() - 300)
 
         sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
 
@@ -97,7 +98,7 @@ class MainActivity : ComponentActivity(), SensorEventListener {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    MainAppNav()
+                    MainAppNav(ballGameViewModel)
                 }
             }
         }
@@ -106,7 +107,7 @@ class MainActivity : ComponentActivity(), SensorEventListener {
     override fun onResume() {
         super.onResume()
         if (accelerometerSensorExists) {
-            sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_FASTEST)
+            sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME)
         }
 
         if (magnetometerSensorExists) {
@@ -153,11 +154,14 @@ class MainActivity : ComponentActivity(), SensorEventListener {
     }
 
     override fun onSensorChanged(event: SensorEvent) {
-        if (event.sensor === accelerometer) {
-            ballGameViewModel.xAcceleration.postValue(event.values[0])
-            ballGameViewModel.yAcceleration.postValue(-event.values[1])
-            ballGameViewModel.updateBall()
+        if (event.sensor == accelerometer) {
+            ballGameViewModel.updateXAcceleration(event.values[0])
+            ballGameViewModel.updateYAcceleration(-event.values[1])
 
+            ballGameViewModel.updateBall()
+        }
+
+        if (event.sensor === accelerometer) {
             lowPass(event.values, lastAccelerometer)
             lastAccelerometerSet = true
         } else if (event.sensor === magnetometer) {
