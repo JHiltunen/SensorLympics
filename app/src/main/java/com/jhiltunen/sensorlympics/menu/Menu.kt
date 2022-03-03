@@ -1,6 +1,5 @@
 package com.jhiltunen.sensorlympics.menu
 
-import android.content.Context
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -298,7 +297,7 @@ fun OlympicsCities(openDrawer: () -> Unit) {
     )
     {
         TopAppBar(
-            title = { Text(text = "Olympic Cities") },
+            title = { Text(stringResource(id = R.string.title6)) },
             navigationIcon = {
                 IconButton(onClick = openDrawer) {
                     Icon(imageVector = Icons.Filled.Menu, contentDescription = "Menu")

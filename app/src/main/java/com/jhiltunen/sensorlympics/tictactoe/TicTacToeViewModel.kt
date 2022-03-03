@@ -3,7 +3,7 @@ package com.jhiltunen.sensorlympics.tictactoe
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
-class TicTacToeViewModel() {
+class TicTacToeViewModel {
     private var _turn: MutableLiveData<String> = MutableLiveData("X")
     val turn: LiveData<String> = _turn
     private var xyCoordinates =

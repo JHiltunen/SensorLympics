@@ -5,7 +5,9 @@ import android.content.Context
 import android.util.DisplayMetrics
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -14,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import com.jhiltunen.sensorlympics.CardStyle
 import com.jhiltunen.sensorlympics.R
 import com.jhiltunen.sensorlympics.olympicmap.GlobalModel.cities
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
@@ -63,67 +66,61 @@ fun ShowMap(mapViewModel: MapViewModel, context: Context, model: WikiViewModel) 
     }
     // observer (e.g. update from the location change listener)
 
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight(0.8f)
-            .padding(16.dp),
-        elevation = 10.dp,
+    Card {
+        CardStyle {
+            Column {
+                Spacer(modifier = Modifier.height(4.dp))
+                if (totalhits!! > 0) {
+                    Text(totalhits.toString())
+                    Text(cityName)
+                }
 
-        ) {
-        Column {
-            Spacer(modifier = Modifier.height(4.dp))
-            if (totalhits!! > 0) {
-                Text(totalhits.toString())
-                Text(cityName)
-            }
+                Spacer(modifier = Modifier.height(4.dp))
+                //Location(locationHandler = locationHandler)
+                AndroidView({ map }) {
+                    address ?: return@AndroidView
+                    val dm: DisplayMetrics = context.resources.displayMetrics
 
-            Spacer(modifier = Modifier.height(4.dp))
-            //Location(locationHandler = locationHandler)
-            AndroidView({ map }) {
-                address ?: return@AndroidView
-                val dm: DisplayMetrics = context.resources.displayMetrics
+                    val mCompassOverlay =
+                        CompassOverlay(context, InternalCompassOrientationProvider(context), map)
+                    mCompassOverlay.enableCompass()
 
-                val mCompassOverlay =
-                    CompassOverlay(context, InternalCompassOrientationProvider(context), map)
-                mCompassOverlay.enableCompass()
-
-                /*
+                    /*
                 val myLocationOverlay = MyLocationNewOverlay(GpsMyLocationProvider(context), map)
                 myLocationOverlay.enableMyLocation()
                  */
 
-                val minimapOverlay = MinimapOverlay(context, map.tileRequestCompleteHandler)
-                minimapOverlay.width = dm.widthPixels / 5
-                minimapOverlay.height = dm.heightPixels / 5
+                    val minimapOverlay = MinimapOverlay(context, map.tileRequestCompleteHandler)
+                    minimapOverlay.width = dm.widthPixels / 5
+                    minimapOverlay.height = dm.heightPixels / 5
 
 
-                val scaleBarOverlay = ScaleBarOverlay(map)
-                scaleBarOverlay.setCentred(true)
-                scaleBarOverlay.setScaleBarOffset(dm.widthPixels / 2, 20)
+                    val scaleBarOverlay = ScaleBarOverlay(map)
+                    scaleBarOverlay.setCentred(true)
+                    scaleBarOverlay.setScaleBarOffset(dm.widthPixels / 2, 20)
 
 
-                //it.controller.setCenter(address?.geoPoint)
-                if (centerUser) {
-                    it.controller.setCenter(address?.geoPoint)
-                }
+                    //it.controller.setCenter(address?.geoPoint)
+                    if (centerUser) {
+                        it.controller.setCenter(address?.geoPoint)
+                    }
 
-                //map.overlays.add(myLocationOverlay)
-                map.overlays.add(mCompassOverlay)
-                map.overlays.add(scaleBarOverlay)
-                map.overlays.add(minimapOverlay)
+                    //map.overlays.add(myLocationOverlay)
+                    map.overlays.add(mCompassOverlay)
+                    map.overlays.add(scaleBarOverlay)
+                    map.overlays.add(minimapOverlay)
 
 
-                val items = ArrayList<OverlayItem>()
-                items.add(
-                    OverlayItem(
-                        "Vantaa",
-                        "K",
-                        GeoPoint(80.0, 50.0)
+                    val items = ArrayList<OverlayItem>()
+                    items.add(
+                        OverlayItem(
+                            "Vantaa",
+                            "K",
+                            GeoPoint(80.0, 50.0)
+                        )
                     )
-                )
 
-                /*
+                    /*
                 items.add(
                     OverlayItem(
                         "Helsinki",
@@ -154,30 +151,31 @@ fun ShowMap(mapViewModel: MapViewModel, context: Context, model: WikiViewModel) 
 
                  */
 
-                cities.forEach {
-                    val cityMarker = Marker(map)
-                    cityMarker.setOnMarkerClickListener { _, _ ->
-                        if (cityMarker.isInfoWindowShown) {
-                            cityMarker.closeInfoWindow()
-                            Log.i("SNIPPET", "FUCK YOU")
-                        } else {
-                            val jorma = (it.city + olympics)
-                            model.getHits(jorma)
-                            checker = totalhits
-                            cityName = it.city
-                            cityMarker.closeInfoWindow()
-                            //cityMarker.showInfoWindow()
-                            Log.i("SNIPPET", "FUCK ME")
+                    cities.forEach {
+                        val cityMarker = Marker(map)
+                        cityMarker.setOnMarkerClickListener { _, _ ->
+                            if (cityMarker.isInfoWindowShown) {
+                                cityMarker.closeInfoWindow()
+                                Log.i("SNIPPET", "FUCK YOU")
+                            } else {
+                                val jorma = (it.city + olympics)
+                                model.getHits(jorma)
+                                checker = totalhits
+                                cityName = it.city
+                                cityMarker.closeInfoWindow()
+                                //cityMarker.showInfoWindow()
+                                Log.i("SNIPPET", "FUCK ME")
+                            }
+                            true
                         }
-                        true
-                    }
-                    cityMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
-                    cityMarker.position.latitude = it.latiTude
-                    cityMarker.position.longitude = it.longiTude
+                        cityMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+                        cityMarker.position.latitude = it.latiTude
+                        cityMarker.position.longitude = it.longiTude
 
-                    cityMarker.title = it.city
-                    map.overlays.add(cityMarker)
-                    map.invalidate()
+                        cityMarker.title = it.city
+                        map.overlays.add(cityMarker)
+                        map.invalidate()
+                    }
                 }
             }
         }
