@@ -102,7 +102,7 @@ fun MainAppNav(locationHandler: LocationHandler, model: WikiViewModel) {
 
                         }
                     }
-                    ShowMap(mapViewModel = mapViewModel, locationHandler = locationHandler, context = LocalContext.current, model = model)
+                    //ShowMap(mapViewModel = mapViewModel, locationHandler = locationHandler, context = LocalContext.current, model = model)
                     Button(
                         onClick = { },
                         modifier = Modifier

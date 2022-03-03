@@ -39,9 +39,11 @@ fun composeMap(): MapView {
 
 @ExperimentalFoundationApi
 @Composable
-fun ShowMap(mapViewModel: MapViewModel, locationHandler: LocationHandler, context: Context, model: WikiViewModel) {
+//fun ShowMap(mapViewModel: MapViewModel, locationHandler: LocationHandler, context: Context, model: WikiViewModel) {
+fun ShowMap(mapViewModel: MapViewModel, locationHandler: LocationHandler, context: Context, model: WeatherViewModel) {
     val map = composeMap()
-    val totalhits: Int? by model.changeNotifier.observeAsState(0)
+    val totalhits: Double? by model.changeNotifier.observeAsState(0.0)
+    //val totalhits: Int? by model.changeNotifier.observeAsState(0)
     var checker by remember { mutableStateOf(totalhits)}
     var cityName by remember { mutableStateOf("") }
     // hard coded zoom level and map center only at start
@@ -50,10 +52,9 @@ fun ShowMap(mapViewModel: MapViewModel, locationHandler: LocationHandler, contex
     var centerUser by remember { mutableStateOf(false) }
     val safetyPoint: GeoPoint = GeoPoint(60.24104, 24.73840)
     val safetyPoint2: GeoPoint = GeoPoint(0.24104, 4.73840)
-    val jotain = addressGetter3(safetyPoint.latitude, safetyPoint.longitude)
+    //val jotain = addressGetter3(safetyPoint.latitude, safetyPoint.longitude)
     val olympics = " olympic games"
 
-    Log.d("GEOGEOGEO", jotain)
     if (!mapInitialized) {
         map.setTileSource(TileSourceFactory.MAPNIK)
         map.controller.setZoom(2.5)
@@ -92,16 +93,15 @@ fun ShowMap(mapViewModel: MapViewModel, locationHandler: LocationHandler, contex
                 val myLocationOverlay = MyLocationNewOverlay(GpsMyLocationProvider(context), map)
                 myLocationOverlay.enableMyLocation()
                  */
-
+                /*
                 val minimapOverlay = MinimapOverlay(context, map.tileRequestCompleteHandler)
                 minimapOverlay.width = dm.widthPixels / 5
                 minimapOverlay.height = dm.heightPixels / 5
-
+                 */
 
                 val scaleBarOverlay = ScaleBarOverlay(map)
                 scaleBarOverlay.setCentred(true)
                 scaleBarOverlay.setScaleBarOffset(dm.widthPixels /2, 20)
-
 
                 //it.controller.setCenter(address?.geoPoint)
                 if (centerUser) {
@@ -111,9 +111,7 @@ fun ShowMap(mapViewModel: MapViewModel, locationHandler: LocationHandler, contex
                 //map.overlays.add(myLocationOverlay)
                 map.overlays.add(mCompassOverlay)
                 map.overlays.add(scaleBarOverlay)
-                map.overlays.add(minimapOverlay)
-
-
+                //map.overlays.add(minimapOverlay)
 
                 val items = ArrayList<OverlayItem>()
                 items.add(
@@ -124,38 +122,6 @@ fun ShowMap(mapViewModel: MapViewModel, locationHandler: LocationHandler, contex
                     )
                 )
 
-                /*
-                items.add(
-                    OverlayItem(
-                        "Helsinki",
-                        "",
-                        GeoPoint(80.0, 61.0)
-                    )
-                )
-                val mOverlay = ItemizedOverlayWithFocus(items,
-                    object : OnItemGestureListener<OverlayItem?> {
-                        override fun onItemSingleTapUp(index: Int, item: OverlayItem?): Boolean {
-                            //do something
-                            if (item != null) {
-                                model.getHits(item.title + olympics)
-                                cityName = item.title
-                            }
-                            Log.i("MAPPI","${item?.title}" )
-                            Log.i("MAPPI","$totalhits" )
-                            return true
-                        }
-
-                        override fun onItemLongPress(index: Int, item: OverlayItem?): Boolean {
-                            return false
-                        }
-                    }, context
-                )
-                mOverlay.setFocusItemsOnTap(false)
-                map.overlays.add(mOverlay)
-
-                 */
-
-
                 cities.forEach{
                     val cityMarker = Marker(map)
                     cityMarker.setOnMarkerClickListener { _, _ ->
@@ -163,8 +129,8 @@ fun ShowMap(mapViewModel: MapViewModel, locationHandler: LocationHandler, contex
                             cityMarker.closeInfoWindow()
                             Log.i("SNIPPET", "FUCK YOU")
                         } else {
-                            val jorma = (it.city + olympics)
-                            model.getHits(jorma)
+                            //val jorma = (it.city + olympics)
+                            model.getHits(it.city)
                             checker = totalhits
                             cityName = it.city
                             cityMarker.closeInfoWindow()
@@ -184,7 +150,6 @@ fun ShowMap(mapViewModel: MapViewModel, locationHandler: LocationHandler, contex
             }
         }
     }
-
 
 }
 
@@ -226,7 +191,7 @@ object GlobalModel {
         cities.add(OlympicCity("Nagano", 36.67215087885699, 138.18177724177627))
         cities.add(OlympicCity("Oslo", 48.170140941372786, 11.517093314416595))
         cities.add(OlympicCity("Paris", 48.890833995917546, 2.3422226552958314))
-        cities.add(OlympicCity("Pyeongchang", 37.56496430064215, 128.47785857187858))
+        cities.add(OlympicCity("Pyeongchang-gun", 37.56496430064215, 128.47785857187858))
         cities.add(OlympicCity("Rio De Janeiro", -22.905552934772775, -43.20989403743441))
         cities.add(OlympicCity("Rome", 41.89950812213784, 12.500266554521628))
         cities.add(OlympicCity("Salt Lake City", 40.78770595219112, -111.89441874072116))
@@ -235,15 +200,13 @@ object GlobalModel {
         cities.add(OlympicCity("Seoul", 37.5646120483271, 126.9877918151757))
         cities.add(OlympicCity("Sochi", 43.60368892719333, 39.735083712845054))
         cities.add(OlympicCity("Squaw Valley", 39.19941612235193, -120.23615189245847))
-        cities.add(OlympicCity("St. Louis", 38.62787220651336, -90.18338222401577))
+        cities.add(OlympicCity("St Louis", 38.62787220651336, -90.18338222401577))
         cities.add(OlympicCity("St. Moritz", 46.487501783101266, 9.833384320297714))
         cities.add(OlympicCity("Stockholm", 59.34405043191012, 18.06580532136084))
         cities.add(OlympicCity("Sydney", -33.8451754800854, 151.17412228313322))
         cities.add(OlympicCity("Tokyo", 35.68493924198597, 139.76801835246332))
         cities.add(OlympicCity("Turin", 45.06903836909705, 7.678346927901791))
         cities.add(OlympicCity("Vancouver", 49.29438458373852, -123.10949023081135))
-
-
 
         cities.sortByDescending{it.city}
     }

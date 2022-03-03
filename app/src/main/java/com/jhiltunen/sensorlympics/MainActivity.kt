@@ -51,6 +51,7 @@ class MainActivity : ComponentActivity(), SensorEventListener {
         var pressureSensorExists = true
         var magnetometerSensorExists = true
         var accelerometerSensorExists = true
+
     }
 
     private var boilingPoint: Float = 100.0F
