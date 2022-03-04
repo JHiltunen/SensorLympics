@@ -23,6 +23,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.jhiltunen.sensorlympics.MainActivity.Companion.mapViewModel
 import com.jhiltunen.sensorlympics.R
+import com.jhiltunen.sensorlympics.ballgame.BallGameViewModel
 import com.jhiltunen.sensorlympics.menu.DrawerAppScreen
 import com.jhiltunen.sensorlympics.menu.Menu
 import com.jhiltunen.sensorlympics.olympicmap.LocationHandler
@@ -33,7 +34,7 @@ import com.jhiltunen.sensorlympics.ui.theme.Black
 
 @ExperimentalFoundationApi
 @Composable
-fun MainAppNav(locationHandler: LocationHandler, model: WikiViewModel) {
+fun MainAppNav(locationHandler: LocationHandler, model: WikiViewModel, ballgameViewModel: BallGameViewModel) {
     val navController = rememberNavController()
     NavHost(navController, startDestination = "main") {
         composable("main") {
@@ -93,7 +94,7 @@ fun MainAppNav(locationHandler: LocationHandler, model: WikiViewModel) {
                         }
                         Spacer(modifier = Modifier.padding(12.dp))
                         OutlinedButton(
-                            onClick = { navController.navigate("") },
+                            onClick = { navController.navigate("ballgame") },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .border(1.dp, color = Black)
@@ -114,17 +115,20 @@ fun MainAppNav(locationHandler: LocationHandler, model: WikiViewModel) {
                 }
             }
         }
-
         composable("magnetogame") {
-            Menu(screen = DrawerAppScreen.MagnetoGame)
+           Menu(screen = DrawerAppScreen.MagnetoGame, null)
         }
 
         composable("pressuregame") {
-            Menu(screen = DrawerAppScreen.PressureGame)
+            Menu(screen = DrawerAppScreen.PressureGame, null)
         }
 
         composable("tictactoe") {
-            Menu(screen = DrawerAppScreen.TicTacToe)
+            Menu(screen = DrawerAppScreen.TicTacToe, null)
+        }
+
+        composable("ballgame") {
+            Menu(screen = DrawerAppScreen.BallGame, ballGameViewModel = ballGameViewModel)
         }
     }
 }

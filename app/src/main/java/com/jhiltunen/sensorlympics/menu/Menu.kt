@@ -15,14 +15,17 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.jhiltunen.sensorlympics.R
 import com.jhiltunen.sensorlympics.magnetgame.SensorMagnetApp
+import com.jhiltunen.sensorlympics.ballgame.BallGameViewModel
 import com.jhiltunen.sensorlympics.pressuregame.PressureApp
 import com.jhiltunen.sensorlympics.tictactoe.TicTacToeViewModel
 import com.jhiltunen.sensorlympics.ui.theme.Purple200
 import com.jhiltunen.sensorlympics.ui.views.TicTacToeView
+import com.jhiltunen.sensorlympics.tictactoe.TicTacToeViewModel
+import com.jhiltunen.sensorlympics.ui.views.BallGameView
 import kotlinx.coroutines.launch
 
 @Composable
-fun Menu(screen: DrawerAppScreen) {
+fun Menu(screen: DrawerAppScreen, ballGameViewModel: BallGameViewModel?) {
 
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val currentScreen = remember { mutableStateOf(screen) }
@@ -41,6 +44,7 @@ fun Menu(screen: DrawerAppScreen) {
         },
         content = {
             BodyContentComponent(
+                ballGameViewModel = ballGameViewModel,
                 currentScreen = currentScreen.value,
                 openDrawer = {
                     coroutineScope.launch { drawerState.open() }
@@ -101,6 +105,7 @@ fun getScreenBasedOnIndex(index: Int) = when (index) {
 // Passed the corresponding screen composable based on the current screen that's active.
 @Composable
 fun BodyContentComponent(
+    ballGameViewModel: BallGameViewModel?,
     currentScreen: DrawerAppScreen,
     openDrawer: () -> Unit
 ) {
@@ -115,6 +120,7 @@ fun BodyContentComponent(
             openDrawer
         )
         DrawerAppScreen.BallGame -> BallGame(
+            ballGameViewModel = ballGameViewModel!!,
             openDrawer
         )
         DrawerAppScreen.Statistics -> Statistics(
@@ -221,7 +227,7 @@ fun TicTacToe(openDrawer: () -> Unit) {
 }
 
 @Composable
-fun BallGame(openDrawer: () -> Unit) {
+fun BallGame(ballGameViewModel: BallGameViewModel, openDrawer: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -243,7 +249,7 @@ fun BallGame(openDrawer: () -> Unit) {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
                 content = {
-                    Text(text = "Screen 4")
+                    BallGameView(ballGameViewModel = ballGameViewModel)
                 }
             )
         }

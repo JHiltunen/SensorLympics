@@ -1,12 +1,15 @@
 package com.jhiltunen.sensorlympics
 
+import android.app.Activity
 import android.content.pm.PackageManager
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.util.Log
+import android.view.WindowInsets
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -14,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
+import com.jhiltunen.sensorlympics.ballgame.BallGameViewModel
 import com.jhiltunen.sensorlympics.magnetgame.MagnetViewModel
 import com.jhiltunen.sensorlympics.magnetgame.chooseDirection
 import com.jhiltunen.sensorlympics.magnetgame.readFile
@@ -58,6 +62,7 @@ class MainActivity : ComponentActivity(), SensorEventListener {
     private var max: Float = 0.0F
     private var heightDifference: Float = 0.0F
 
+    private lateinit var ballGameViewModel: BallGameViewModel
 
     private lateinit var sensorManager: SensorManager
     private lateinit var accelerometer: Sensor
@@ -75,6 +80,10 @@ class MainActivity : ComponentActivity(), SensorEventListener {
     @ExperimentalFoundationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        ballGameViewModel = BallGameViewModel()
+
+        ballGameViewModel.setMaxValues(getScreenDimensions(this)!![0].toFloat() - 200, getScreenDimensions(this)!![1].toFloat() - 100)
 
         val model = WikiViewModel()
 
@@ -130,7 +139,7 @@ class MainActivity : ComponentActivity(), SensorEventListener {
                     color = MaterialTheme.colors.background
                 ) {
                     Column() {
-                        MainAppNav(locationHandler, WikiViewModel())
+                        MainAppNav(locationHandler, WikiViewModel(), ballGameViewModel)
                     }
                 }
             }
@@ -141,7 +150,7 @@ class MainActivity : ComponentActivity(), SensorEventListener {
         super.onResume()
         locationHandler.startTracking()
         if (accelerometerSensorExists) {
-            sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_FASTEST)
+            sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME)
         }
 
         if (magnetometerSensorExists) {
@@ -176,7 +185,31 @@ class MainActivity : ComponentActivity(), SensorEventListener {
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
 
+    private fun getScreenDimensions(activity: Activity): IntArray? {
+        val dimensions = IntArray(2)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val windowMetrics = activity.windowManager.currentWindowMetrics
+            val insets = windowMetrics.windowInsets
+                .getInsetsIgnoringVisibility(WindowInsets.Type.systemBars())
+            dimensions[0] = windowMetrics.bounds.width() - insets.left - insets.right
+            dimensions[1] = windowMetrics.bounds.height() - insets.bottom - insets.top
+        } else {
+            val displayMetrics = DisplayMetrics()
+            activity.windowManager.defaultDisplay.getMetrics(displayMetrics)
+            dimensions[0] = displayMetrics.widthPixels
+            dimensions[1] = displayMetrics.heightPixels
+        }
+        return dimensions
+    }
+
     override fun onSensorChanged(event: SensorEvent) {
+        if (event.sensor == accelerometer) {
+            ballGameViewModel.updateXAcceleration(event.values[0])
+            ballGameViewModel.updateYAcceleration(-event.values[1])
+
+            ballGameViewModel.updateBall()
+        }
+
         if (event.sensor === accelerometer) {
             lowPass(event.values, lastAccelerometer)
             lastAccelerometerSet = true
