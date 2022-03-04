@@ -46,10 +46,6 @@ class LocationHandler(private var context: Context, var mapViewModel: MapViewMod
         ) {
             fusedLocationClient.lastLocation.addOnSuccessListener {
                 _startLocation.postValue(it)
-                Log.d(
-                    "GEOLOCATION",
-                    "last location latitude: ${it?.latitude} and longitude: ${it?.longitude}"
-                )
             }
         }
         locationCallback = object : LocationCallback() {
@@ -78,10 +74,6 @@ class LocationHandler(private var context: Context, var mapViewModel: MapViewMod
                 _currentLocation.postValue(it)
 
                 mapViewModel.updateMapValue(it)
-                Log.d(
-                    "GEOLOCATION",
-                    "Location latitude: ${it?.latitude} and longitude: ${it?.longitude}"
-                )
             }
 
 
@@ -99,8 +91,6 @@ class LocationHandler(private var context: Context, var mapViewModel: MapViewMod
 
                 // or _ ?
                 currentLocation.value?.let { mapViewModel.updateMapValue(it) }
-
-                Log.d("LocationCallBack", "${locationResult.locations.size}")
 
                 _currentLocation.postValue(locationResult.lastLocation)
                 _currentSpeed.postValue(locationResult.lastLocation.speed)
@@ -139,7 +129,6 @@ class LocationHandler(private var context: Context, var mapViewModel: MapViewMod
         val removeLocationUpdates = fusedLocationClient.removeLocationUpdates(locationCallback)
         _currentSpeed.postValue(0.0f)
         _totalWalkedDistance.postValue(0.0f)
-        Log.d("GEOTRACK", "Tracking should stop")
     }
 
 }

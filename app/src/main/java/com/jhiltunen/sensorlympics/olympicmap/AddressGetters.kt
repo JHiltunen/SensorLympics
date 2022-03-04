@@ -13,7 +13,6 @@ fun addressGetter2(): String {
     val list = geocoder.getFromLocation(60.24104,24.73840,1)
     val jotain = list[0].getAddressLine(0)
 
-    Log.i("OSOITE", jotain)
     return jotain
 }
 
@@ -24,7 +23,6 @@ fun addressGetter3(lat: Double, long: Double): String {
     val list = geocoder.getFromLocation(lat,long,1)
     //val list = geocoder.getFromLocation(lat,long,1)
     val jotain = list[0].getAddressLine(0)
-    Log.i("OSOITE", jotain)
     return jotain
 }
 
@@ -34,6 +32,5 @@ fun addressGetter(lat: Double, long: Double, context: Context): String {
     //val list = geocoder.getFromLocation(60.242213,24.737606,1)
     val list = geocoder.getFromLocation(lat,long,1)
     val jotain = list[0].getAddressLine(0)
-    Log.i("OSOITE", jotain)
     return jotain
 }

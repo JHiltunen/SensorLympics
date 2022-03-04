@@ -128,7 +128,7 @@ fun MainAppNav(locationHandler: LocationHandler, model: WikiViewModel, ballgameV
         }
 
         composable("ballgame") {
-            Menu(screen = DrawerAppScreen.BallGame, ballGameViewModel = ballGameViewModel)
+            Menu(screen = DrawerAppScreen.BallGame, ballGameViewModel = ballgameViewModel)
         }
     }
 }

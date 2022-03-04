@@ -3,10 +3,8 @@ package com.jhiltunen.sensorlympics.olympicmap
 
 import android.content.Context
 import android.util.DisplayMetrics
-import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -20,8 +18,9 @@ import com.jhiltunen.sensorlympics.olympicmap.GlobalModel.cities
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
-import org.osmdroid.views.overlay.*
-import org.osmdroid.views.overlay.ItemizedIconOverlay.OnItemGestureListener
+import org.osmdroid.views.overlay.Marker
+import org.osmdroid.views.overlay.OverlayItem
+import org.osmdroid.views.overlay.ScaleBarOverlay
 import org.osmdroid.views.overlay.compass.CompassOverlay
 import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider
 
@@ -39,10 +38,15 @@ fun composeMap(): MapView {
 
 @ExperimentalFoundationApi
 @Composable
-fun ShowMap(mapViewModel: MapViewModel, locationHandler: LocationHandler, context: Context, model: WikiViewModel) {
+fun ShowMap(
+    mapViewModel: MapViewModel,
+    locationHandler: LocationHandler,
+    context: Context,
+    model: WikiViewModel
+) {
     val map = composeMap()
     val totalhits: Int? by model.changeNotifier.observeAsState(0)
-    var checker by remember { mutableStateOf(totalhits)}
+    var checker by remember { mutableStateOf(totalhits) }
     var cityName by remember { mutableStateOf("") }
     // hard coded zoom level and map center only at start
     var mapInitialized by remember(map) { mutableStateOf(false) }
@@ -53,7 +57,6 @@ fun ShowMap(mapViewModel: MapViewModel, locationHandler: LocationHandler, contex
     val jotain = addressGetter3(safetyPoint.latitude, safetyPoint.longitude)
     val olympics = " olympic games"
 
-    Log.d("GEOGEOGEO", jotain)
     if (!mapInitialized) {
         map.setTileSource(TileSourceFactory.MAPNIK)
         map.controller.setZoom(2.5)
@@ -79,7 +82,6 @@ fun ShowMap(mapViewModel: MapViewModel, locationHandler: LocationHandler, contex
             }
 
             Spacer(modifier = Modifier.height(4.dp))
-            //Location(locationHandler = locationHandler)
             AndroidView({ map }) {
                 address ?: return@AndroidView
                 val dm: DisplayMetrics = context.resources.displayMetrics
@@ -88,19 +90,10 @@ fun ShowMap(mapViewModel: MapViewModel, locationHandler: LocationHandler, contex
                     CompassOverlay(context, InternalCompassOrientationProvider(context), map)
                 mCompassOverlay.enableCompass()
 
-                /*
-                val myLocationOverlay = MyLocationNewOverlay(GpsMyLocationProvider(context), map)
-                myLocationOverlay.enableMyLocation()
-                 */
-
-                val minimapOverlay = MinimapOverlay(context, map.tileRequestCompleteHandler)
-                minimapOverlay.width = dm.widthPixels / 5
-                minimapOverlay.height = dm.heightPixels / 5
-
 
                 val scaleBarOverlay = ScaleBarOverlay(map)
                 scaleBarOverlay.setCentred(true)
-                scaleBarOverlay.setScaleBarOffset(dm.widthPixels /2, 20)
+                scaleBarOverlay.setScaleBarOffset(dm.widthPixels / 2, 20)
 
 
                 //it.controller.setCenter(address?.geoPoint)
@@ -108,11 +101,8 @@ fun ShowMap(mapViewModel: MapViewModel, locationHandler: LocationHandler, contex
                     it.controller.setCenter(address?.geoPoint)
                 }
 
-                //map.overlays.add(myLocationOverlay)
                 map.overlays.add(mCompassOverlay)
                 map.overlays.add(scaleBarOverlay)
-                map.overlays.add(minimapOverlay)
-
 
 
                 val items = ArrayList<OverlayItem>()
@@ -124,52 +114,19 @@ fun ShowMap(mapViewModel: MapViewModel, locationHandler: LocationHandler, contex
                     )
                 )
 
-                /*
-                items.add(
-                    OverlayItem(
-                        "Helsinki",
-                        "",
-                        GeoPoint(80.0, 61.0)
-                    )
-                )
-                val mOverlay = ItemizedOverlayWithFocus(items,
-                    object : OnItemGestureListener<OverlayItem?> {
-                        override fun onItemSingleTapUp(index: Int, item: OverlayItem?): Boolean {
-                            //do something
-                            if (item != null) {
-                                model.getHits(item.title + olympics)
-                                cityName = item.title
-                            }
-                            Log.i("MAPPI","${item?.title}" )
-                            Log.i("MAPPI","$totalhits" )
-                            return true
-                        }
-
-                        override fun onItemLongPress(index: Int, item: OverlayItem?): Boolean {
-                            return false
-                        }
-                    }, context
-                )
-                mOverlay.setFocusItemsOnTap(false)
-                map.overlays.add(mOverlay)
-
-                 */
 
 
-                cities.forEach{
+                cities.forEach { it ->
                     val cityMarker = Marker(map)
                     cityMarker.setOnMarkerClickListener { _, _ ->
                         if (cityMarker.isInfoWindowShown) {
                             cityMarker.closeInfoWindow()
-                            Log.i("SNIPPET", "FUCK YOU")
                         } else {
                             val jorma = (it.city + olympics)
                             model.getHits(jorma)
                             checker = totalhits
                             cityName = it.city
                             cityMarker.closeInfoWindow()
-                            //cityMarker.showInfoWindow()
-                            Log.i("SNIPPET", "FUCK ME")
                         }
                         true
                     }
@@ -195,10 +152,9 @@ class OlympicCity(
 )
 
 object GlobalModel {
-    val cities: kotlin.collections.MutableList<OlympicCity> = java.util.ArrayList()
+    val cities: MutableList<OlympicCity> = java.util.ArrayList()
+
     init {
-        Log.d("USR", "This ($this) is a singleton")
-// construct the data source
         cities.add(OlympicCity("Albertville", 45.66688284656322, 6.373199746930923))
         cities.add(OlympicCity("Amsterdam", 52.36858962689727, 4.861367077111594))
         cities.add(OlympicCity("Antwerp", 51.2242881518194, 4.419565166677859))
@@ -245,6 +201,6 @@ object GlobalModel {
 
 
 
-        cities.sortByDescending{it.city}
+        cities.sortByDescending { it.city }
     }
 }

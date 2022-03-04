@@ -6,6 +6,8 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.location.Location
+import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
@@ -13,30 +15,27 @@ import android.view.WindowInsets
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.jhiltunen.sensorlympics.ballgame.BallGameViewModel
 import com.jhiltunen.sensorlympics.magnetgame.MagnetViewModel
 import com.jhiltunen.sensorlympics.magnetgame.chooseDirection
 import com.jhiltunen.sensorlympics.magnetgame.readFile
 import com.jhiltunen.sensorlympics.navigator.MainAppNav
+import com.jhiltunen.sensorlympics.olympicmap.LocationHandler
+import com.jhiltunen.sensorlympics.olympicmap.MapViewModel
+import com.jhiltunen.sensorlympics.olympicmap.WikiViewModel
 import com.jhiltunen.sensorlympics.pressuregame.PressureViewModel
 import com.jhiltunen.sensorlympics.pressuregame.PressureViewModelProgress
 import com.jhiltunen.sensorlympics.ui.theme.SensorLympicsTheme
-import android.location.Location
-import android.os.Build
 import org.osmdroid.config.Configuration
 import org.osmdroid.library.BuildConfig
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-
-import androidx.compose.foundation.layout.*
-
-import androidx.compose.material.*
-import androidx.compose.runtime.*
-import com.jhiltunen.sensorlympics.olympicmap.*
 
 
 internal const val FILENAMEMAGNET = "magnetHighScore.txt"
@@ -47,6 +46,7 @@ class MainActivity : ComponentActivity(), SensorEventListener {
     private lateinit var locationHandler: LocationHandler
     private lateinit var lastKnownLocation: State<Location?>
     private lateinit var startLocation: State<Location?>
+
     companion object {
         val magnetViewModel = MagnetViewModel()
         val pressureViewModel = PressureViewModel()
@@ -83,7 +83,10 @@ class MainActivity : ComponentActivity(), SensorEventListener {
 
         ballGameViewModel = BallGameViewModel()
 
-        ballGameViewModel.setMaxValues(getScreenDimensions(this)!![0].toFloat() - 200, getScreenDimensions(this)!![1].toFloat() - 100)
+        ballGameViewModel.setMaxValues(
+            getScreenDimensions(this)!![0].toFloat() - 200,
+            getScreenDimensions(this)!![1].toFloat() - 100
+        )
 
         val model = WikiViewModel()
 
@@ -93,7 +96,7 @@ class MainActivity : ComponentActivity(), SensorEventListener {
         //locationHandler = LocationHandler(applicationContext)
         locationHandler = LocationHandler(context = applicationContext, mapViewModel = mapViewModel)
 
-        if ((Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(
+        if ((ContextCompat.checkSelfPermission(
                 this,
                 android.Manifest.permission.ACCESS_FINE_LOCATION
             ) !=
@@ -138,7 +141,7 @@ class MainActivity : ComponentActivity(), SensorEventListener {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Column() {
+                    Column {
                         MainAppNav(locationHandler, WikiViewModel(), ballGameViewModel)
                     }
                 }
@@ -232,7 +235,6 @@ class MainActivity : ComponentActivity(), SensorEventListener {
                 val orientation = FloatArray(3)
                 SensorManager.getOrientation(r, orientation)
                 val degree = (Math.toDegrees(orientation[0].toDouble()) + 360).toFloat() % 360
-                Log.i("JOO", "$degree")
                 currentDegree = degree
                 magnetViewModel.upDateDegree(currentDegree)
             }
@@ -255,7 +257,6 @@ class MainActivity : ComponentActivity(), SensorEventListener {
             if (max < event.values[0]) {
                 max = event.values[0]
             }
-            Log.i("TAG2", max.toString())
             boilingPoint = (100 - ((1013.25 - event.values[0]) / 19.05) * 0.5).toFloat()
 
             heightDifference = ((max - min) * 8)

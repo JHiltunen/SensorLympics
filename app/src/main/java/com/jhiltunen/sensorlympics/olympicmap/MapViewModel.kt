@@ -21,9 +21,6 @@ class MapViewModel : ViewModel() {
     fun updateMapValue(newLocation: Location) {
         startPoint.latitude = newLocation.latitude
         startPoint.longitude = newLocation.longitude
-        //_mapData.value =  MapData(startPoint, "Default")
-        Log.d("GEOGEO", startPoint.latitude.toString())
-        Log.d("GEOGÖÖ",  _mapData.value.toString())
     }
 
 }

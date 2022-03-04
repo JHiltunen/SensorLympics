@@ -20,7 +20,6 @@ import com.jhiltunen.sensorlympics.pressuregame.PressureApp
 import com.jhiltunen.sensorlympics.tictactoe.TicTacToeViewModel
 import com.jhiltunen.sensorlympics.ui.theme.Purple200
 import com.jhiltunen.sensorlympics.ui.views.TicTacToeView
-import com.jhiltunen.sensorlympics.tictactoe.TicTacToeViewModel
 import com.jhiltunen.sensorlympics.ui.views.BallGameView
 import kotlinx.coroutines.launch
 
