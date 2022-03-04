@@ -27,13 +27,15 @@ import com.jhiltunen.sensorlympics.menu.DrawerAppScreen
 import com.jhiltunen.sensorlympics.menu.Menu
 import com.jhiltunen.sensorlympics.olympicmap.LocationHandler
 import com.jhiltunen.sensorlympics.olympicmap.ShowMap
+import com.jhiltunen.sensorlympics.olympicmap.WeatherViewModel
 import com.jhiltunen.sensorlympics.olympicmap.WikiApi.Model
 import com.jhiltunen.sensorlympics.olympicmap.WikiViewModel
 import com.jhiltunen.sensorlympics.ui.theme.Black
 
 @ExperimentalFoundationApi
 @Composable
-fun MainAppNav(locationHandler: LocationHandler, model: WikiViewModel) {
+fun MainAppNav(locationHandler: LocationHandler, model: WeatherViewModel) {
+//fun MainAppNav(locationHandler: LocationHandler, model: WikiViewModel) {
     val navController = rememberNavController()
     NavHost(navController, startDestination = "main") {
         composable("main") {
@@ -102,7 +104,7 @@ fun MainAppNav(locationHandler: LocationHandler, model: WikiViewModel) {
 
                         }
                     }
-                    //ShowMap(mapViewModel = mapViewModel, locationHandler = locationHandler, context = LocalContext.current, model = model)
+                    ShowMap(mapViewModel = mapViewModel, locationHandler = locationHandler, context = LocalContext.current, model = model)
                     Button(
                         onClick = { },
                         modifier = Modifier

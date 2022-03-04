@@ -48,8 +48,8 @@ fun ShowMap(mapViewModel: MapViewModel, locationHandler: LocationHandler, contex
     var cityName by remember { mutableStateOf("") }
     // hard coded zoom level and map center only at start
     var mapInitialized by remember(map) { mutableStateOf(false) }
-    val address by mapViewModel.mapData.observeAsState()
-    var centerUser by remember { mutableStateOf(false) }
+    //val address by mapViewModel.mapData.observeAsState()
+    //val centerUser by remember { mutableStateOf(false) }
     val safetyPoint: GeoPoint = GeoPoint(60.24104, 24.73840)
     val safetyPoint2: GeoPoint = GeoPoint(0.24104, 4.73840)
     //val jotain = addressGetter3(safetyPoint.latitude, safetyPoint.longitude)
@@ -59,8 +59,8 @@ fun ShowMap(mapViewModel: MapViewModel, locationHandler: LocationHandler, contex
         map.setTileSource(TileSourceFactory.MAPNIK)
         map.controller.setZoom(2.5)
         mapInitialized = true
-        //map.controller.setCenter(GeoPoint(60.166640739, 24.943536799))
-        map.controller.setCenter(GeoPoint(address?.geoPoint ?: safetyPoint))
+        map.controller.setCenter(GeoPoint(60.166640739, 24.943536799))
+        //map.controller.setCenter(GeoPoint(address?.geoPoint ?: safetyPoint))
     }
     // observer (e.g. update from the location change listener)
 
@@ -82,7 +82,7 @@ fun ShowMap(mapViewModel: MapViewModel, locationHandler: LocationHandler, contex
             Spacer(modifier = Modifier.height(4.dp))
             //Location(locationHandler = locationHandler)
             AndroidView({ map }) {
-                address ?: return@AndroidView
+                //address ?: return@AndroidView
                 val dm: DisplayMetrics = context.resources.displayMetrics
 
                 val mCompassOverlay =
@@ -104,9 +104,11 @@ fun ShowMap(mapViewModel: MapViewModel, locationHandler: LocationHandler, contex
                 scaleBarOverlay.setScaleBarOffset(dm.widthPixels /2, 20)
 
                 //it.controller.setCenter(address?.geoPoint)
+                /*
                 if (centerUser) {
                     it.controller.setCenter(address?.geoPoint)
                 }
+                */
 
                 //map.overlays.add(myLocationOverlay)
                 map.overlays.add(mCompassOverlay)

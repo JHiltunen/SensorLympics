@@ -80,7 +80,8 @@ class MainActivity : ComponentActivity(), SensorEventListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val model = WikiViewModel()
+        //val model = WikiViewModel()
+        val model = WeatherViewModel()
 
         //Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this))
         Configuration.getInstance().userAgentValue = BuildConfig.APPLICATION_ID
@@ -134,7 +135,8 @@ class MainActivity : ComponentActivity(), SensorEventListener {
                     color = MaterialTheme.colors.background
                 ) {
                     Column() {
-                        MainAppNav(locationHandler, WikiViewModel())
+                        //MainAppNav(locationHandler, WikiViewModel())
+                        MainAppNav(locationHandler, WeatherViewModel())
                     }
                 }
             }
