@@ -1,4 +1,4 @@
-package com.jhiltunen.sensorlympics.magnetgame
+package com.jhiltunen.sensorlympics.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

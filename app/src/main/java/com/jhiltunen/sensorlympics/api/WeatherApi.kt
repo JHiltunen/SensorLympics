@@ -1,10 +1,10 @@
-package com.jhiltunen.sensorlympics.olympicmap
+package com.jhiltunen.sensorlympics.api
 
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.jhiltunen.sensorlympics.olympicmap.WeatherApi.appid
+import com.jhiltunen.sensorlympics.api.WeatherApi.appid
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit

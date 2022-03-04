@@ -1,10 +1,10 @@
-package com.jhiltunen.sensorlympics
+package com.jhiltunen.sensorlympics.receivers
 
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.widget.Toast
+import com.jhiltunen.sensorlympics.R
 
 //adapted from  https://instagram.com/philipplackner_...
 

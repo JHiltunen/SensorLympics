@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.jhiltunen.sensorlympics.R
-import com.jhiltunen.sensorlympics.tictactoe.TicTacToeViewModel
+import com.jhiltunen.sensorlympics.viewmodels.TicTacToeViewModel
 
 @Composable
 fun TicTacToeView(ticTacToeViewModel: TicTacToeViewModel) {

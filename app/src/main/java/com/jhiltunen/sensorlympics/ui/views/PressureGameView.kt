@@ -1,4 +1,4 @@
-package com.jhiltunen.sensorlympics.pressuregame
+package com.jhiltunen.sensorlympics.ui.views
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
@@ -16,6 +16,7 @@ import com.jhiltunen.sensorlympics.CardStyle
 import com.jhiltunen.sensorlympics.MainActivity
 import com.jhiltunen.sensorlympics.R
 import com.jhiltunen.sensorlympics.SpaceBetweenColumn
+import com.jhiltunen.sensorlympics.pressuregame.PressureViewModelProgress
 import com.jhiltunen.sensorlympics.rules.PressureRules
 import com.jhiltunen.sensorlympics.ui.theme.SensorLympicsTheme
 import kotlin.math.round
@@ -161,4 +162,3 @@ fun PressurePointer(pressureViewModelProgress: PressureViewModelProgress) {
         PressureRules()
     }
 }
-

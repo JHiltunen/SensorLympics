@@ -1,4 +1,4 @@
-package com.jhiltunen.sensorlympics.magnetgame
+package com.jhiltunen.sensorlympics.ui.views
 
 import android.content.Context
 import android.util.Log
@@ -21,6 +21,9 @@ import com.jhiltunen.sensorlympics.MainActivity
 import com.jhiltunen.sensorlympics.MainActivity.Companion.magnetViewModel
 import com.jhiltunen.sensorlympics.R
 import com.jhiltunen.sensorlympics.SpaceBetweenColumn
+import com.jhiltunen.sensorlympics.viewmodels.MagnetViewModel
+import com.jhiltunen.sensorlympics.magnetgame.chooseDirection
+import com.jhiltunen.sensorlympics.magnetgame.northOrBust
 import com.jhiltunen.sensorlympics.rules.MagnetoRules
 import com.jhiltunen.sensorlympics.ui.theme.SensorLympicsTheme
 
@@ -162,4 +165,3 @@ fun CompassPointer(magnetViewModel: MagnetViewModel) {
         }
     }
 }
-

@@ -22,12 +22,13 @@ import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.jhiltunen.sensorlympics.ballgame.BallGameViewModel
-import com.jhiltunen.sensorlympics.magnetgame.MagnetViewModel
+import com.jhiltunen.sensorlympics.viewmodels.BallGameViewModel
+import com.jhiltunen.sensorlympics.viewmodels.MagnetViewModel
 import com.jhiltunen.sensorlympics.magnetgame.chooseDirection
 import com.jhiltunen.sensorlympics.navigator.MainAppNav
 import com.jhiltunen.sensorlympics.pressuregame.PressureViewModel
 import com.jhiltunen.sensorlympics.pressuregame.PressureViewModelProgress
+import com.jhiltunen.sensorlympics.receivers.AirPlaneModeReceiver
 import com.jhiltunen.sensorlympics.ui.theme.SensorLympicsTheme
 import org.osmdroid.config.Configuration
 import org.osmdroid.library.BuildConfig

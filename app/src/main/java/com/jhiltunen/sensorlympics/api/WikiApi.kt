@@ -1,4 +1,4 @@
-package com.jhiltunen.sensorlympics.olympicmap
+package com.jhiltunen.sensorlympics.api
 
 
 import android.util.Log
