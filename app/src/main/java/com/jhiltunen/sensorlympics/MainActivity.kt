@@ -66,7 +66,7 @@ class MainActivity : ComponentActivity(), SensorEventListener {
 
         ballGameViewModel = BallGameViewModel()
 
-        ballGameViewModel.setMaxValues(getScreenDimensions(this)!![0].toFloat() - 100, getScreenDimensions(this)!![1].toFloat() - 300)
+        ballGameViewModel.setMaxValues(getScreenDimensions(this)!![0].toFloat() - 200, getScreenDimensions(this)!![1].toFloat() - 100)
 
         sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
 
