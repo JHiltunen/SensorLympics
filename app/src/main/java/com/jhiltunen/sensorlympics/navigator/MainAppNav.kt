@@ -21,7 +21,6 @@ import com.jhiltunen.sensorlympics.CardStyle
 import com.jhiltunen.sensorlympics.R
 import com.jhiltunen.sensorlympics.menu.DrawerAppScreen
 import com.jhiltunen.sensorlympics.menu.Menu
-import com.jhiltunen.sensorlympics.ui.theme.Black
 import com.jhiltunen.sensorlympics.ui.theme.RichBlack
 
 @ExperimentalFoundationApi
@@ -40,7 +39,7 @@ fun MainAppNav() {
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.SpaceEvenly
                     ) {
-                        Text(text = "SensorLympics", fontSize = 40.sp)
+                        Text(text = "SensorLympics", fontSize = 40.sp, color = RichBlack)
                         Image(
                             painter = painterResource(R.drawable.rings),
                             contentDescription = "Application logo",
@@ -56,7 +55,7 @@ fun MainAppNav() {
                                 onClick = { navController.navigate("magnetogame") },
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .border(1.dp, color = Black),
+                                    .border(1.dp, color = RichBlack),
                                 colors = ButtonDefaults.outlinedButtonColors(contentColor = RichBlack)
                             ) {
                                 Text(stringResource(R.string.game1))
@@ -66,7 +65,7 @@ fun MainAppNav() {
                                 onClick = { navController.navigate("pressuregame") },
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .border(1.dp, color = Black),
+                                    .border(1.dp, color = RichBlack),
                                 colors = ButtonDefaults.outlinedButtonColors(contentColor = RichBlack)
                             ) {
                                 Text(stringResource(R.string.game2))
@@ -77,7 +76,7 @@ fun MainAppNav() {
                                 onClick = { navController.navigate("tictactoe") },
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .border(1.dp, color = Black),
+                                    .border(1.dp, color = RichBlack),
                                 colors = ButtonDefaults.outlinedButtonColors(contentColor = RichBlack)
                             ) {
                                 Text(stringResource(R.string.game3))
@@ -87,7 +86,7 @@ fun MainAppNav() {
                                 onClick = { navController.navigate("") },
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .border(1.dp, color = Black),
+                                    .border(1.dp, color = RichBlack),
                                 colors = ButtonDefaults.outlinedButtonColors(contentColor = RichBlack)
                             ) {
                                 Text(stringResource(id = R.string.game4))
@@ -97,18 +96,12 @@ fun MainAppNav() {
                                 onClick = { navController.navigate("olympicscities") },
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .border(1.dp, color = Black),
+                                    .border(1.dp, color = RichBlack),
                                 colors = ButtonDefaults.outlinedButtonColors(contentColor = RichBlack)
                             ) {
-                                Text(text = "Olympic Cities")
+                                Text(stringResource(id = R.string.title6))
                             }
                         }
-/*                    ShowMap(
-                        mapViewModel = mapViewModel,
-                        locationHandler = locationHandler,
-                        context = LocalContext.current,
-                        model = model
-                    )*/
                         Button(
                             onClick = { },
                             modifier = Modifier
@@ -133,6 +126,7 @@ fun MainAppNav() {
         composable("tictactoe") {
             Menu(screen = DrawerAppScreen.TicTacToe)
         }
+
         composable("olympicscities") {
             Menu(screen = DrawerAppScreen.OlympicsCities)
         }

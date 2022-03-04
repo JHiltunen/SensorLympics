@@ -1,10 +1,7 @@
 package com.jhiltunen.sensorlympics.pressuregame
 
 import android.util.Log
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -221,8 +218,14 @@ fun FeaturedCircularProgressIndicator(pressureViewModelProgress: PressureViewMod
                 Text("Difference: $difference")
             }
         }*/
-        Text(stringResource(R.string.pressure_high, highScore))
-        PressureRules()
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(stringResource(R.string.pressure_high, highScore))
+            PressureRules()
+        }
+
     }
 }
 

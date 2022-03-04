@@ -60,7 +60,7 @@ fun ShowMap(mapViewModel: MapViewModel, context: Context, model: WikiViewModel) 
     Log.d("GEOGEOGEO", jotain)
     if (!mapInitialized) {
         map.setTileSource(TileSourceFactory.MAPNIK)
-        map.controller.setZoom(2.5)
+        map.controller.setZoom(4.5)
         //map.controller.setCenter(GeoPoint(60.166640739, 24.943536799))
         map.controller.setCenter(GeoPoint(address?.geoPoint ?: safetyPoint))
     }
@@ -108,7 +108,7 @@ fun ShowMap(mapViewModel: MapViewModel, context: Context, model: WikiViewModel) 
                     //map.overlays.add(myLocationOverlay)
                     map.overlays.add(mCompassOverlay)
                     map.overlays.add(scaleBarOverlay)
-                    map.overlays.add(minimapOverlay)
+                   // map.overlays.add(minimapOverlay)
 
 
                     val items = ArrayList<OverlayItem>()

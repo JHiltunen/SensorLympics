@@ -14,6 +14,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.jhiltunen.sensorlympics.CardStyle
+import com.jhiltunen.sensorlympics.MenuModifier
 import com.jhiltunen.sensorlympics.R
 import com.jhiltunen.sensorlympics.magnetgame.SensorMagnetApp
 import com.jhiltunen.sensorlympics.olympicmap.MapViewModel
@@ -133,7 +135,10 @@ fun BodyContentComponent(
 
 @Composable
 fun MagnetoGame(openDrawer: () -> Unit) {
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
         TopAppBar(
             title = { Text(stringResource(R.string.title1)) },
             navigationIcon = {
@@ -147,14 +152,13 @@ fun MagnetoGame(openDrawer: () -> Unit) {
             modifier = Modifier
                 .weight(1f)
         ) {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-                content = {
-                    SensorMagnetApp(LocalContext.current)
-                }
-            )
+            MenuModifier {
+                Column(
+                    content = {
+                        SensorMagnetApp(LocalContext.current)
+                    }
+                )
+            }
         }
     }
 }
@@ -179,14 +183,13 @@ fun PressureGame(openDrawer: () -> Unit) {
             modifier = Modifier
                 .weight(1f)
         ) {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-                content = {
-                    PressureApp()
-                }
-            )
+            MenuModifier {
+                Column(
+                    content = {
+                        PressureApp()
+                    }
+                )
+            }
         }
     }
 }
@@ -207,12 +210,7 @@ fun TicTacToe(openDrawer: () -> Unit) {
                 }
             }
         )
-        Card(
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth(),
-            elevation = 16.dp
-        ) {
+        CardStyle {
             Surface(
                 modifier = Modifier.weight(1f)
             ) {
@@ -247,13 +245,13 @@ fun BallGame(openDrawer: () -> Unit) {
             modifier = Modifier
                 .weight(1f)
         ) {
-            Column(modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-                content = {
-                    Text(text = "Screen 4")
-                }
-            )
+            MenuModifier {
+                Column(
+                    content = {
+                        Text(text = "Screen 4")
+                    }
+                )
+            }
         }
     }
 }
@@ -277,13 +275,13 @@ fun Statistics(openDrawer: () -> Unit) {
             modifier = Modifier
                 .weight(1f)
         ) {
-            Column(modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-                content = {
-                    Text(text = "Screen 5")
-                }
-            )
+            MenuModifier {
+                Column(
+                    content = {
+                        Text(text = "Screen 5")
+                    }
+                )
+            }
         }
     }
 }
@@ -308,17 +306,17 @@ fun OlympicsCities(openDrawer: () -> Unit) {
             modifier = Modifier
                 .weight(1f)
         ) {
-            Column(modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-                content = {
-                    ShowMap(
-                        mapViewModel = MapViewModel(),
-                        context = LocalContext.current,
-                        model = WikiViewModel()
-                    )
-                }
-            )
+            MenuModifier {
+                Column(
+                    content = {
+                        ShowMap(
+                            mapViewModel = MapViewModel(),
+                            context = LocalContext.current,
+                            model = WikiViewModel()
+                        )
+                    }
+                )
+            }
         }
     }
 }
