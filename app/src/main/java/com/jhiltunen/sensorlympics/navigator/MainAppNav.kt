@@ -22,17 +22,13 @@ import com.jhiltunen.sensorlympics.R
 import com.jhiltunen.sensorlympics.ballgame.BallGameViewModel
 import com.jhiltunen.sensorlympics.menu.DrawerAppScreen
 import com.jhiltunen.sensorlympics.menu.Menu
-import com.jhiltunen.sensorlympics.olympicmap.LocationHandler
-import com.jhiltunen.sensorlympics.olympicmap.ShowMap
 import com.jhiltunen.sensorlympics.olympicmap.WeatherViewModel
-import com.jhiltunen.sensorlympics.olympicmap.WikiApi.Model
-import com.jhiltunen.sensorlympics.olympicmap.WikiViewModel
 import com.jhiltunen.sensorlympics.ui.theme.Black
 import com.jhiltunen.sensorlympics.ui.theme.RichBlack
 
 @ExperimentalFoundationApi
 @Composable
-fun MainAppNav(locationHandler: LocationHandler, model: WeatherViewModel,ballgameViewModel: BallGameViewModel) {
+fun MainAppNav(model: WeatherViewModel,ballgameViewModel: BallGameViewModel) {
     val navController = rememberNavController()
     NavHost(navController, startDestination = "main") {
         composable("main") {

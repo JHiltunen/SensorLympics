@@ -10,7 +10,6 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.WindowInsets
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -24,11 +23,8 @@ import androidx.compose.ui.Modifier
 import com.jhiltunen.sensorlympics.ballgame.BallGameViewModel
 import com.jhiltunen.sensorlympics.magnetgame.MagnetViewModel
 import com.jhiltunen.sensorlympics.magnetgame.chooseDirection
-import com.jhiltunen.sensorlympics.magnetgame.readFile
 import com.jhiltunen.sensorlympics.navigator.MainAppNav
-import com.jhiltunen.sensorlympics.olympicmap.LocationHandler
 import com.jhiltunen.sensorlympics.olympicmap.MapViewModel
-import com.jhiltunen.sensorlympics.olympicmap.WikiViewModel
 import com.jhiltunen.sensorlympics.pressuregame.PressureViewModel
 import com.jhiltunen.sensorlympics.pressuregame.PressureViewModelProgress
 import com.jhiltunen.sensorlympics.ui.theme.SensorLympicsTheme
@@ -51,15 +47,10 @@ internal const val FILENAMEMAGNET = "magnetHighScore.txt"
 
 class MainActivity : ComponentActivity(), SensorEventListener {
 
-    private lateinit var locationHandler: LocationHandler
-    private lateinit var lastKnownLocation: State<Location?>
-    private lateinit var startLocation: State<Location?>
-
     companion object {
         val magnetViewModel = MagnetViewModel()
         val pressureViewModel = PressureViewModel()
         val pressureViewModelProgress = PressureViewModelProgress()
-        val mapViewModel = MapViewModel()
         var pressureSensorExists = true
         var magnetometerSensorExists = true
         var accelerometerSensorExists = true
@@ -104,9 +95,6 @@ class MainActivity : ComponentActivity(), SensorEventListener {
         //Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this))
         Configuration.getInstance().userAgentValue = BuildConfig.APPLICATION_ID
 
-        //locationHandler = LocationHandler(applicationContext)
-        locationHandler = LocationHandler(context = applicationContext, mapViewModel = mapViewModel)
-
         if ((ContextCompat.checkSelfPermission(
                 this,
                 android.Manifest.permission.ACCESS_FINE_LOCATION
@@ -119,8 +107,6 @@ class MainActivity : ComponentActivity(), SensorEventListener {
                 0
             )
         }
-        locationHandler.getStartLocation()
-        locationHandler.getMyLocation()
 
         sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
 
@@ -147,7 +133,7 @@ class MainActivity : ComponentActivity(), SensorEventListener {
                     color = MaterialTheme.colors.background
                 ) {
                     Column {
-                        MainAppNav(locationHandler, WeatherViewModel(), ballGameViewModel)
+                        MainAppNav(WeatherViewModel(), ballGameViewModel)
                     }
                 }
             }
@@ -163,7 +149,6 @@ class MainActivity : ComponentActivity(), SensorEventListener {
 
     override fun onResume() {
         super.onResume()
-        locationHandler.startTracking()
         if (accelerometerSensorExists) {
             sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME)
         }
@@ -179,7 +164,6 @@ class MainActivity : ComponentActivity(), SensorEventListener {
 
     override fun onPause() {
         super.onPause()
-        locationHandler.stopTracking()
         if (accelerometerSensorExists) {
             sensorManager.unregisterListener(this, accelerometer)
         }
@@ -195,7 +179,6 @@ class MainActivity : ComponentActivity(), SensorEventListener {
 
     override fun onStop() {
         super.onStop()
-        locationHandler.stopTracking()
         unregisterReceiver(receiver)
     }
 
