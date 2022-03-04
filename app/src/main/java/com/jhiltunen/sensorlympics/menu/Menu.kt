@@ -1,7 +1,6 @@
 package com.jhiltunen.sensorlympics.menu
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -16,16 +15,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.jhiltunen.sensorlympics.R
-import com.jhiltunen.sensorlympics.magnetgame.SensorMagnetApp
 import com.jhiltunen.sensorlympics.ballgame.BallGameViewModel
+import com.jhiltunen.sensorlympics.magnetgame.SensorMagnetApp
 import com.jhiltunen.sensorlympics.olympicmap.MapViewModel
 import com.jhiltunen.sensorlympics.olympicmap.ShowMap
 import com.jhiltunen.sensorlympics.olympicmap.WikiViewModel
 import com.jhiltunen.sensorlympics.pressuregame.PressureApp
 import com.jhiltunen.sensorlympics.tictactoe.TicTacToeViewModel
 import com.jhiltunen.sensorlympics.ui.theme.YellowRed
-import com.jhiltunen.sensorlympics.ui.views.TicTacToeView
 import com.jhiltunen.sensorlympics.ui.views.BallGameView
+import com.jhiltunen.sensorlympics.ui.views.TicTacToeView
 import kotlinx.coroutines.launch
 
 @Composable
@@ -124,10 +123,12 @@ fun BodyContentComponent(
         DrawerAppScreen.TicTacToe -> TicTacToe(
             openDrawer
         )
-        DrawerAppScreen.BallGame -> BallGame(
-            ballGameViewModel = ballGameViewModel!!,
-            openDrawer
-        )
+        DrawerAppScreen.BallGame -> ballGameViewModel?.let {
+            BallGame(
+                ballGameViewModel = it,
+                openDrawer
+            )
+        }
         DrawerAppScreen.Statistics -> Statistics(
             openDrawer
         )

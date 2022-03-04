@@ -29,7 +29,11 @@ import com.jhiltunen.sensorlympics.ui.theme.RichBlack
 
 @ExperimentalFoundationApi
 @Composable
-fun MainAppNav(locationHandler: LocationHandler, model: WikiViewModel, ballgameViewModel: BallGameViewModel) {
+fun MainAppNav(
+    locationHandler: LocationHandler,
+    model: WikiViewModel,
+    ballgameViewModel: BallGameViewModel
+) {
     val navController = rememberNavController()
     NavHost(navController, startDestination = "main") {
         composable("main") {
@@ -87,7 +91,7 @@ fun MainAppNav(locationHandler: LocationHandler, model: WikiViewModel, ballgameV
                             }
                             Spacer(modifier = Modifier.padding(12.dp))
                             OutlinedButton(
-                                onClick = { navController.navigate("") },
+                                onClick = { navController.navigate("ballgame") },
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .border(1.dp, color = Black),
@@ -125,7 +129,7 @@ fun MainAppNav(locationHandler: LocationHandler, model: WikiViewModel, ballgameV
             }
         }
         composable("magnetogame") {
-           Menu(screen = DrawerAppScreen.MagnetoGame, null)
+            Menu(screen = DrawerAppScreen.MagnetoGame, null)
         }
 
         composable("pressuregame") {
@@ -140,7 +144,7 @@ fun MainAppNav(locationHandler: LocationHandler, model: WikiViewModel, ballgameV
             Menu(screen = DrawerAppScreen.BallGame, ballGameViewModel = ballgameViewModel)
         }
         composable("olympicscities") {
-            Menu(screen = DrawerAppScreen.OlympicsCities)
+            Menu(screen = DrawerAppScreen.OlympicsCities, null)
         }
 
     }

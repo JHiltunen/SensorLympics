@@ -4,7 +4,6 @@ package com.jhiltunen.sensorlympics.olympicmap
 import android.content.Context
 import android.util.DisplayMetrics
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -23,11 +22,6 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
-import org.osmdroid.views.overlay.OverlayItem
-import org.osmdroid.views.overlay.ScaleBarOverlay
-import org.osmdroid.views.overlay.Marker
-import org.osmdroid.views.overlay.MinimapOverlay
-import org.osmdroid.views.overlay.OverlayItem
 import org.osmdroid.views.overlay.ScaleBarOverlay
 import org.osmdroid.views.overlay.compass.CompassOverlay
 import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider
@@ -48,7 +42,6 @@ fun composeMap(): MapView {
 @Composable
 fun ShowMap(
     mapViewModel: MapViewModel,
-    locationHandler: LocationHandler,
     context: Context,
     model: WikiViewModel
 ) {
@@ -59,7 +52,6 @@ fun ShowMap(
     // hard coded zoom level and map center only at start
     val mapInitialized by remember(map) { mutableStateOf(false) }
     val address by mapViewModel.mapData.observeAsState()
-    val centerUser by remember { mutableStateOf(false) }
     val safetyPoint = GeoPoint(60.24104, 24.73840)
     // val safetyPoint2 = GeoPoint(0.24104, 4.73840)
     val jotain = addressGetter3(safetyPoint.latitude, safetyPoint.longitude)
@@ -67,7 +59,7 @@ fun ShowMap(
 
     if (!mapInitialized) {
         map.setTileSource(TileSourceFactory.MAPNIK)
-        map.controller.setZoom(2.5)
+        map.controller.setZoom(4.5)
         //map.controller.setCenter(GeoPoint(60.166640739, 24.943536799))
         map.controller.setCenter(GeoPoint(address?.geoPoint ?: safetyPoint))
     }
@@ -92,39 +84,35 @@ fun ShowMap(
                     mCompassOverlay.enableCompass()
 
 
-                val scaleBarOverlay = ScaleBarOverlay(map)
-                scaleBarOverlay.setCentred(true)
-                scaleBarOverlay.setScaleBarOffset(dm.widthPixels / 2, 20)
+                    val scaleBarOverlay = ScaleBarOverlay(map)
+                    scaleBarOverlay.setCentred(true)
+                    scaleBarOverlay.setScaleBarOffset(dm.widthPixels / 2, 20)
 
+                    map.setMultiTouchControls(true)
 
-                    //it.controller.setCenter(address?.geoPoint)
-                    if (centerUser) {
-                        it.controller.setCenter(address?.geoPoint)
-                    }
-
-                map.overlays.add(mCompassOverlay)
-                map.overlays.add(scaleBarOverlay)
+                    map.overlays.add(mCompassOverlay)
+                    map.overlays.add(scaleBarOverlay)
 
 
 
 
-                cities.forEach { it ->
-                    val cityMarker = Marker(map)
-                    cityMarker.setOnMarkerClickListener { _, _ ->
-                        if (cityMarker.isInfoWindowShown) {
-                            cityMarker.closeInfoWindow()
-                        } else {
-                            val jorma = (it.city + olympics)
-                            model.getHits(jorma)
-                            checker = totalhits
-                            cityName = it.city
-                            cityMarker.closeInfoWindow()
+                    cities.forEach { it ->
+                        val cityMarker = Marker(map)
+                        cityMarker.setOnMarkerClickListener { _, _ ->
+                            if (cityMarker.isInfoWindowShown) {
+                                cityMarker.closeInfoWindow()
+                            } else {
+                                val jorma = (it.city + olympics)
+                                model.getHits(jorma)
+                                checker = totalhits
+                                cityName = it.city
+                                cityMarker.closeInfoWindow()
+                            }
+                            true
                         }
-                        true
-                    }
-                    cityMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
-                    cityMarker.position.latitude = it.latiTude
-                    cityMarker.position.longitude = it.longiTude
+                        cityMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+                        cityMarker.position.latitude = it.latiTude
+                        cityMarker.position.longitude = it.longiTude
 
                         cityMarker.title = it.city
                         map.overlays.add(cityMarker)
