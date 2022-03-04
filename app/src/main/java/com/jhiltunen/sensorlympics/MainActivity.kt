@@ -51,6 +51,7 @@ class MainActivity : ComponentActivity(), SensorEventListener {
         val magnetViewModel = MagnetViewModel()
         val pressureViewModel = PressureViewModel()
         val pressureViewModelProgress = PressureViewModelProgress()
+        val ballGameViewModel = BallGameViewModel()
         var pressureSensorExists = true
         var magnetometerSensorExists = true
         var accelerometerSensorExists = true
@@ -60,8 +61,6 @@ class MainActivity : ComponentActivity(), SensorEventListener {
     private var min: Float = 0.0F
     private var max: Float = 0.0F
     private var heightDifference: Float = 0.0F
-
-    private lateinit var ballGameViewModel: BallGameViewModel
 
     private lateinit var sensorManager: SensorManager
     private lateinit var accelerometer: Sensor
@@ -81,8 +80,6 @@ class MainActivity : ComponentActivity(), SensorEventListener {
     @ExperimentalFoundationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        ballGameViewModel = BallGameViewModel()
 
         ballGameViewModel.setMaxValues(
             getScreenDimensions(this)!![0].toFloat() - 200,

@@ -124,22 +124,22 @@ fun MainAppNav(model: WeatherViewModel,ballgameViewModel: BallGameViewModel) {
             }
         }
         composable("magnetogame") {
-            Menu(screen = DrawerAppScreen.MagnetoGame, null)
+            Menu(screen = DrawerAppScreen.MagnetoGame)
         }
 
         composable("pressuregame") {
-            Menu(screen = DrawerAppScreen.PressureGame, null)
+            Menu(screen = DrawerAppScreen.PressureGame)
         }
 
         composable("tictactoe") {
-            Menu(screen = DrawerAppScreen.TicTacToe, null)
+            Menu(screen = DrawerAppScreen.TicTacToe)
         }
 
         composable("ballgame") {
-            Menu(screen = DrawerAppScreen.BallGame, ballGameViewModel = ballgameViewModel)
+            Menu(screen = DrawerAppScreen.BallGame)
         }
         composable("olympicscities") {
-            Menu(screen = DrawerAppScreen.OlympicsCities, null)
+            Menu(screen = DrawerAppScreen.OlympicsCities)
         }
 
     }

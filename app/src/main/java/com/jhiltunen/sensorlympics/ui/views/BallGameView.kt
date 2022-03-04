@@ -12,12 +12,13 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import com.jhiltunen.sensorlympics.CardStyle
 import com.jhiltunen.sensorlympics.MainActivity
+import com.jhiltunen.sensorlympics.MainActivity.Companion.ballGameViewModel
 import com.jhiltunen.sensorlympics.SpaceBetweenColumn
 import com.jhiltunen.sensorlympics.ballgame.BallGameViewModel
 import com.jhiltunen.sensorlympics.pressuregame.FeaturedCircularProgressIndicator
 
 @Composable
-fun BallGameView(ballGameViewModel: BallGameViewModel) {
+fun BallGameView() {
     val xPosition by ballGameViewModel.xPosition.observeAsState()
     val yPosition by ballGameViewModel.yPosition.observeAsState()
 

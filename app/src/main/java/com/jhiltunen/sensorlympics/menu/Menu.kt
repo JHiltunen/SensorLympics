@@ -20,7 +20,6 @@ import com.jhiltunen.sensorlympics.magnetgame.SensorMagnetApp
 import com.jhiltunen.sensorlympics.olympicmap.MapViewModel
 import com.jhiltunen.sensorlympics.olympicmap.ShowMap
 import com.jhiltunen.sensorlympics.olympicmap.WeatherViewModel
-import com.jhiltunen.sensorlympics.olympicmap.WikiViewModel
 import com.jhiltunen.sensorlympics.pressuregame.PressureApp
 import com.jhiltunen.sensorlympics.tictactoe.TicTacToeViewModel
 import com.jhiltunen.sensorlympics.ui.theme.YellowRed
@@ -29,7 +28,7 @@ import com.jhiltunen.sensorlympics.ui.views.TicTacToeView
 import kotlinx.coroutines.launch
 
 @Composable
-fun Menu(screen: DrawerAppScreen, ballGameViewModel: BallGameViewModel?) {
+fun Menu(screen: DrawerAppScreen) {
 
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val currentScreen = remember { mutableStateOf(screen) }
@@ -48,7 +47,6 @@ fun Menu(screen: DrawerAppScreen, ballGameViewModel: BallGameViewModel?) {
         },
         content = {
             BodyContentComponent(
-                ballGameViewModel = ballGameViewModel,
                 currentScreen = currentScreen.value,
                 openDrawer = {
                     coroutineScope.launch { drawerState.open() }
@@ -110,7 +108,6 @@ fun getScreenBasedOnIndex(index: Int) = when (index) {
 // Passed the corresponding screen composable based on the current screen that's active.
 @Composable
 fun BodyContentComponent(
-    ballGameViewModel: BallGameViewModel?,
     currentScreen: DrawerAppScreen,
     openDrawer: () -> Unit
 ) {
@@ -124,12 +121,10 @@ fun BodyContentComponent(
         DrawerAppScreen.TicTacToe -> TicTacToe(
             openDrawer
         )
-        DrawerAppScreen.BallGame -> ballGameViewModel?.let {
-            BallGame(
-                ballGameViewModel = it,
-                openDrawer
-            )
-        }
+        DrawerAppScreen.BallGame -> BallGame(
+            openDrawer
+        )
+
         DrawerAppScreen.Statistics -> Statistics(
             openDrawer
         )
@@ -237,7 +232,7 @@ fun TicTacToe(openDrawer: () -> Unit) {
 }
 
 @Composable
-fun BallGame(ballGameViewModel: BallGameViewModel, openDrawer: () -> Unit) {
+fun BallGame(openDrawer: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -259,7 +254,7 @@ fun BallGame(ballGameViewModel: BallGameViewModel, openDrawer: () -> Unit) {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
                 content = {
-                    BallGameView(ballGameViewModel = ballGameViewModel)
+                    BallGameView()
                 }
             )
         }
