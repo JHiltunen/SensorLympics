@@ -109,7 +109,7 @@ fun ShowMap(mapViewModel: MapViewModel, context: Context, model: WeatherViewMode
                             if (cityMarker.isInfoWindowShown) {
                                 cityMarker.closeInfoWindow()
                             } else {
-                                val jorma = (it.city + olympics)
+                                val jorma = (it.city)
                                 model.getHits(jorma)
                                 checker = totalhits
                                 cityName = it.city
