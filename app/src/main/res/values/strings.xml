@@ -35,9 +35,11 @@
     <string name="pressure_again">Again?</string>
     <string name="buy_new_phone">Go buy new phone ASAP!</string>
 
-    <string name="game1" translatable="false">Magneto game</string>
+    <string name="game1">Magneto game</string>
     <string name="game2">Pressure game</string>
     <string name="game3">Tic Tac Toe</string>
-    <string name="game4" translatable="false">Ball game</string>
+    <string name="game4">Ball game</string>
+    <string name="airplane_on">Airplane mode enabled</string>
+    <string name="airplane_off">Airplane mode disabled</string>
 
 </resources>

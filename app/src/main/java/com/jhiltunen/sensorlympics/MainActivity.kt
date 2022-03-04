@@ -1,13 +1,13 @@
 package com.jhiltunen.sensorlympics
 
 import android.app.Activity
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import android.location.Location
-import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
@@ -21,8 +21,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.jhiltunen.sensorlympics.ballgame.BallGameViewModel
 import com.jhiltunen.sensorlympics.magnetgame.MagnetViewModel
 import com.jhiltunen.sensorlympics.magnetgame.chooseDirection
@@ -34,8 +32,18 @@ import com.jhiltunen.sensorlympics.olympicmap.WikiViewModel
 import com.jhiltunen.sensorlympics.pressuregame.PressureViewModel
 import com.jhiltunen.sensorlympics.pressuregame.PressureViewModelProgress
 import com.jhiltunen.sensorlympics.ui.theme.SensorLympicsTheme
+import android.location.Location
+import android.os.Build
 import org.osmdroid.config.Configuration
 import org.osmdroid.library.BuildConfig
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+
+import androidx.compose.foundation.layout.*
+
+import androidx.compose.material.*
+import androidx.compose.runtime.*
+import com.jhiltunen.sensorlympics.olympicmap.*
 
 
 internal const val FILENAMEMAGNET = "magnetHighScore.txt"
@@ -76,6 +84,8 @@ class MainActivity : ComponentActivity(), SensorEventListener {
     private var lastAccelerometerSet = false
     private var lastMagnetometerSet = false
 
+    private lateinit var receiver: AirPlaneModeReceiver
+
 
     @ExperimentalFoundationApi
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -88,7 +98,8 @@ class MainActivity : ComponentActivity(), SensorEventListener {
             getScreenDimensions(this)!![1].toFloat() - 100
         )
 
-        val model = WikiViewModel()
+        //val model = WikiViewModel()
+        val model = WeatherViewModel()
 
         //Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this))
         Configuration.getInstance().userAgentValue = BuildConfig.APPLICATION_ID
@@ -129,12 +140,6 @@ class MainActivity : ComponentActivity(), SensorEventListener {
         magnetViewModel.upDateWin(0)
         chooseDirection()
 
-        readFile(application)
-        /*
-        val readMagnetFile = readFile(application)
-        val scoreHigh = readMagnetFile.toString().drop(1).dropLast(1).toInt()
-        magnetViewModel.upDateScore(scoreHigh.toFloat())
-         */
         setContent {
             SensorLympicsTheme {
                 Surface(
@@ -142,11 +147,18 @@ class MainActivity : ComponentActivity(), SensorEventListener {
                     color = MaterialTheme.colors.background
                 ) {
                     Column {
-                        MainAppNav(locationHandler, WikiViewModel(), ballGameViewModel)
+                        MainAppNav(locationHandler, WeatherViewModel(), ballGameViewModel)
                     }
                 }
             }
         }
+        //for airplanemode receiver
+        receiver = AirPlaneModeReceiver()
+
+        IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED).also {
+            registerReceiver(receiver, it)
+        }
+
     }
 
     override fun onResume() {
@@ -184,6 +196,7 @@ class MainActivity : ComponentActivity(), SensorEventListener {
     override fun onStop() {
         super.onStop()
         locationHandler.stopTracking()
+        unregisterReceiver(receiver)
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
