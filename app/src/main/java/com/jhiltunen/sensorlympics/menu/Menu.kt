@@ -19,6 +19,7 @@ import com.jhiltunen.sensorlympics.ballgame.BallGameViewModel
 import com.jhiltunen.sensorlympics.magnetgame.SensorMagnetApp
 import com.jhiltunen.sensorlympics.olympicmap.MapViewModel
 import com.jhiltunen.sensorlympics.olympicmap.ShowMap
+import com.jhiltunen.sensorlympics.olympicmap.WeatherViewModel
 import com.jhiltunen.sensorlympics.olympicmap.WikiViewModel
 import com.jhiltunen.sensorlympics.pressuregame.PressureApp
 import com.jhiltunen.sensorlympics.tictactoe.TicTacToeViewModel
@@ -322,7 +323,7 @@ fun OlympicsCities(openDrawer: () -> Unit) {
                     ShowMap(
                         mapViewModel = MapViewModel(),
                         context = LocalContext.current,
-                        model = WikiViewModel()
+                        model = WeatherViewModel()
                     )
                 }
             )

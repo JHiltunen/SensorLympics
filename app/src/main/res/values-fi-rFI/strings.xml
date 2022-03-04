@@ -25,6 +25,10 @@
     <string name="game3">Ristinolla</string>
     <string name="stats">Tilastot</string>
     <string name="buy_new_phone">Mene suorinta tietä ostamaan uusi puhelin !</string>
+    <string name="airplane_on">Lentotila päällä</string>
+    <string name="airplane_off">Lentotila poissa</string>
+    <string name="game1">Magneettipeli</string>
+    <string name="game4" translatable="false">Pallopeli</string>
 
 
 </resources>
