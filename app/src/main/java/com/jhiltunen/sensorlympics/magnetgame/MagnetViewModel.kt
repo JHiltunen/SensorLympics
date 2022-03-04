@@ -1,7 +1,5 @@
 package com.jhiltunen.sensorlympics.magnetgame
 
-import android.content.Context
-import android.provider.Telephony.Mms.Part.FILENAME
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -52,11 +50,6 @@ class MagnetViewModel : ViewModel() {
         }
         if (_score.value!! > _highScore.value!!) {
             _highScore.value = score
-            /*
-            app.openFileOutput(FILENAME, Context.MODE_PRIVATE).use {
-                it.write("${_highScore.value}\n".toByteArray())
-            }
-             */
         }
     }
 

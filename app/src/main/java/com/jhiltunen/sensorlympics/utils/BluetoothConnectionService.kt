@@ -86,6 +86,7 @@ class BluetoothConnectionService(context: Context) {
     private inner class ConnectThread(device: BluetoothDevice?, uuid: UUID?) :
         Thread() {
         private var mmSocket: BluetoothSocket? = null
+
         @SuppressLint("MissingPermission")
         override fun run() {
             var tmp: BluetoothSocket? = null

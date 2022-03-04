@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class BallGameViewModel: ViewModel() {
+class BallGameViewModel : ViewModel() {
     private val _xPosition = MutableLiveData(0f)
     var xPosition: LiveData<Float> = _xPosition
     private val _yPosition = MutableLiveData(0f)
@@ -16,7 +16,7 @@ class BallGameViewModel: ViewModel() {
     private var xAcceleration: Float = 0f
     private var xVelocity: Float = 0.0f
 
-    private var yAcceleration:Float = 0f
+    private var yAcceleration: Float = 0f
     private var yVelocity: Float = 0.0f
 
     fun updateBall() {

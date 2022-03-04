@@ -45,11 +45,6 @@ class PressureViewModelProgress : ViewModel() {
         }
         if (_score.value!! > _highScore.value!!) {
             _highScore.value = score
-            /*
-            app.openFileOutput(FILENAME, Context.MODE_PRIVATE).use {
-                it.write("${_highScore.value}\n".toByteArray())
-            }
-             */
         }
     }
 

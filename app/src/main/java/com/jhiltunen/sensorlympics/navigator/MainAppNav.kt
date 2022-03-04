@@ -19,16 +19,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.jhiltunen.sensorlympics.CardStyle
 import com.jhiltunen.sensorlympics.R
-import com.jhiltunen.sensorlympics.ballgame.BallGameViewModel
 import com.jhiltunen.sensorlympics.menu.DrawerAppScreen
 import com.jhiltunen.sensorlympics.menu.Menu
-import com.jhiltunen.sensorlympics.olympicmap.WeatherViewModel
 import com.jhiltunen.sensorlympics.ui.theme.Black
 import com.jhiltunen.sensorlympics.ui.theme.RichBlack
 
 @ExperimentalFoundationApi
 @Composable
-fun MainAppNav(model: WeatherViewModel,ballgameViewModel: BallGameViewModel) {
+fun MainAppNav() {
     val navController = rememberNavController()
     NavHost(navController, startDestination = "main") {
         composable("main") {
@@ -42,10 +40,10 @@ fun MainAppNav(model: WeatherViewModel,ballgameViewModel: BallGameViewModel) {
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.SpaceEvenly
                     ) {
-                        Text(text = "SensorLympics", fontSize = 40.sp)
+                        Text(text = stringResource(id = R.string.app_name), fontSize = 40.sp)
                         Image(
                             painter = painterResource(R.drawable.rings),
-                            contentDescription = "Application logo",
+                            contentDescription = stringResource(R.string.app_logo_text),
                             modifier = Modifier
                                 .clip(CutCornerShape(10.dp))
                         )
@@ -61,7 +59,7 @@ fun MainAppNav(model: WeatherViewModel,ballgameViewModel: BallGameViewModel) {
                                     .border(1.dp, color = Black),
                                 colors = ButtonDefaults.outlinedButtonColors(contentColor = RichBlack)
                             ) {
-                                Text(stringResource(R.string.game1))
+                                Text(stringResource(R.string.magneto_game))
                             }
                             Spacer(modifier = Modifier.padding(12.dp))
                             OutlinedButton(
@@ -71,7 +69,7 @@ fun MainAppNav(model: WeatherViewModel,ballgameViewModel: BallGameViewModel) {
                                     .border(1.dp, color = Black),
                                 colors = ButtonDefaults.outlinedButtonColors(contentColor = RichBlack)
                             ) {
-                                Text(stringResource(R.string.game2))
+                                Text(stringResource(R.string.pressure_game))
                             }
                             Spacer(modifier = Modifier.padding(12.dp))
 
@@ -82,7 +80,7 @@ fun MainAppNav(model: WeatherViewModel,ballgameViewModel: BallGameViewModel) {
                                     .border(1.dp, color = Black),
                                 colors = ButtonDefaults.outlinedButtonColors(contentColor = RichBlack)
                             ) {
-                                Text(stringResource(R.string.game3))
+                                Text(stringResource(R.string.tictactoe_game))
                             }
                             Spacer(modifier = Modifier.padding(12.dp))
                             OutlinedButton(
@@ -92,7 +90,7 @@ fun MainAppNav(model: WeatherViewModel,ballgameViewModel: BallGameViewModel) {
                                     .border(1.dp, color = Black),
                                 colors = ButtonDefaults.outlinedButtonColors(contentColor = RichBlack)
                             ) {
-                                Text(stringResource(id = R.string.game4))
+                                Text(stringResource(id = R.string.ball_game))
                             }
                             Spacer(modifier = Modifier.padding(12.dp))
                             OutlinedButton(
@@ -102,22 +100,17 @@ fun MainAppNav(model: WeatherViewModel,ballgameViewModel: BallGameViewModel) {
                                     .border(1.dp, color = Black),
                                 colors = ButtonDefaults.outlinedButtonColors(contentColor = RichBlack)
                             ) {
-                                Text(text = "Olympic Cities")
+                                Text(text = stringResource(id = R.string.olympic_cities))
                             }
                         }
-/*                    ShowMap(
-                        mapViewModel = mapViewModel,
-                        locationHandler = locationHandler,
-                        context = LocalContext.current,
-                        model = model
-                    )*/
+
                         Button(
                             onClick = { },
                             modifier = Modifier
                                 .fillMaxWidth()
                         )
                         {
-                            Text(text = "Statistics")
+                            Text(text = stringResource(id = R.string.statistics))
                         }
                     }
                 }

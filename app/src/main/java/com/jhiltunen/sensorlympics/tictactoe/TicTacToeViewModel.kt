@@ -22,7 +22,9 @@ class TicTacToeViewModel {
             return
         }
 
-        if (turn.value == "X") _turn.postValue("O") else { _turn.postValue("X") }
+        if (turn.value == "X") _turn.postValue("O") else {
+            _turn.postValue("X")
+        }
     }
 
     fun stopGame() {

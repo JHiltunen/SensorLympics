@@ -12,8 +12,7 @@
     <string name="east">itä</string>
     <string name="west">länsi</string>
     <string name="result_not_yet">Jännittääkö?</string>
-    <string name="magnet_high">Uusi ennätys!</string>
-    <string name="pressure_new_high">Uusi ennätys!</string>
+    <string name="new_high_score">Uusi ennätys!</string>
     <string name="pressure_high">Korkeat pisteet: %s</string>
     <string name="pressure_press">Aloita</string>
     <string name="pressure_quit">Lopeta</string>
@@ -21,14 +20,18 @@
     <string name="pressure_good">Hyvä hyvä!</string>
     <string name="pressure_time">Sekunteja kului: %s</string>
     <string name="pressure_again">Uudestaan?</string>
-    <string name="game2">Painepeli</string>
-    <string name="game3">Ristinolla</string>
-    <string name="stats">Tilastot</string>
+    <string name="pressure_game">Painepeli</string>
+    <string name="tictactoe_game">Ristinolla</string>
+    <string name="statistics">Tilastot</string>
     <string name="buy_new_phone">Mene suorinta tietä ostamaan uusi puhelin !</string>
     <string name="airplane_on">Lentotila päällä</string>
     <string name="airplane_off">Lentotila poissa</string>
-    <string name="game1">Magneettipeli</string>
-    <string name="game4" translatable="false">Pallopeli</string>
+    <string name="magneto_game">Magneettipeli</string>
+    <string name="ball_game">Pallopeli</string>
+    <string name="olympic_cities">Olympiakaupungit</string>
+    <string name="game_info">Peliohjeet</string>
+    <string name="app_logo_text">Sovelluksen logo</string>
+    <string name="turn">Vuoro: %s</string>
 
 
 </resources>

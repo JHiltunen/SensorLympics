@@ -1,6 +1,6 @@
 package com.jhiltunen.sensorlympics.pressuregame
 
-import android.util.Log
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -12,16 +12,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
-import com.jhiltunen.sensorlympics.*
+import com.jhiltunen.sensorlympics.CardStyle
+import com.jhiltunen.sensorlympics.MainActivity
 import com.jhiltunen.sensorlympics.R
+import com.jhiltunen.sensorlympics.SpaceBetweenColumn
 import com.jhiltunen.sensorlympics.rules.PressureRules
 import com.jhiltunen.sensorlympics.ui.theme.SensorLympicsTheme
 import kotlin.math.round
 
 
+@ExperimentalFoundationApi
 @Composable
 fun PressureApp() {
-
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Open))
 
     SensorLympicsTheme {
@@ -32,8 +34,7 @@ fun PressureApp() {
                     Card {
                         CardStyle {
                             SpaceBetweenColumn {
-                                //ShowPressureData(MainActivity.pressureViewModel)
-                                FeaturedCircularProgressIndicator(MainActivity.pressureViewModelProgress)
+                                PressurePointer(MainActivity.pressureViewModelProgress)
                             }
                         }
                     }
@@ -43,23 +44,16 @@ fun PressureApp() {
     }
 }
 
-/*@Composable
-fun ShowPressureData(pressureViewModel: PressureViewModel) {
-    val value by pressureViewModel.value.observeAsState()
-    Text(value ?: "", Modifier.padding(18.dp))
-}*/
-
 var begin = System.nanoTime()
 var end = System.nanoTime()
 
+@ExperimentalFoundationApi
 @Composable
-fun FeaturedCircularProgressIndicator(pressureViewModelProgress: PressureViewModelProgress) {
+fun PressurePointer(pressureViewModelProgress: PressureViewModelProgress) {
     val highScore by pressureViewModelProgress.highScore.observeAsState(0.0)
     val value by pressureViewModelProgress.value.observeAsState(0.0F)
     var valueMax by remember { mutableStateOf(0.0F) }
     var valueMin by remember { mutableStateOf(0.0F) }
-    //val valueMax by pressureViewModelProgress.valueMax.observeAsState(null)
-    //val valueMin by pressureViewModelProgress.valueMin.observeAsState(null)
 
     if (valueMax == 0.0F) {
         valueMax = value
@@ -74,19 +68,12 @@ fun FeaturedCircularProgressIndicator(pressureViewModelProgress: PressureViewMod
         valueMin = value
     }
 
-    val value3 = value.minus(valueMin).div((valueMax.minus(valueMin)))
-
     val difference = (valueMax.minus(valueMin).times(1000).let { round(it) }).toInt() + 1
-
-    val gameValue = (round(value.minus(900))).toInt()
 
     var winOrLose by remember { mutableStateOf(false) }
     var gameOver by remember { mutableStateOf(true) }
 
-    var score = 0.0
-
-    Log.i("PRESSURE", "?: $gameValue")
-    Log.i("PRESSURE", "??: $difference")
+    var score: Double
 
     Column(
         modifier = Modifier
@@ -100,24 +87,11 @@ fun FeaturedCircularProgressIndicator(pressureViewModelProgress: PressureViewMod
                     .fillMaxWidth(),
                 onClick = {
                     if (!winOrLose && gameOver) {
-
-                        // MainActivity.pressureViewModelProgress.updateValue(0.0F,0.0F,0.0F)
-                        /*
-                     value?.let {
-                         MainActivity.pressureViewModelProgress.updateValue(
-                             it,
-                             value!!, value!!
-                         )
-                     }
-                         */
-
                         valueMax = value
                         valueMin = value
 
-                        Log.i("PRESSURES", "??? $value")
                         winOrLose = true
                         begin = System.nanoTime()
-                        Log.i("PRESSURES", "?begin: $begin")
                         gameOver = false
                     } else {
                         winOrLose = false
@@ -134,7 +108,6 @@ fun FeaturedCircularProgressIndicator(pressureViewModelProgress: PressureViewMod
                     Text(stringResource(R.string.pressure_quit))
                 }
             }
-            //   Text(stringResource(R.string.currentMaxMin))
 
             if (!winOrLose) {
                 Text(
@@ -151,9 +124,6 @@ fun FeaturedCircularProgressIndicator(pressureViewModelProgress: PressureViewMod
                 } else if (difference > 180) {
                     val timeDifference = (end.minus(begin)).div(1000000000) + 0.3
                     score = (100 / timeDifference)
-
-                    Log.i("PRESSURES", "?end: $end")
-                    Log.i("PRESSURES", "?difference: $timeDifference")
 
                     Text(
                         "\uD83D\uDCA5",
@@ -173,54 +143,20 @@ fun FeaturedCircularProgressIndicator(pressureViewModelProgress: PressureViewMod
                         )
                     )
 
-                    Log.i("PRESSURES2", "??score: $score")
-                    Log.i("PRESSURES2", "??high score: $highScore")
-
                     if (score == highScore) {
-                        Text(stringResource(R.string.pressure_new_high))
+                        Text(stringResource(R.string.new_high_score))
                     }
+
                     pressureViewModelProgress.upDateScore(score)
 
                     gameOver = true
-                    //winOrLose = false
                 }
             }
-
-            //   Spacer(modifier = Modifier.height(7.dp))
-/*            LinearProgressIndicator(
-                progress = value3 ?: 0.4f,
-                modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxHeight(fraction = 0.15f),
-                color = Purple500,
-                backgroundColor = Color.Blue
-            )*/
-            // Spacer(modifier = Modifier.height(17.dp))
 
         } else {
             Text(text = stringResource(R.string.buy_new_phone))
         }
-/*
-        Card(
-            modifier = Modifier
-                .fillMaxWidth(),
-            elevation = 8.dp
-        ) {
-            Column(
-                modifier = Modifier
-                    .padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.SpaceEvenly
-            ) {
-                Text("Pressure: $value")
-                Spacer(modifier = Modifier.padding(4.dp))
-                Text("Max value: $valueMax")
-                Spacer(modifier = Modifier.padding(4.dp))
-                Text("Min Value: $valueMin")
-                Spacer(modifier = Modifier.padding(4.dp))
-                Text("Difference: $difference")
-            }
-        }*/
+
         Text(stringResource(R.string.pressure_high, highScore))
         PressureRules()
     }

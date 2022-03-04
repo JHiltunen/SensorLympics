@@ -8,6 +8,7 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.WindowInsets
@@ -18,33 +19,20 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.jhiltunen.sensorlympics.ballgame.BallGameViewModel
 import com.jhiltunen.sensorlympics.magnetgame.MagnetViewModel
 import com.jhiltunen.sensorlympics.magnetgame.chooseDirection
 import com.jhiltunen.sensorlympics.navigator.MainAppNav
-import com.jhiltunen.sensorlympics.olympicmap.MapViewModel
 import com.jhiltunen.sensorlympics.pressuregame.PressureViewModel
 import com.jhiltunen.sensorlympics.pressuregame.PressureViewModelProgress
 import com.jhiltunen.sensorlympics.ui.theme.SensorLympicsTheme
-import android.location.Location
-import android.os.Build
 import org.osmdroid.config.Configuration
 import org.osmdroid.library.BuildConfig
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 
-import androidx.compose.foundation.layout.*
-
-import androidx.compose.material.*
-import androidx.compose.runtime.*
-import com.jhiltunen.sensorlympics.olympicmap.*
-
-
-internal const val FILENAMEMAGNET = "magnetHighScore.txt"
-
-
+@ExperimentalFoundationApi
 class MainActivity : ComponentActivity(), SensorEventListener {
 
     companion object {
@@ -77,19 +65,14 @@ class MainActivity : ComponentActivity(), SensorEventListener {
     private lateinit var receiver: AirPlaneModeReceiver
 
 
-    @ExperimentalFoundationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         ballGameViewModel.setMaxValues(
-            getScreenDimensions(this)!![0].toFloat() - 200,
-            getScreenDimensions(this)!![1].toFloat() - 100
+            getScreenDimensions(this)[0].toFloat() - 200,
+            getScreenDimensions(this)[1].toFloat() - 100
         )
 
-        //val model = WikiViewModel()
-        val model = WeatherViewModel()
-
-        //Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this))
         Configuration.getInstance().userAgentValue = BuildConfig.APPLICATION_ID
 
         if ((ContextCompat.checkSelfPermission(
@@ -130,12 +113,12 @@ class MainActivity : ComponentActivity(), SensorEventListener {
                     color = MaterialTheme.colors.background
                 ) {
                     Column {
-                        MainAppNav(WeatherViewModel(), ballGameViewModel)
+                        MainAppNav()
                     }
                 }
             }
         }
-        //for airplanemode receiver
+        //for airplane mode receiver
         receiver = AirPlaneModeReceiver()
 
         IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED).also {
@@ -181,7 +164,8 @@ class MainActivity : ComponentActivity(), SensorEventListener {
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
 
-    private fun getScreenDimensions(activity: Activity): IntArray? {
+    @Suppress("DEPRECATION")
+    private fun getScreenDimensions(activity: Activity): IntArray {
         val dimensions = IntArray(2)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             val windowMetrics = activity.windowManager.currentWindowMetrics

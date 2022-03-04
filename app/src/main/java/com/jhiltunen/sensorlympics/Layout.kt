@@ -22,7 +22,7 @@ fun CardStyle(children: @Composable () -> Unit) {
 
 @Composable
 fun SpaceBetweenColumn(children: @Composable () -> Unit) {
-    Column (
+    Column(
         modifier = Modifier
             .padding(24.dp),
         verticalArrangement = Arrangement.SpaceBetween,

@@ -1,5 +1,6 @@
 package com.jhiltunen.sensorlympics.menu
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -15,7 +16,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.jhiltunen.sensorlympics.R
-import com.jhiltunen.sensorlympics.ballgame.BallGameViewModel
 import com.jhiltunen.sensorlympics.magnetgame.SensorMagnetApp
 import com.jhiltunen.sensorlympics.olympicmap.MapViewModel
 import com.jhiltunen.sensorlympics.olympicmap.ShowMap
@@ -27,6 +27,7 @@ import com.jhiltunen.sensorlympics.ui.views.BallGameView
 import com.jhiltunen.sensorlympics.ui.views.TicTacToeView
 import kotlinx.coroutines.launch
 
+@ExperimentalFoundationApi
 @Composable
 fun Menu(screen: DrawerAppScreen) {
 
@@ -106,6 +107,7 @@ fun getScreenBasedOnIndex(index: Int) = when (index) {
 }
 
 // Passed the corresponding screen composable based on the current screen that's active.
+@ExperimentalFoundationApi
 @Composable
 fun BodyContentComponent(
     currentScreen: DrawerAppScreen,
@@ -134,14 +136,18 @@ fun BodyContentComponent(
     }
 }
 
+@ExperimentalFoundationApi
 @Composable
 fun MagnetoGame(openDrawer: () -> Unit) {
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(
-            title = { Text(stringResource(R.string.title1)) },
+            title = { Text(stringResource(R.string.magneto_game)) },
             navigationIcon = {
                 IconButton(onClick = openDrawer) {
-                    Icon(imageVector = Icons.Filled.Menu, contentDescription = "Menu")
+                    Icon(
+                        imageVector = Icons.Filled.Menu,
+                        contentDescription = stringResource(id = R.string.menu)
+                    )
                 }
             }
         )
@@ -162,6 +168,7 @@ fun MagnetoGame(openDrawer: () -> Unit) {
     }
 }
 
+@ExperimentalFoundationApi
 @Composable
 fun PressureGame(openDrawer: () -> Unit) {
     Column(
@@ -170,10 +177,13 @@ fun PressureGame(openDrawer: () -> Unit) {
     )
     {
         TopAppBar(
-            title = { Text(stringResource(R.string.title2)) },
+            title = { Text(stringResource(R.string.pressure_game)) },
             navigationIcon = {
                 IconButton(onClick = openDrawer) {
-                    Icon(imageVector = Icons.Filled.Menu, contentDescription = "Menu")
+                    Icon(
+                        imageVector = Icons.Filled.Menu,
+                        contentDescription = stringResource(id = R.string.menu)
+                    )
                 }
             }
         )
@@ -203,10 +213,13 @@ fun TicTacToe(openDrawer: () -> Unit) {
     )
     {
         TopAppBar(
-            title = { Text(stringResource(R.string.title3)) },
+            title = { Text(stringResource(R.string.tictactoe_game)) },
             navigationIcon = {
                 IconButton(onClick = openDrawer) {
-                    Icon(imageVector = Icons.Filled.Menu, contentDescription = "Menu")
+                    Icon(
+                        imageVector = Icons.Filled.Menu,
+                        contentDescription = stringResource(id = R.string.menu)
+                    )
                 }
             }
         )
@@ -231,6 +244,7 @@ fun TicTacToe(openDrawer: () -> Unit) {
     }
 }
 
+@ExperimentalFoundationApi
 @Composable
 fun BallGame(openDrawer: () -> Unit) {
     Column(
@@ -239,10 +253,13 @@ fun BallGame(openDrawer: () -> Unit) {
     )
     {
         TopAppBar(
-            title = { Text(stringResource(R.string.title4)) },
+            title = { Text(stringResource(R.string.ball_game)) },
             navigationIcon = {
                 IconButton(onClick = openDrawer) {
-                    Icon(imageVector = Icons.Filled.Menu, contentDescription = "Menu")
+                    Icon(
+                        imageVector = Icons.Filled.Menu,
+                        contentDescription = stringResource(id = R.string.menu)
+                    )
                 }
             }
         )
@@ -269,10 +286,13 @@ fun Statistics(openDrawer: () -> Unit) {
     )
     {
         TopAppBar(
-            title = { Text(stringResource(R.string.title5)) },
+            title = { Text(stringResource(R.string.statistics)) },
             navigationIcon = {
                 IconButton(onClick = openDrawer) {
-                    Icon(imageVector = Icons.Filled.Menu, contentDescription = "Menu")
+                    Icon(
+                        imageVector = Icons.Filled.Menu,
+                        contentDescription = stringResource(id = R.string.menu)
+                    )
                 }
             }
         )
@@ -291,7 +311,7 @@ fun Statistics(openDrawer: () -> Unit) {
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
+@ExperimentalFoundationApi
 @Composable
 fun OlympicsCities(openDrawer: () -> Unit) {
     Column(
@@ -300,10 +320,13 @@ fun OlympicsCities(openDrawer: () -> Unit) {
     )
     {
         TopAppBar(
-            title = { Text(stringResource(id = R.string.title6)) },
+            title = { Text(stringResource(id = R.string.olympic_cities)) },
             navigationIcon = {
                 IconButton(onClick = openDrawer) {
-                    Icon(imageVector = Icons.Filled.Menu, contentDescription = "Menu")
+                    Icon(
+                        imageVector = Icons.Filled.Menu,
+                        contentDescription = stringResource(id = R.string.menu)
+                    )
                 }
             }
         )
@@ -326,7 +349,7 @@ fun OlympicsCities(openDrawer: () -> Unit) {
     }
 }
 
-enum class DrawerAppScreen {
+enum class DrawerAppScreen() {
     MagnetoGame,
     PressureGame,
     TicTacToe,

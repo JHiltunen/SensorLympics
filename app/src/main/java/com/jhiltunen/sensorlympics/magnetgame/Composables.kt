@@ -2,6 +2,7 @@ package com.jhiltunen.sensorlympics.magnetgame
 
 import android.content.Context
 import android.util.Log
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -15,13 +16,16 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.jhiltunen.sensorlympics.*
+import com.jhiltunen.sensorlympics.CardStyle
+import com.jhiltunen.sensorlympics.MainActivity
 import com.jhiltunen.sensorlympics.MainActivity.Companion.magnetViewModel
 import com.jhiltunen.sensorlympics.R
+import com.jhiltunen.sensorlympics.SpaceBetweenColumn
 import com.jhiltunen.sensorlympics.rules.MagnetoRules
 import com.jhiltunen.sensorlympics.ui.theme.SensorLympicsTheme
 
 
+@ExperimentalFoundationApi
 @Composable
 fun SensorMagnetApp(context: Context) {
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Open))
@@ -80,8 +84,7 @@ fun SensorMagnetApp(context: Context) {
                                     }
                                     Spacer(Modifier.height(15.dp))
                                     ShowWinOrLose(magnetViewModel)
-                                    //ShowSenorData(MainActivity.sensorViewModel)
-                                    FeaturedCircularProgressIndicator(magnetViewModel)
+                                    CompassPointer(magnetViewModel)
                                     Row(
                                         horizontalArrangement = Arrangement.SpaceBetween,
                                         verticalAlignment = Alignment.CenterVertically
@@ -132,7 +135,7 @@ fun ShowWinOrLose(magnetViewModel: MagnetViewModel) {
 }
 
 @Composable
-fun FeaturedCircularProgressIndicator(magnetViewModel: MagnetViewModel) {
+fun CompassPointer(magnetViewModel: MagnetViewModel) {
     val degree by magnetViewModel.degree.observeAsState()
     Card(
         modifier = Modifier
@@ -142,65 +145,21 @@ fun FeaturedCircularProgressIndicator(magnetViewModel: MagnetViewModel) {
         elevation = 8.dp
     ) {
         Column(
-            /*    modifier = Modifier
-                    .background(Color.Blue),*/
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly,
         ) {
-            // Text((stringResource(R.string.currentMaxMin)))
             Spacer(modifier = Modifier.height(7.dp))
             Image(
                 painter = painterResource(id = R.drawable.compass_2),
                 contentDescription = null,
                 modifier = Modifier
                     .rotate(degree ?: 0f)
-                    //.background(Color.Red)
                     .size(150.dp)
                     .clip(CircleShape)
             )
-            /*
-            Spacer(modifier = Modifier.height(7.dp))
-            Box (modifier = Modifier
-                .rotate(degree ?: 0f)
-                .background(Color.Red)
-                .size(50.dp))
-             */
             Spacer(modifier = Modifier.height(7.dp))
 
-            /*
-            CircularProgressIndicator(
-                progress = degree?.div(360) ?: 0.0f,
-                modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxWidth(0.25f),
-                color = Purple500,
-                strokeWidth = 5.dp
-            )
-             */
         }
     }
 }
-
-
-/*
-@Composable
-fun ShowSenorData(sensorViewModel: com.jhiltunen.sensorlympics.magnetgame.SensorViewModel) {
-   val value by sensorViewModel.value.observeAsState()
-   val xX by sensorViewModel.xX.observeAsState()
-   val yY by sensorViewModel.yY.observeAsState()
-   var angle = yY?.let { xX?.let { it1 -> atan2(it, it1) } }
-
-   var angleThe = (PI / 2)
-   Log.i("SENOR", value.toString())
-
-   Column(
-       horizontalAlignment = Alignment.CenterHorizontally,
-       verticalArrangement = Arrangement.SpaceEvenly,
-   ) {
-       Text(value ?: "", Modifier.padding(8.dp))
-       Spacer(modifier = Modifier.height(7.dp))
-       Text(xX.toString() ?: "", Modifier.padding(8.dp))
-   }
-}
-*/
 

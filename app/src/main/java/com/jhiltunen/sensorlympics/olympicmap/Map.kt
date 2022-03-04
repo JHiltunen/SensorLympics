@@ -43,25 +43,15 @@ fun composeMap(): MapView {
 fun ShowMap(mapViewModel: MapViewModel, context: Context, model: WeatherViewModel) {
     val map = composeMap()
     val totalhits: Double? by model.changeNotifier.observeAsState(0.0)
-    //val totalhits: Int? by model.changeNotifier.observeAsState(0)
-    var checker by remember { mutableStateOf(totalhits)}
     var cityName by remember { mutableStateOf("") }
-    // hard coded zoom level and map center only at start
-    var mapInitialized by remember(map) { mutableStateOf(false) }
+    val mapInitialized by remember(map) { mutableStateOf(false) }
     val address by mapViewModel.mapData.observeAsState()
-    //val centerUser by remember { mutableStateOf(false) }
-    val safetyPoint: GeoPoint = GeoPoint(60.24104, 24.73840)
-    val safetyPoint2: GeoPoint = GeoPoint(0.24104, 4.73840)
-    //val jotain = addressGetter3(safetyPoint.latitude, safetyPoint.longitude)
-    val olympics = " olympic games"
 
     if (!mapInitialized) {
         map.setTileSource(TileSourceFactory.MAPNIK)
         map.controller.setZoom(4.5)
-        //map.controller.setCenter(GeoPoint(60.166640739, 24.943536799))
-        map.controller.setCenter(GeoPoint(address?.geoPoint ?: safetyPoint))
+        map.controller.setCenter(GeoPoint(60.166640739, 24.943536799))
     }
-    // observer (e.g. update from the location change listener)
 
     Card {
         CardStyle {
@@ -81,16 +71,6 @@ fun ShowMap(mapViewModel: MapViewModel, context: Context, model: WeatherViewMode
                         CompassOverlay(context, InternalCompassOrientationProvider(context), map)
                     mCompassOverlay.enableCompass()
 
-                /*
-                val myLocationOverlay = MyLocationNewOverlay(GpsMyLocationProvider(context), map)
-                myLocationOverlay.enableMyLocation()
-                 */
-                /*
-                val minimapOverlay = MinimapOverlay(context, map.tileRequestCompleteHandler)
-                minimapOverlay.width = dm.widthPixels / 5
-                minimapOverlay.height = dm.heightPixels / 5
-                 */
-
                     val scaleBarOverlay = ScaleBarOverlay(map)
                     scaleBarOverlay.setCentred(true)
                     scaleBarOverlay.setScaleBarOffset(dm.widthPixels / 2, 20)
@@ -100,18 +80,13 @@ fun ShowMap(mapViewModel: MapViewModel, context: Context, model: WeatherViewMode
                     map.overlays.add(mCompassOverlay)
                     map.overlays.add(scaleBarOverlay)
 
-
-
-
-                    cities.forEach { it ->
+                    cities.forEach {
                         val cityMarker = Marker(map)
                         cityMarker.setOnMarkerClickListener { _, _ ->
                             if (cityMarker.isInfoWindowShown) {
                                 cityMarker.closeInfoWindow()
                             } else {
-                                val jorma = (it.city)
-                                model.getHits(jorma)
-                                checker = totalhits
+                                model.getHits(it.city)
                                 cityName = it.city
                                 cityMarker.closeInfoWindow()
                             }
