@@ -18,22 +18,22 @@ class LocationHandler(private var context: Context, var mapViewModel: MapViewMod
     private lateinit var locationCallback: LocationCallback
 
     private var _startLocation: MutableLiveData<Location> = MutableLiveData()
-    val startLocation: LiveData<Location> = _startLocation
+   // val startLocation: LiveData<Location> = _startLocation
 
     private var _currentLocation: MutableLiveData<Location> = MutableLiveData()
     val currentLocation: LiveData<Location> = _currentLocation
 
     private var _lastKnownLocation: MutableLiveData<Location> = MutableLiveData()
-    val lastKnownLocation: LiveData<Location> = _lastKnownLocation
+   // val lastKnownLocation: LiveData<Location> = _lastKnownLocation
 
     private var _currentSpeed: MutableLiveData<Float> = MutableLiveData()
-    val currentSpeed: LiveData<Float> = _currentSpeed
+   // val currentSpeed: LiveData<Float> = _currentSpeed
 
     private var _topSpeed: MutableLiveData<Float> = MutableLiveData()
-    val topSpeed: LiveData<Float> = _topSpeed
+   // val topSpeed: LiveData<Float> = _topSpeed
 
     private var _totalWalkedDistance: MutableLiveData<Float> = MutableLiveData(0f)
-    val totalWalkedDistance: LiveData<Float> = _totalWalkedDistance
+  //  val totalWalkedDistance: LiveData<Float> = _totalWalkedDistance
 
 
     fun getStartLocation() {
@@ -126,7 +126,7 @@ class LocationHandler(private var context: Context, var mapViewModel: MapViewMod
     }
 
     fun stopTracking() {
-        val removeLocationUpdates = fusedLocationClient.removeLocationUpdates(locationCallback)
+       // val removeLocationUpdates = fusedLocationClient.removeLocationUpdates(locationCallback)
         _currentSpeed.postValue(0.0f)
         _totalWalkedDistance.postValue(0.0f)
     }

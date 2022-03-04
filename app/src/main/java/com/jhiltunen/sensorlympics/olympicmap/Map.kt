@@ -5,6 +5,9 @@ import android.content.Context
 import android.util.DisplayMetrics
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -13,12 +16,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import com.jhiltunen.sensorlympics.CardStyle
 import com.jhiltunen.sensorlympics.R
 import com.jhiltunen.sensorlympics.olympicmap.GlobalModel.cities
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
+import org.osmdroid.views.overlay.OverlayItem
+import org.osmdroid.views.overlay.ScaleBarOverlay
+import org.osmdroid.views.overlay.Marker
+import org.osmdroid.views.overlay.MinimapOverlay
 import org.osmdroid.views.overlay.OverlayItem
 import org.osmdroid.views.overlay.ScaleBarOverlay
 import org.osmdroid.views.overlay.compass.CompassOverlay
@@ -49,46 +57,39 @@ fun ShowMap(
     var checker by remember { mutableStateOf(totalhits) }
     var cityName by remember { mutableStateOf("") }
     // hard coded zoom level and map center only at start
-    var mapInitialized by remember(map) { mutableStateOf(false) }
+    val mapInitialized by remember(map) { mutableStateOf(false) }
     val address by mapViewModel.mapData.observeAsState()
-    var centerUser by remember { mutableStateOf(false) }
-    val safetyPoint: GeoPoint = GeoPoint(60.24104, 24.73840)
-    val safetyPoint2: GeoPoint = GeoPoint(0.24104, 4.73840)
+    val centerUser by remember { mutableStateOf(false) }
+    val safetyPoint = GeoPoint(60.24104, 24.73840)
+    // val safetyPoint2 = GeoPoint(0.24104, 4.73840)
     val jotain = addressGetter3(safetyPoint.latitude, safetyPoint.longitude)
     val olympics = " olympic games"
 
     if (!mapInitialized) {
         map.setTileSource(TileSourceFactory.MAPNIK)
         map.controller.setZoom(2.5)
-        mapInitialized = true
         //map.controller.setCenter(GeoPoint(60.166640739, 24.943536799))
         map.controller.setCenter(GeoPoint(address?.geoPoint ?: safetyPoint))
     }
     // observer (e.g. update from the location change listener)
 
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight(0.75f)
-            .padding(8.dp),
-        elevation = 10.dp,
+    Card {
+        CardStyle {
+            Column {
+                Spacer(modifier = Modifier.height(4.dp))
+                if (totalhits!! > 0) {
+                    Text(totalhits.toString())
+                    Text(cityName)
+                }
 
-        ) {
-        Column {
-            Spacer(modifier = Modifier.height(4.dp))
-            if (totalhits!! > 0) {
-                Text(totalhits.toString())
-                Text(cityName)
-            }
+                Spacer(modifier = Modifier.height(4.dp))
+                AndroidView({ map }) {
+                    address ?: return@AndroidView
+                    val dm: DisplayMetrics = context.resources.displayMetrics
 
-            Spacer(modifier = Modifier.height(4.dp))
-            AndroidView({ map }) {
-                address ?: return@AndroidView
-                val dm: DisplayMetrics = context.resources.displayMetrics
-
-                val mCompassOverlay =
-                    CompassOverlay(context, InternalCompassOrientationProvider(context), map)
-                mCompassOverlay.enableCompass()
+                    val mCompassOverlay =
+                        CompassOverlay(context, InternalCompassOrientationProvider(context), map)
+                    mCompassOverlay.enableCompass()
 
 
                 val scaleBarOverlay = ScaleBarOverlay(map)
@@ -96,23 +97,14 @@ fun ShowMap(
                 scaleBarOverlay.setScaleBarOffset(dm.widthPixels / 2, 20)
 
 
-                //it.controller.setCenter(address?.geoPoint)
-                if (centerUser) {
-                    it.controller.setCenter(address?.geoPoint)
-                }
+                    //it.controller.setCenter(address?.geoPoint)
+                    if (centerUser) {
+                        it.controller.setCenter(address?.geoPoint)
+                    }
 
                 map.overlays.add(mCompassOverlay)
                 map.overlays.add(scaleBarOverlay)
 
-
-                val items = ArrayList<OverlayItem>()
-                items.add(
-                    OverlayItem(
-                        "Vantaa",
-                        "K",
-                        GeoPoint(80.0, 50.0)
-                    )
-                )
 
 
 
@@ -134,15 +126,14 @@ fun ShowMap(
                     cityMarker.position.latitude = it.latiTude
                     cityMarker.position.longitude = it.longiTude
 
-                    cityMarker.title = it.city
-                    map.overlays.add(cityMarker)
-                    map.invalidate()
+                        cityMarker.title = it.city
+                        map.overlays.add(cityMarker)
+                        map.invalidate()
+                    }
                 }
             }
         }
     }
-
-
 }
 
 class OlympicCity(
@@ -198,8 +189,6 @@ object GlobalModel {
         cities.add(OlympicCity("Tokyo", 35.68493924198597, 139.76801835246332))
         cities.add(OlympicCity("Turin", 45.06903836909705, 7.678346927901791))
         cities.add(OlympicCity("Vancouver", 49.29438458373852, -123.10949023081135))
-
-
 
         cities.sortByDescending { it.city }
     }

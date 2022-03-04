@@ -12,8 +12,8 @@ import com.jhiltunen.sensorlympics.tictactoe.TicTacToeViewModel
 @Composable
 // Game 3
 fun TicTacToeView(ticTacToeViewModel: TicTacToeViewModel) {
-    var turn = ticTacToeViewModel.turn.observeAsState()
-    var gameIsOn = ticTacToeViewModel.gameIsOn.observeAsState()
+    val turn = ticTacToeViewModel.turn.observeAsState()
+    val gameIsOn = ticTacToeViewModel.gameIsOn.observeAsState()
     Text(text = "Turn ${turn.value}")
 
     Row(horizontalArrangement = Arrangement.SpaceBetween) {

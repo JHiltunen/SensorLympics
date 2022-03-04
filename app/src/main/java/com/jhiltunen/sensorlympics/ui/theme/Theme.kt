@@ -10,14 +10,16 @@ private val DarkColorPalette = darkColors(
     primary = Purple200,
     primaryVariant = Purple700,
     secondary = Teal200,
-   // surface = SpanishGreen
+    // surface = SpanishGreen
 )
 
 private val LightColorPalette = lightColors(
-    primary = Purple500,
+    primary = YellowRed,
+    onPrimary = RichBlack,
     primaryVariant = Purple700,
-    secondary = SpanishGreen,
-   // surface = BrightYellow
+    secondary = RedCrayola,
+    surface = Ivory,
+    onSurface = RichBlack,
 
 
     /* Other default colors to override

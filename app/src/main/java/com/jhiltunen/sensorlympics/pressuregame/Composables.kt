@@ -1,17 +1,20 @@
 package com.jhiltunen.sensorlympics.pressuregame
 
 import android.util.Log
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.jhiltunen.sensorlympics.MainActivity
+import com.jhiltunen.sensorlympics.*
 import com.jhiltunen.sensorlympics.R
+import com.jhiltunen.sensorlympics.rules.PressureRules
 import com.jhiltunen.sensorlympics.ui.theme.SensorLympicsTheme
 import kotlin.math.round
 
@@ -26,20 +29,12 @@ fun PressureApp() {
             scaffoldState = scaffoldState,
             content = {
                 Surface(color = MaterialTheme.colors.background) {
-                    Card(
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .fillMaxWidth()
-                            .fillMaxHeight(),
-                        elevation = 10.dp,
-                    ) {
-                        Column(
-                            modifier = Modifier.padding(24.dp),
-                            verticalArrangement = Arrangement.SpaceBetween,
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                        ) {
-                            //ShowPressureData(MainActivity.pressureViewModel)
-                            FeaturedCircularProgressIndicator(MainActivity.pressureViewModelProgress)
+                    Card {
+                        CardStyle {
+                            SpaceBetweenColumn {
+                                //ShowPressureData(MainActivity.pressureViewModel)
+                                FeaturedCircularProgressIndicator(MainActivity.pressureViewModelProgress)
+                            }
                         }
                     }
                 }
@@ -227,6 +222,7 @@ fun FeaturedCircularProgressIndicator(pressureViewModelProgress: PressureViewMod
             }
         }*/
         Text(stringResource(R.string.pressure_high, highScore))
+        PressureRules()
     }
 }
 
