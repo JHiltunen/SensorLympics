@@ -8,6 +8,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -56,7 +57,6 @@ fun ShowMap(mapViewModel: MapViewModel, context: Context, model: WeatherViewMode
         map.controller.setZoom(4.5)
         map.controller.setCenter(GeoPoint(60.166640739, 24.943536799))
     }
-    Log.i("AIRO", "$airplane")
     Card {
         CardStyle {
             Column {
@@ -66,7 +66,6 @@ fun ShowMap(mapViewModel: MapViewModel, context: Context, model: WeatherViewMode
                         Text(totalhits.toString())
                         Text(cityName)
                     }
-
                     Spacer(modifier = Modifier.height(4.dp))
                     AndroidView({ map }) {
                         address ?: return@AndroidView
@@ -107,9 +106,12 @@ fun ShowMap(mapViewModel: MapViewModel, context: Context, model: WeatherViewMode
                         }
                     }
                 } else {
-                    Text(stringResource(R.string.map_not))
+                    Spacer(modifier = Modifier.height(40.dp))
+                    Text(stringResource(R.string.map_not),
+                            modifier = Modifier
+                                .padding(15.dp)
+                    )
                 }
-
             }
         }
     }

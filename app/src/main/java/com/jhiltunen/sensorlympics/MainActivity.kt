@@ -143,12 +143,12 @@ class MainActivity : ComponentActivity(), SensorEventListener {
         }
     }
 
-     fun isAirplaneModeOn(context: Context): Boolean {
+     private fun isAirplaneModeOn(context: Context): Boolean {
         return Settings.System.getInt(
             context.getContentResolver(),
             Settings.Global.AIRPLANE_MODE_ON,
             0
-        ) !== 0
+        ) != 0
     }
 
     override fun onResume() {
