@@ -342,7 +342,6 @@ fun OlympicsCities(openDrawer: () -> Unit) {
                         mapViewModel = MapViewModel(),
                         context = LocalContext.current,
                         model = WeatherViewModel(),
-                        receiverViewModel = ReceiverViewModel(),
                     )
                 }
             )

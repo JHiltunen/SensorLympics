@@ -19,10 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.jhiltunen.sensorlympics.CardStyle
 import com.jhiltunen.sensorlympics.MainActivity
-import com.jhiltunen.sensorlympics.MainActivity.Companion.receiverViewModel
 import com.jhiltunen.sensorlympics.R
 import com.jhiltunen.sensorlympics.utils.GlobalModel.cities
-import com.jhiltunen.sensorlympics.viewmodels.ReceiverViewModel
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
@@ -45,7 +43,7 @@ fun composeMap(): MapView {
 
 @ExperimentalFoundationApi
 @Composable
-fun ShowMap(mapViewModel: MapViewModel, context: Context, model: WeatherViewModel, receiverViewModel: ReceiverViewModel) {
+fun ShowMap(mapViewModel: MapViewModel, context: Context, model: WeatherViewModel) {
     val map = composeMap()
     val totalhits: Double? by model.changeNotifier.observeAsState(0.0)
     var cityName by remember { mutableStateOf("") }

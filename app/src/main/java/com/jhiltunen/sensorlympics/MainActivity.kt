@@ -137,10 +137,8 @@ class MainActivity : ComponentActivity(), SensorEventListener {
 
     private fun checkAirplaneMode() {
         if (isAirplaneModeOn(applicationContext)) {
-            Log.i("AIRO", "PÄÄLLÄ ON")
             receiverViewModel.updateAirplane(true)
         } else {
-            Log.i("AIRO", "EI OO PÄÄLLÄ")
             receiverViewModel.updateAirplane(false)
         }
     }
