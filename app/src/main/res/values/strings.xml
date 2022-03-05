@@ -38,5 +38,6 @@
     <string name="game_info">Game Info</string>
     <string name="ok_btn" translatable="false">Ok</string>
     <string name="turn">Turn: %s</string>
+    <string name="map_not">Unfortunately map is not visible in airplane mode!</string>
 
 </resources>

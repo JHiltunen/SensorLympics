@@ -24,6 +24,7 @@ import com.jhiltunen.sensorlympics.ui.views.BallGameView
 import com.jhiltunen.sensorlympics.ui.views.PressureApp
 import com.jhiltunen.sensorlympics.ui.views.SensorMagnetApp
 import com.jhiltunen.sensorlympics.ui.views.TicTacToeView
+import com.jhiltunen.sensorlympics.viewmodels.ReceiverViewModel
 import kotlinx.coroutines.launch
 
 @ExperimentalFoundationApi
@@ -340,7 +341,8 @@ fun OlympicsCities(openDrawer: () -> Unit) {
                     ShowMap(
                         mapViewModel = MapViewModel(),
                         context = LocalContext.current,
-                        model = WeatherViewModel()
+                        model = WeatherViewModel(),
+                        receiverViewModel = ReceiverViewModel(),
                     )
                 }
             )

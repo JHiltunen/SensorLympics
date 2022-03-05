@@ -32,6 +32,7 @@
     <string name="game_info">Peliohjeet</string>
     <string name="app_logo_text">Sovelluksen logo</string>
     <string name="turn">Vuoro: %s</string>
+    <string name="map_not">Valitse kartta ei näy lentokonetilassa!</string>
 
 
 </resources>

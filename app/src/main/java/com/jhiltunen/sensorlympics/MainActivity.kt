@@ -1,6 +1,7 @@
 package com.jhiltunen.sensorlympics
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
@@ -10,8 +11,11 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.WindowInsets
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -22,14 +26,15 @@ import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.jhiltunen.sensorlympics.viewmodels.BallGameViewModel
-import com.jhiltunen.sensorlympics.viewmodels.MagnetViewModel
 import com.jhiltunen.sensorlympics.magnetgame.chooseDirection
 import com.jhiltunen.sensorlympics.navigator.MainAppNav
 import com.jhiltunen.sensorlympics.pressuregame.PressureViewModel
 import com.jhiltunen.sensorlympics.pressuregame.PressureViewModelProgress
 import com.jhiltunen.sensorlympics.receivers.AirPlaneModeReceiver
 import com.jhiltunen.sensorlympics.ui.theme.SensorLympicsTheme
+import com.jhiltunen.sensorlympics.viewmodels.BallGameViewModel
+import com.jhiltunen.sensorlympics.viewmodels.MagnetViewModel
+import com.jhiltunen.sensorlympics.viewmodels.ReceiverViewModel
 import org.osmdroid.config.Configuration
 import org.osmdroid.library.BuildConfig
 
@@ -41,6 +46,7 @@ class MainActivity : ComponentActivity(), SensorEventListener {
         val pressureViewModel = PressureViewModel()
         val pressureViewModelProgress = PressureViewModelProgress()
         val ballGameViewModel = BallGameViewModel()
+        val receiverViewModel = ReceiverViewModel()
         var pressureSensorExists = true
         var magnetometerSensorExists = true
         var accelerometerSensorExists = true
@@ -125,7 +131,26 @@ class MainActivity : ComponentActivity(), SensorEventListener {
         IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED).also {
             registerReceiver(receiver, it)
         }
+        checkAirplaneMode()
 
+    }
+
+    private fun checkAirplaneMode() {
+        if (isAirplaneModeOn(applicationContext)) {
+            Log.i("AIRO", "PÄÄLLÄ ON")
+            receiverViewModel.updateAirplane(true)
+        } else {
+            Log.i("AIRO", "EI OO PÄÄLLÄ")
+            receiverViewModel.updateAirplane(false)
+        }
+    }
+
+     fun isAirplaneModeOn(context: Context): Boolean {
+        return Settings.System.getInt(
+            context.getContentResolver(),
+            Settings.Global.AIRPLANE_MODE_ON,
+            0
+        ) !== 0
     }
 
     override fun onResume() {
