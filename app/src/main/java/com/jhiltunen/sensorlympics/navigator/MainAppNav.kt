@@ -42,10 +42,11 @@ fun MainAppNav() {
                     ) {
                         Text(text = stringResource(id = R.string.app_name), fontSize = 40.sp)
                         Image(
-                            painter = painterResource(R.drawable.rings),
+                            painter = painterResource(R.drawable.olympic_rings_1_2),
                             contentDescription = stringResource(R.string.app_logo_text),
                             modifier = Modifier
                                 .clip(CutCornerShape(10.dp))
+
                         )
                         Column(
                             modifier = Modifier
