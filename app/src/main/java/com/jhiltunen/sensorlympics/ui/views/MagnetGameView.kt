@@ -92,7 +92,8 @@ fun SensorMagnetApp(context: Context) {
                                         horizontalArrangement = Arrangement.SpaceBetween,
                                         verticalAlignment = Alignment.CenterVertically
                                     ) {
-                                        Text(stringResource(R.string.pressure_high, highScore ?: 0))
+                                        Text(stringResource(R.string.pressure_high, highScore?.toInt()
+                                            ?: 0))
                                         MagnetoRules()
                                     }
                                 }
@@ -129,7 +130,7 @@ fun ShowWinOrLose(magnetViewModel: MagnetViewModel) {
             0 -> Text(stringResource(R.string.result_not_yet), Modifier.padding(8.dp))
             1 -> Text(stringResource(R.string.result_bad), Modifier.padding(8.dp))
             2 -> Text(
-                stringResource(R.string.result_good, direction, score ?: 0),
+                stringResource(R.string.result_good, direction, score?.toInt() ?: 0),
                 Modifier.padding(8.dp)
             )
         }

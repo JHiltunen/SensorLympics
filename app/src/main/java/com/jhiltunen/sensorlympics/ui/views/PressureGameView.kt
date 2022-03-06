@@ -146,7 +146,7 @@ fun PressurePointer(pressureViewModelProgress: PressureViewModelProgress) {
                     Text(
                         stringResource(
                             R.string.pressure_score,
-                            score
+                            score.toInt()
                         )
                     )
 
@@ -164,7 +164,7 @@ fun PressurePointer(pressureViewModelProgress: PressureViewModelProgress) {
             Text(text = stringResource(R.string.buy_new_phone))
         }
 
-        Text(stringResource(R.string.pressure_high, highScore))
+        Text(stringResource(R.string.pressure_high, highScore.toInt()))
         PressureRules()
     }
 }
