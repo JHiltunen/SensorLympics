@@ -22,6 +22,7 @@ import com.jhiltunen.sensorlympics.CardStyle
 import com.jhiltunen.sensorlympics.MainActivity
 import com.jhiltunen.sensorlympics.R
 import com.jhiltunen.sensorlympics.utils.GlobalModel.cities
+import com.jhiltunen.sensorlympics.utils.isOnline
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
@@ -60,10 +61,10 @@ fun ShowMap(mapViewModel: MapViewModel, context: Context, model: WeatherViewMode
     Card {
         CardStyle {
             Column {
-                if (!airplane!!) {
+                if (!airplane!! && isOnline(context)) {
                     Spacer(modifier = Modifier.height(4.dp))
                     if (totalhits!! > 0) {
-                        Text(totalhits.toString())
+                        Text((totalhits!! - 273.15).toInt().toString())
                         Text(cityName)
                     }
                     Spacer(modifier = Modifier.height(4.dp))
