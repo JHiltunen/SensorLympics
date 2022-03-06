@@ -11,27 +11,25 @@ import com.jhiltunen.sensorlympics.R
 
 
 class MusicService : Service() {
-    var myPlayer: MediaPlayer? = null
+    private var poriPlayer: MediaPlayer? = null
     @Nullable
     override fun onBind(intent: Intent?): IBinder? {
         return null
     }
 
     override fun onCreate() {
-        Toast.makeText(this, "Service Created", Toast.LENGTH_LONG).show()
-        myPlayer = MediaPlayer.create(this, R.raw.porilaisten)
-
-        myPlayer!!.isLooping = false // Set looping
+        poriPlayer = MediaPlayer.create(this, R.raw.porilaisten)
+        poriPlayer!!.isLooping = false
     }
 
     override fun onStart(intent: Intent?, startid: Int) {
-        Toast.makeText(this, "Service Started", Toast.LENGTH_LONG).show()
-        myPlayer!!.start()
+        Toast.makeText(this, getString(R.string.service_started), Toast.LENGTH_SHORT).show()
+        poriPlayer!!.start()
     }
 
     override fun onDestroy() {
-        Toast.makeText(this, "Service Stopped", Toast.LENGTH_LONG).show()
-        myPlayer!!.stop()
+        Toast.makeText(this, getString(R.string.service_stopped), Toast.LENGTH_SHORT).show()
+        poriPlayer!!.stop()
     }
 }
 

@@ -39,5 +39,8 @@
     <string name="ok_btn" translatable="false">Ok</string>
     <string name="turn">Turn: %s</string>
     <string name="map_not">Unfortunately map is not visible in airplane mode!</string>
+    <string name="service_create">Music service created</string>
+    <string name="service_started">Music service started</string>
+    <string name="service_stopped">Music service stopped</string>
 
 </resources>

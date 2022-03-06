@@ -33,6 +33,9 @@
     <string name="app_logo_text">Sovelluksen logo</string>
     <string name="turn">Vuoro: %s</string>
     <string name="map_not">Valitse kartta ei näy lentokonetilassa!</string>
+    <string name="service_create">Musiikkipalvelu luotu</string>
+    <string name="service_started">Musiikkipalvelu luotu</string>
+    <string name="service_stopped">Musiikkipalvelu lopetettu</string>
 
 
 </resources>

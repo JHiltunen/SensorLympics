@@ -13,16 +13,19 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.WindowInsets
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -31,6 +34,7 @@ import com.jhiltunen.sensorlympics.navigator.MainAppNav
 import com.jhiltunen.sensorlympics.pressuregame.PressureViewModel
 import com.jhiltunen.sensorlympics.pressuregame.PressureViewModelProgress
 import com.jhiltunen.sensorlympics.receivers.AirPlaneModeReceiver
+import com.jhiltunen.sensorlympics.services.MusicService
 import com.jhiltunen.sensorlympics.ui.theme.SensorLympicsTheme
 import com.jhiltunen.sensorlympics.viewmodels.BallGameViewModel
 import com.jhiltunen.sensorlympics.viewmodels.MagnetViewModel
@@ -69,7 +73,6 @@ class MainActivity : ComponentActivity(), SensorEventListener {
     private var lastMagnetometerSet = false
 
     private lateinit var receiver: AirPlaneModeReceiver
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -113,12 +116,36 @@ class MainActivity : ComponentActivity(), SensorEventListener {
         chooseDirection()
 
         setContent {
+            var musicPori by remember { mutableStateOf(false) }
             SensorLympicsTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Column {
+                    Column(
+                        modifier = Modifier
+                            .clickable(onClick = {
+                                if (!musicPori) {
+                                    startService(
+                                        Intent(
+                                            applicationContext,
+                                            MusicService::class.java
+                                        )
+                                    )
+                                    musicPori = true
+                                } else {
+                                    stopService(
+                                        Intent(
+                                            applicationContext,
+                                            MusicService::class.java
+                                        )
+                                    )
+                                    musicPori = false
+                                }
+
+                            })
+                    )
+                    {
                         MainAppNav()
                     }
                 }
@@ -142,9 +169,9 @@ class MainActivity : ComponentActivity(), SensorEventListener {
         }
     }
 
-     private fun isAirplaneModeOn(context: Context): Boolean {
+    private fun isAirplaneModeOn(context: Context): Boolean {
         return Settings.System.getInt(
-            context.getContentResolver(),
+            context.contentResolver,
             Settings.Global.AIRPLANE_MODE_ON,
             0
         ) != 0

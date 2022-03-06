@@ -1,5 +1,6 @@
 package com.jhiltunen.sensorlympics.navigator
 
+import android.content.Intent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -22,6 +23,7 @@ import com.jhiltunen.sensorlympics.CardStyle
 import com.jhiltunen.sensorlympics.R
 import com.jhiltunen.sensorlympics.menu.DrawerAppScreen
 import com.jhiltunen.sensorlympics.menu.Menu
+import com.jhiltunen.sensorlympics.services.MusicService
 import com.jhiltunen.sensorlympics.ui.theme.Black
 import com.jhiltunen.sensorlympics.ui.theme.RichBlack
 
@@ -48,10 +50,6 @@ fun MainAppNav() {
                             contentDescription = stringResource(R.string.app_logo_text),
                             modifier = Modifier
                                 .clip(CutCornerShape(10.dp))
-                                .clickable(
-                                    onClick = {
-                                    }
-                                )
                         )
                         Column(
                             modifier = Modifier
