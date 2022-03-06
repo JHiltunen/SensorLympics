@@ -40,7 +40,6 @@ import org.osmdroid.library.BuildConfig
 
 @ExperimentalFoundationApi
 class MainActivity : ComponentActivity(), SensorEventListener {
-
     companion object {
         val magnetViewModel = MagnetViewModel()
         val pressureViewModel = PressureViewModel()
