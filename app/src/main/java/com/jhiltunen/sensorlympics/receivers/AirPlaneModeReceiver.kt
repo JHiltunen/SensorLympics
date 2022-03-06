@@ -7,11 +7,10 @@ import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import com.jhiltunen.sensorlympics.MainActivity
 import com.jhiltunen.sensorlympics.R
-import com.jhiltunen.sensorlympics.viewmodels.ReceiverViewModel
 
 //adapted from  https://instagram.com/philipplackner_...
-
 class AirPlaneModeReceiver : BroadcastReceiver() {
+
     @OptIn(ExperimentalFoundationApi::class)
     override fun onReceive(context: Context?, intent: Intent?) {
         val isAirPlaneModeEnabled = intent?.getBooleanExtra("state", false) ?: return

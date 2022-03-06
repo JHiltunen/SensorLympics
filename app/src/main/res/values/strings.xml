@@ -42,5 +42,8 @@
     <string name="service_create">Music service created</string>
     <string name="service_started">Music service started</string>
     <string name="service_stopped">Music service stopped</string>
+    <string name="noti_1_title">Music:</string>
+    <string name="noti_1_message">On</string>
+    <string name="noti_2">Off</string>
 
 </resources>

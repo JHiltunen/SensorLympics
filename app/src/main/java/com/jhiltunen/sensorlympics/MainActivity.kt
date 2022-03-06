@@ -22,11 +22,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.jhiltunen.sensorlympics.magnetgame.chooseDirection
@@ -36,6 +35,8 @@ import com.jhiltunen.sensorlympics.pressuregame.PressureViewModelProgress
 import com.jhiltunen.sensorlympics.receivers.AirPlaneModeReceiver
 import com.jhiltunen.sensorlympics.services.MusicService
 import com.jhiltunen.sensorlympics.ui.theme.SensorLympicsTheme
+import com.jhiltunen.sensorlympics.utils.basicNotificationTapAction
+import com.jhiltunen.sensorlympics.utils.createNotificationChannel
 import com.jhiltunen.sensorlympics.viewmodels.BallGameViewModel
 import com.jhiltunen.sensorlympics.viewmodels.MagnetViewModel
 import com.jhiltunen.sensorlympics.viewmodels.ReceiverViewModel
@@ -117,6 +118,17 @@ class MainActivity : ComponentActivity(), SensorEventListener {
 
         setContent {
             var musicPori by remember { mutableStateOf(false) }
+            val context = LocalContext.current
+            val notificationT = stringResource(R.string.noti_1_title)
+            val notificationM = stringResource(R.string.noti_1_message)
+            val notificationM2 = stringResource(R.string.noti_2)
+
+            val channelId = "Spock"
+            val notificationId = 0
+
+            LaunchedEffect(Unit) {
+                createNotificationChannel(channelId, context)
+            }
             SensorLympicsTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -132,6 +144,13 @@ class MainActivity : ComponentActivity(), SensorEventListener {
                                             MusicService::class.java
                                         )
                                     )
+                                    basicNotificationTapAction(
+                                        context,
+                                        channelId,
+                                        notificationId,
+                                        notificationT,
+                                        notificationM
+                                    )
                                     musicPori = true
                                 } else {
                                     stopService(
@@ -140,9 +159,15 @@ class MainActivity : ComponentActivity(), SensorEventListener {
                                             MusicService::class.java
                                         )
                                     )
+                                    basicNotificationTapAction(
+                                        context,
+                                        channelId,
+                                        notificationId,
+                                        notificationT,
+                                        notificationM2
+                                    )
                                     musicPori = false
                                 }
-
                             })
                     )
                     {
@@ -153,12 +178,10 @@ class MainActivity : ComponentActivity(), SensorEventListener {
         }
         //for airplane mode receiver
         receiver = AirPlaneModeReceiver()
-
         IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED).also {
             registerReceiver(receiver, it)
         }
         checkAirplaneMode()
-
     }
 
     private fun checkAirplaneMode() {

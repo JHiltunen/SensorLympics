@@ -5,7 +5,6 @@ import android.app.Service
 import android.content.Intent
 import android.media.MediaPlayer
 import android.os.IBinder
-import android.widget.Toast
 import androidx.annotation.Nullable
 import com.jhiltunen.sensorlympics.R
 
@@ -23,12 +22,12 @@ class MusicService : Service() {
     }
 
     override fun onStart(intent: Intent?, startid: Int) {
-        Toast.makeText(this, getString(R.string.service_started), Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this, getString(R.string.service_started), Toast.LENGTH_SHORT).show()
         poriPlayer!!.start()
     }
 
     override fun onDestroy() {
-        Toast.makeText(this, getString(R.string.service_stopped), Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this, getString(R.string.service_stopped), Toast.LENGTH_SHORT).show()
         poriPlayer!!.stop()
     }
 }
