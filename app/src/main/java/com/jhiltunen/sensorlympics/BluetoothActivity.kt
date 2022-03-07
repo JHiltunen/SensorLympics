@@ -193,6 +193,16 @@ class BluetoothActivity : AppCompatActivity() {
                     }) {
                         Text("Enable / disable bluetooth")
                     }
+                    Button(onClick = {
+                        btnEnableDisable_Discoverable()
+                    }) {
+                        Text("Enable / disable discovering")
+                    }
+                    Button(onClick = {
+                        btnDiscover()
+                    }) {
+                        Text("Start discover")
+                    }
                     Text("bluetooth activity")
                 }
 
@@ -235,7 +245,7 @@ class BluetoothActivity : AppCompatActivity() {
     }
 
     @SuppressLint("MissingPermission")
-    fun btnEnableDisable_Discoverable(view: View?) {
+    fun btnEnableDisable_Discoverable() {
         Log.d(TAG, "btnEnableDisable_Discoverable: Making device discoverable for 300 seconds.")
         val discoverableIntent = Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE)
         discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300)
@@ -245,7 +255,7 @@ class BluetoothActivity : AppCompatActivity() {
     }
 
     @SuppressLint("MissingPermission")
-    fun btnDiscover(view: View?) {
+    fun btnDiscover() {
         Log.d(TAG, "btnDiscover: Looking for unpaired devices.")
         if (mBluetoothAdapter!!.isDiscovering) {
             mBluetoothAdapter!!.cancelDiscovery()
