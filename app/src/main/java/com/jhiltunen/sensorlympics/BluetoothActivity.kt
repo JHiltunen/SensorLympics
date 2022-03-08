@@ -14,15 +14,21 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.Button
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.material.TextField
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import com.jhiltunen.sensorlympics.BluetoothActivity.Companion.mBluetoothAdapter
+import com.jhiltunen.sensorlympics.BluetoothActivity.Companion.mBluetoothConnection
 import com.jhiltunen.sensorlympics.utils.BluetoothConnectionService
 import com.jhiltunen.sensorlympics.viewmodels.BluetoothViewModel
+import java.nio.charset.Charset
 import java.util.*
 
 class BluetoothActivity : AppCompatActivity() {
@@ -30,13 +36,13 @@ class BluetoothActivity : AppCompatActivity() {
         private const val TAG = "BluetoothActivity"
         private val MY_UUID_INSECURE = UUID.fromString("8ce255c0-200a-11e0-ac64-0800200c9a66")
         // Set
+        var mBluetoothAdapter: BluetoothAdapter? = null
+        var mBluetoothConnection: BluetoothConnectionService? = null
     }
 
 
     private val results = java.util.HashMap<String, BluetoothDevice?>()
 
-    var mBluetoothAdapter: BluetoothAdapter? = null
-    var mBluetoothConnection: BluetoothConnectionService? = null
     var mBTDevice: BluetoothDevice? = null
 
     private lateinit var bluetoothViewModel: BluetoothViewModel
@@ -170,7 +176,6 @@ class BluetoothActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        bluetoothViewModel = BluetoothViewModel()
         //setContentView(R.layout.activity_main)
         //val btnONOFF = findViewById<View>(R.id.btnONOFF) as Button
         //btnEnableDisable_Discoverable = findViewById<View>(R.id.btnDiscoverable_on_off) as Button
@@ -196,6 +201,8 @@ class BluetoothActivity : AppCompatActivity() {
                 etSend!!.text.toString().toByteArray(Charset.defaultCharset())
             mBluetoothConnection!!.write(bytes)//
         }*/
+
+        bluetoothViewModel = BluetoothViewModel()
 
             setContent {
                 Column {
@@ -234,6 +241,7 @@ class BluetoothActivity : AppCompatActivity() {
     fun startBTConnection(device: BluetoothDevice?, uuid: UUID?) {
         Log.d(TAG, "startBTConnection: Initializing RFCOM Bluetooth Connection.")
         mBluetoothConnection!!.startClient(device, uuid)
+        bluetoothViewModel.isConnected.postValue(true)
     }
 
     @SuppressLint("MissingPermission")
@@ -317,13 +325,13 @@ class BluetoothActivity : AppCompatActivity() {
         }
     }
 
-    //@SuppressLint("MissingPermission")
-    /*override fun onItemClick(adapterView: AdapterView<*>?, view: View, i: Int, l: Long) {
+    @SuppressLint("MissingPermission")
+    fun pairDevice(device: BluetoothDevice) {
         //first cancel discovery because its very memory intensive.
         mBluetoothAdapter!!.cancelDiscovery()
         Log.d(TAG, "onItemClick: You Clicked on a device.")
-        val deviceName = mBTDevices[i]!!.name
-        val deviceAddress = mBTDevices[i]!!.address
+        val deviceName = device.name
+        val deviceAddress = device.address
         Log.d(TAG, "onItemClick: deviceName = $deviceName")
         Log.d(
             TAG,
@@ -334,22 +342,47 @@ class BluetoothActivity : AppCompatActivity() {
         //NOTE: Requires API 17+? I think this is JellyBean
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2) {
             Log.d(TAG, "Trying to pair with $deviceName")
-            mBTDevices[i]!!.createBond()
-            mBTDevice = mBTDevices[i]
+            device.createBond()
+            bluetoothViewModel.selectedDevice.value = device
             mBluetoothConnection = BluetoothConnectionService(this@BluetoothActivity)
+            startBTConnection(device = device, MY_UUID_INSECURE)
         }
-    }*/
-}
+    }
 
-@SuppressLint("MissingPermission")
-@Composable
-fun ListDevices(bluetoothViewModel: BluetoothViewModel) {
-    val devices by bluetoothViewModel.mBTDevices.observeAsState()
+    @SuppressLint("MissingPermission")
+    @Composable
+    fun ListDevices(bluetoothViewModel: BluetoothViewModel) {
+        val devices by bluetoothViewModel.mBTDevices.observeAsState()
+        var text by remember { mutableStateOf("") }
 
-    devices?.forEach {
-        Row() {
-            it?.let { Text("${it.address} |") }
-            it?.let { Text(it.name ?: "") }
+        val isConnected by bluetoothViewModel.isConnected.observeAsState()
+
+        Column() {
+            if (isConnected == true) {
+                TextField(
+                    value = text,
+                    onValueChange = { text = it },
+                    label = { Text("Label") }
+                )
+
+                Button(onClick = {
+                    val bytes =
+                        text.toByteArray(Charset.defaultCharset())
+                    mBluetoothConnection!!.write(bytes)
+                }) {
+                    Text(text = "Send")
+                }
+            }
+
+            devices?.forEach {
+                Row(modifier = Modifier.clickable {
+                    // pair
+                    it?.let { it1 -> pairDevice(it1) }
+                }) {
+                    it?.let { Text("${it.address} |", color = Color.White) }
+                    it?.let { Text(it.name ?: "", color = Color.White) }
+                }
+            }
         }
     }
 }

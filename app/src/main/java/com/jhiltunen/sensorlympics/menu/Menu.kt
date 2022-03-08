@@ -1,5 +1,7 @@
 package com.jhiltunen.sensorlympics.menu
 
+import android.app.Application
+import androidx.annotation.StringRes
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -18,12 +20,12 @@ import com.jhiltunen.sensorlympics.R
 import com.jhiltunen.sensorlympics.api.MapViewModel
 import com.jhiltunen.sensorlympics.api.ShowMap
 import com.jhiltunen.sensorlympics.api.WeatherViewModel
-import com.jhiltunen.sensorlympics.viewmodels.TicTacToeViewModel
 import com.jhiltunen.sensorlympics.ui.theme.YellowRed
 import com.jhiltunen.sensorlympics.ui.views.BallGameView
 import com.jhiltunen.sensorlympics.ui.views.PressureApp
 import com.jhiltunen.sensorlympics.ui.views.SensorMagnetApp
 import com.jhiltunen.sensorlympics.ui.views.TicTacToeView
+import com.jhiltunen.sensorlympics.viewmodels.TicTacToeViewModel
 import kotlinx.coroutines.launch
 
 @ExperimentalFoundationApi
@@ -87,7 +89,7 @@ fun DrawerContentComponent(
                         MaterialTheme.colors.surface
                     }
                 ) {
-                    Text(text = screen.name, modifier = Modifier.padding(16.dp))
+                    Text(text = stringResource(id = screen.nameRes), modifier = Modifier.padding(16.dp))
                 }
             })
         }
@@ -348,11 +350,11 @@ fun OlympicsCities(openDrawer: () -> Unit) {
     }
 }
 
-enum class DrawerAppScreen {
-    MagnetoGame,
-    PressureGame,
-    TicTacToe,
-    BallGame,
-    Statistics,
-    OlympicsCities
+enum class DrawerAppScreen(@StringRes val nameRes: Int) {
+    MagnetoGame(R.string.magneto_game),
+    PressureGame(R.string.pressure_game),
+    TicTacToe(R.string.tictactoe_game),
+    BallGame(R.string.ball_game),
+    Statistics(R.string.statistics),
+    OlympicsCities(R.string.olympic_cities);
 }
