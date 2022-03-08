@@ -13,13 +13,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.jhiltunen.sensorlympics.R
 import com.jhiltunen.sensorlympics.api.MapViewModel
-import com.jhiltunen.sensorlympics.api.ShowMap
+import com.jhiltunen.sensorlympics.ui.views.ShowMap
 import com.jhiltunen.sensorlympics.api.WeatherViewModel
 import com.jhiltunen.sensorlympics.viewmodels.TicTacToeViewModel
-import com.jhiltunen.sensorlympics.ui.theme.YellowRed
 import com.jhiltunen.sensorlympics.ui.views.BallGameView
 import com.jhiltunen.sensorlympics.ui.views.PressureApp
 import com.jhiltunen.sensorlympics.ui.views.SensorMagnetApp
@@ -33,8 +31,7 @@ fun Menu(screen: DrawerAppScreen) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val currentScreen = remember { mutableStateOf(screen) }
     val coroutineScope = rememberCoroutineScope()
-    val systemUiController = rememberSystemUiController()
-    val useDarkIcons = MaterialTheme.colors.isLight
+
 
     ModalDrawer(
         drawerState = drawerState,
@@ -55,14 +52,7 @@ fun Menu(screen: DrawerAppScreen) {
             )
         }
     )
-    SideEffect {
-        // Update all of the system bar colors to be transparent, and use
-        // dark icons if we're in light theme
-        systemUiController.setStatusBarColor(
-            color = YellowRed,
-            darkIcons = useDarkIcons
-        )
-    }
+
 }
 
 

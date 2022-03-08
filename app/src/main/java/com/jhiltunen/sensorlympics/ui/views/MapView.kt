@@ -1,22 +1,24 @@
-package com.jhiltunen.sensorlympics.api
+package com.jhiltunen.sensorlympics.ui.views
 
 
 import android.content.Context
 import android.util.DisplayMetrics
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.jhiltunen.sensorlympics.CardStyle
 import com.jhiltunen.sensorlympics.R
+import com.jhiltunen.sensorlympics.api.MapViewModel
+import com.jhiltunen.sensorlympics.api.WeatherViewModel
 import com.jhiltunen.sensorlympics.utils.GlobalModel.cities
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
@@ -42,7 +44,7 @@ fun composeMap(): MapView {
 @Composable
 fun ShowMap(mapViewModel: MapViewModel, context: Context, model: WeatherViewModel) {
     val map = composeMap()
-    val totalhits: Double? by model.changeNotifier.observeAsState(0.0)
+    val totalHits: Double? by model.changeNotifier.observeAsState(0.0)
     var cityName by remember { mutableStateOf("") }
     val mapInitialized by remember(map) { mutableStateOf(false) }
     val address by mapViewModel.mapData.observeAsState()
@@ -55,14 +57,27 @@ fun ShowMap(mapViewModel: MapViewModel, context: Context, model: WeatherViewMode
 
     Card {
         CardStyle {
-            Column {
-                Spacer(modifier = Modifier.height(4.dp))
-                if (totalhits!! > 0) {
-                    Text(totalhits.toString())
-                    Text(cityName)
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                if (totalHits!! > 0) {
+                    Row(
+                        Modifier.padding(4.dp)
+                    ) {
+                        Text(text = "City:", fontWeight = FontWeight.Bold)
+                        Spacer(modifier = Modifier.padding(4.dp))
+                        Text(cityName)
+                    }
+                    Row(
+                        Modifier.padding(4.dp)
+                    ) {
+                        Text(text = "Current Temperature:", fontWeight = FontWeight.Bold)
+                        Spacer(modifier = Modifier.padding(4.dp))
+                        Text(totalHits.toString())
+                        Spacer(modifier = Modifier.padding(2.dp))
+                        Text(text = "°K")
+                    }
                 }
-
-                Spacer(modifier = Modifier.height(4.dp))
                 AndroidView({ map }) {
                     address ?: return@AndroidView
                     val dm: DisplayMetrics = context.resources.displayMetrics
