@@ -40,6 +40,7 @@ import com.jhiltunen.sensorlympics.utils.createNotificationChannel
 import com.jhiltunen.sensorlympics.viewmodels.BallGameViewModel
 import com.jhiltunen.sensorlympics.viewmodels.MagnetViewModel
 import com.jhiltunen.sensorlympics.viewmodels.ReceiverViewModel
+import com.jhiltunen.sensorlympics.viewmodels.ScoreViewModel
 import org.osmdroid.config.Configuration
 import org.osmdroid.library.BuildConfig
 
@@ -51,6 +52,7 @@ class MainActivity : ComponentActivity(), SensorEventListener {
         val pressureViewModelProgress = PressureViewModelProgress()
         val ballGameViewModel = BallGameViewModel()
         val receiverViewModel = ReceiverViewModel()
+        lateinit var scoreViewModel: ScoreViewModel
         var pressureSensorExists = true
         var magnetometerSensorExists = true
         var accelerometerSensorExists = true
@@ -77,7 +79,7 @@ class MainActivity : ComponentActivity(), SensorEventListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        scoreViewModel = ScoreViewModel(application)
         ballGameViewModel.setMaxValues(
             getScreenDimensions(this)[0].toFloat() - 200,
             getScreenDimensions(this)[1].toFloat() - 100

@@ -1,7 +1,6 @@
 package com.jhiltunen.sensorlympics.viewmodels
 
 import android.app.Application
-import android.graphics.Movie
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
@@ -17,7 +16,6 @@ class ScoreViewModel(application: Application) :
 
     fun insert(score: Score) {
         viewModelScope.launch {
-            //userDB.userDao().add(user)
             scoreDB.scoreDao.insertOrUpdate(score)
         }
     }

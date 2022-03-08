@@ -21,8 +21,10 @@ import com.jhiltunen.sensorlympics.MainActivity
 import com.jhiltunen.sensorlympics.R
 import com.jhiltunen.sensorlympics.SpaceBetweenColumn
 import com.jhiltunen.sensorlympics.pressuregame.PressureViewModelProgress
+import com.jhiltunen.sensorlympics.room.Score
 import com.jhiltunen.sensorlympics.rules.PressureRules
 import com.jhiltunen.sensorlympics.ui.theme.SensorLympicsTheme
+import com.jhiltunen.sensorlympics.viewmodels.ScoreViewModel
 import kotlin.math.round
 import kotlin.random.Random
 
@@ -40,7 +42,7 @@ fun PressureApp() {
                     Card {
                         CardStyle {
                             SpaceBetweenColumn {
-                                PressurePointer(MainActivity.pressureViewModelProgress)
+                                PressurePointer(MainActivity.pressureViewModelProgress, MainActivity.scoreViewModel)
                             }
                         }
                     }
@@ -55,7 +57,7 @@ var end = System.nanoTime()
 
 @ExperimentalFoundationApi
 @Composable
-fun PressurePointer(pressureViewModelProgress: PressureViewModelProgress) {
+fun PressurePointer(pressureViewModelProgress: PressureViewModelProgress, scoreViewModel: ScoreViewModel) {
     val highScore by pressureViewModelProgress.highScore.observeAsState(0.0)
     val value by pressureViewModelProgress.value.observeAsState(0.0F)
     var valueMax by remember { mutableStateOf(0.0F) }
@@ -79,6 +81,7 @@ fun PressurePointer(pressureViewModelProgress: PressureViewModelProgress) {
 
     var winOrLose by remember { mutableStateOf(false) }
     var gameOver by remember { mutableStateOf(true) }
+    var scoreChecker by remember { mutableStateOf(true) }
 
     var score: Double
 
@@ -102,6 +105,7 @@ fun PressurePointer(pressureViewModelProgress: PressureViewModelProgress) {
                         gameOver = false
 
                         pressureDifference = Random.nextInt(180, 300)
+                        scoreChecker = true
                         Log.i("PPP", pressureDifference.toString())
                     } else {
                         winOrLose = false
@@ -162,6 +166,11 @@ fun PressurePointer(pressureViewModelProgress: PressureViewModelProgress) {
                     }
 
                     pressureViewModelProgress.upDateScore(score)
+                    if (scoreChecker) {
+                        scoreViewModel.insert(Score(0,"Pressure", score.toLong()))
+                        scoreChecker = false
+                    }
+                    //scoreViewModel.insert(Score(0,"Pressure", score.toLong()))
 
                     gameOver = true
                 }

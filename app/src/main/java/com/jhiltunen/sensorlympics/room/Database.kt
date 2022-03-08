@@ -15,7 +15,7 @@ abstract class ScoreDB: RoomDatabase() {
             if (sInstance == null) {
                 sInstance =
                     Room.databaseBuilder(context.applicationContext,
-                        ScoreDB::class.java, "movies.db").build()
+                        ScoreDB::class.java, "scores.db").build()
             }
             return sInstance!!
         }

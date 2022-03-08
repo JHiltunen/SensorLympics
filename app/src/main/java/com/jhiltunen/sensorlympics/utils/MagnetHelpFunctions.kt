@@ -3,6 +3,8 @@ package com.jhiltunen.sensorlympics.magnetgame
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import com.jhiltunen.sensorlympics.MainActivity
+import com.jhiltunen.sensorlympics.MainActivity.Companion.scoreViewModel
+import com.jhiltunen.sensorlympics.room.Score
 import kotlin.math.abs
 import kotlin.random.Random
 
@@ -19,6 +21,7 @@ fun northOrBust(direction: Int) {
             score = 10 / (1 / (abs(angle!!.minus(334))))
             Log.i("DIR", "Vau! $score")
             MainActivity.magnetViewModel.upDateScore(score)
+            scoreViewModel.insert(Score(0,"Magneto", score.toLong()))
 
         } else MainActivity.magnetViewModel.upDateWin(1)
         //East
@@ -27,6 +30,7 @@ fun northOrBust(direction: Int) {
             score = 10 / (1 / (abs(angle!!.minus(64))))
             Log.i("DIR", "Vau!  $score")
             MainActivity.magnetViewModel.upDateScore(score)
+            scoreViewModel.insert(Score(0,"Magneto", score.toLong()))
 
         } else MainActivity.magnetViewModel.upDateWin(1)
         //South
@@ -35,6 +39,7 @@ fun northOrBust(direction: Int) {
             score = 10 / (1 / (abs(angle!!.minus(154))))
             Log.i("DIR", "Vau!  $score")
             MainActivity.magnetViewModel.upDateScore(score)
+            scoreViewModel.insert(Score(0,"Magneto", score.toLong()))
 
         } else MainActivity.magnetViewModel.upDateWin(1)
         //West
@@ -43,6 +48,7 @@ fun northOrBust(direction: Int) {
             score = 10 / (1 / (abs(angle!!.minus(244))))
             Log.i("DIR", "Vau!  $score")
             MainActivity.magnetViewModel.upDateScore(score)
+            scoreViewModel.insert(Score(0,"Magneto", score.toLong()))
 
         } else MainActivity.magnetViewModel.upDateWin(1)
         else -> MainActivity.magnetViewModel.upDateWin(1)
