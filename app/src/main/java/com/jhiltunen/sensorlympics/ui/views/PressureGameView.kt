@@ -1,5 +1,6 @@
 package com.jhiltunen.sensorlympics.ui.views
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -23,6 +24,7 @@ import com.jhiltunen.sensorlympics.pressuregame.PressureViewModelProgress
 import com.jhiltunen.sensorlympics.rules.PressureRules
 import com.jhiltunen.sensorlympics.ui.theme.SensorLympicsTheme
 import kotlin.math.round
+import kotlin.random.Random
 
 
 @ExperimentalFoundationApi
@@ -58,6 +60,7 @@ fun PressurePointer(pressureViewModelProgress: PressureViewModelProgress) {
     val value by pressureViewModelProgress.value.observeAsState(0.0F)
     var valueMax by remember { mutableStateOf(0.0F) }
     var valueMin by remember { mutableStateOf(0.0F) }
+    var pressureDifference by remember { mutableStateOf(180)}
 
     if (valueMax == 0.0F) {
         valueMax = value
@@ -97,15 +100,19 @@ fun PressurePointer(pressureViewModelProgress: PressureViewModelProgress) {
                         winOrLose = true
                         begin = System.nanoTime()
                         gameOver = false
+
+                        pressureDifference = Random.nextInt(180, 300)
+                        Log.i("PPP", pressureDifference.toString())
                     } else {
                         winOrLose = false
                         gameOver = true
+                        Log.i("PPP", pressureDifference.toString())
                     }
-
                 }
             ) {
                 if (!winOrLose && gameOver) {
                     Text(stringResource(R.string.pressure_press))
+
                 } else if (winOrLose && gameOver) {
                     Text(stringResource(R.string.pressure_again))
                 } else {
@@ -122,13 +129,13 @@ fun PressurePointer(pressureViewModelProgress: PressureViewModelProgress) {
                         .clip(CircleShape)
                 )
             } else {
-                if (difference < 180) {
+                if (difference < pressureDifference) {
                     Text(
                         "\uD83C\uDF88",
                         fontSize = difference.sp
                     )
                     end = System.nanoTime()
-                } else if (difference > 180) {
+                } else if (difference > pressureDifference) {
                     val timeDifference = (end.minus(begin)).div(1000000000) + 0.3
                     score = (100 / timeDifference)
 
