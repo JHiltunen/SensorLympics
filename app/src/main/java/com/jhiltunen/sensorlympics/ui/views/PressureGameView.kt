@@ -58,7 +58,9 @@ var end = System.nanoTime()
 @ExperimentalFoundationApi
 @Composable
 fun PressurePointer(pressureViewModelProgress: PressureViewModelProgress, scoreViewModel: ScoreViewModel) {
-    val highScore by pressureViewModelProgress.highScore.observeAsState(0.0)
+    //val highScore by pressureViewModelProgress.highScore.observeAsState(0.0)
+    val highScore by scoreViewModel.getHighscore("Pressure").observeAsState()
+    //val highScore by remember { mutableStateOf(scoreViewModel.getHighscore("Pressure")) }
     val value by pressureViewModelProgress.value.observeAsState(0.0F)
     var valueMax by remember { mutableStateOf(0.0F) }
     var valueMin by remember { mutableStateOf(0.0F) }
@@ -141,7 +143,7 @@ fun PressurePointer(pressureViewModelProgress: PressureViewModelProgress, scoreV
                     end = System.nanoTime()
                 } else if (difference > pressureDifference) {
                     val timeDifference = (end.minus(begin)).div(1000000000) + 0.3
-                    score = (100 / timeDifference)
+                    score = (pressureDifference / timeDifference)
 
                     Text(
                         "\uD83D\uDCA5",
@@ -160,10 +162,11 @@ fun PressurePointer(pressureViewModelProgress: PressureViewModelProgress, scoreV
                             score.toInt()
                         )
                     )
-
-                    if (score == highScore) {
+                    /*
+                    if (score.toLong() == highScore) {
                         Text(stringResource(R.string.new_high_score))
                     }
+                     */
 
                     pressureViewModelProgress.upDateScore(score)
                     if (scoreChecker) {
@@ -180,7 +183,7 @@ fun PressurePointer(pressureViewModelProgress: PressureViewModelProgress, scoreV
             Text(text = stringResource(R.string.buy_new_phone))
         }
 
-        Text(stringResource(R.string.pressure_high, highScore.toInt()))
+        Text(stringResource(R.string.pressure_high, highScore ?: 0))
         PressureRules()
     }
 }

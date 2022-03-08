@@ -14,6 +14,8 @@ class ScoreViewModel(application: Application) :
     fun getAll(): LiveData<List<Score>> =
         scoreDB.scoreDao.getAll()
 
+    fun getHighscore(game: String): LiveData<Long> =
+        scoreDB.scoreDao.getHighscore(game)
     fun insert(score: Score) {
         viewModelScope.launch {
             scoreDB.scoreDao.insertOrUpdate(score)

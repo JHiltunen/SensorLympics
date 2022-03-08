@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.jhiltunen.sensorlympics.CardStyle
 import com.jhiltunen.sensorlympics.MainActivity
 import com.jhiltunen.sensorlympics.MainActivity.Companion.magnetViewModel
+import com.jhiltunen.sensorlympics.MainActivity.Companion.scoreViewModel
 import com.jhiltunen.sensorlympics.R
 import com.jhiltunen.sensorlympics.SpaceBetweenColumn
 import com.jhiltunen.sensorlympics.viewmodels.MagnetViewModel
@@ -34,7 +35,8 @@ fun SensorMagnetApp(context: Context) {
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Open))
     var winOrLose by remember { mutableStateOf(false) }
     var direction by remember { mutableStateOf("") }
-    val highScore by magnetViewModel.highScore.observeAsState()
+    //val highScore by magnetViewModel.highScore.observeAsState()
+    val highScore by scoreViewModel.getHighscore("Magneto").observeAsState()
 
     SensorLympicsTheme {
         Scaffold(

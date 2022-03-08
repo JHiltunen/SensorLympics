@@ -12,4 +12,6 @@ interface ScoreDao {
     suspend fun insertOrUpdate(score: Score)
     @Query("select * from Score order by game")
     fun getAll(): LiveData<List<Score>>
+    @Query("select MAX(score) from Score where game = :gameThe")
+    fun getHighscore(gameThe: String): LiveData<Long>
 }
