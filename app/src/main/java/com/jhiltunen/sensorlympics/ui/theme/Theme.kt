@@ -17,7 +17,7 @@ private val LightColorPalette = lightColors(
     primary = YellowRed,
     onPrimary = RichBlack,
     primaryVariant = Purple700,
-    secondary = RedCrayola,
+    secondary = RedRyb,
     surface = Ivory,
     onSurface = RichBlack,
 

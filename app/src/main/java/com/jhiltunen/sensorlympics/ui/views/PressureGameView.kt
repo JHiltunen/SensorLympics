@@ -1,6 +1,5 @@
 package com.jhiltunen.sensorlympics.ui.views
 
-import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -11,7 +10,6 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -58,7 +56,6 @@ var end = System.nanoTime()
 @ExperimentalFoundationApi
 @Composable
 fun PressurePointer(pressureViewModelProgress: PressureViewModelProgress, scoreViewModel: ScoreViewModel) {
-    //val highScore by pressureViewModelProgress.highScore.observeAsState(0.0)
     val highScore by scoreViewModel.getHighscore("Pressure").observeAsState()
     val value by pressureViewModelProgress.value.observeAsState(0.0F)
     var valueMax by remember { mutableStateOf(0.0F) }
@@ -107,17 +104,14 @@ fun PressurePointer(pressureViewModelProgress: PressureViewModelProgress, scoreV
 
                         pressureDifference = Random.nextInt(180, 300)
                         scoreChecker = true
-                        Log.i("PPP", pressureDifference.toString())
                     } else {
                         winOrLose = false
                         gameOver = true
-                        Log.i("PPP", pressureDifference.toString())
                     }
                 }
             ) {
                 if (!winOrLose && gameOver) {
                     Text(stringResource(R.string.pressure_press))
-
                 } else if (winOrLose && gameOver) {
                     Text(stringResource(R.string.pressure_again))
                 } else {
@@ -161,18 +155,12 @@ fun PressurePointer(pressureViewModelProgress: PressureViewModelProgress, scoreV
                             score.toInt()
                         )
                     )
-                    /*
-                    if (score.toLong() == highScore) {
-                        Text(stringResource(R.string.new_high_score))
-                    }
-                     */
 
                     pressureViewModelProgress.upDateScore(score)
                     if (scoreChecker) {
                         scoreViewModel.insert(Score(0,"Pressure", score.toLong()))
                         scoreChecker = false
                     }
-                    //scoreViewModel.insert(Score(0,"Pressure", score.toLong()))
 
                     gameOver = true
                 }

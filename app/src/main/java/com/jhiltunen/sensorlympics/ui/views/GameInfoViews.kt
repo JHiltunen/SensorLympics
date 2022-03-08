@@ -1,6 +1,7 @@
-package com.jhiltunen.sensorlympics.rules
+package com.jhiltunen.sensorlympics.ui.views
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -33,7 +34,7 @@ fun MagnetoRules() {
                         Text(text = stringResource(R.string.game_info))
                     },
                     text = {
-                        Text("Here is a text ")
+                        Text("Guess the direction of the compass by moving the phone")
                     },
                     confirmButton = {
                         Button(
@@ -69,14 +70,16 @@ fun PressureRules() {
                         Text(text = stringResource(id = R.string.game_info))
                     },
                     text = {
-                        Text("Here is a text ")
+                        Text("Try to burst the balloon by changing the air pressure")
                     },
                     confirmButton = {
-                        Button(
-                            onClick = {
-                                openDialog.value = false
-                            }) {
-                            Text(stringResource(id = R.string.ok_btn))
+                        Row {
+                            Button(
+                                onClick = {
+                                    openDialog.value = false
+                                }) {
+                                Text(stringResource(id = R.string.ok_btn))
+                            }
                         }
                     },
                 )
@@ -105,7 +108,7 @@ fun TicTacToeRules() {
                         Text(text = stringResource(id = R.string.game_info))
                     },
                     text = {
-                        Text("Here is a text ")
+                        Text("Try to get 3 of kind in  a row (up, down, across or diagonally")
                     },
                     confirmButton = {
                         Button(

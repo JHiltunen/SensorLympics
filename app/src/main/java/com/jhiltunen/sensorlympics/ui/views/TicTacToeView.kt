@@ -49,4 +49,5 @@ fun TicTacToeView(ticTacToeViewModel: TicTacToeViewModel) {
 
         }
     }
+    TicTacToeRules()
 }

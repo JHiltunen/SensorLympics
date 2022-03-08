@@ -16,7 +16,7 @@ val RedCrayola = Color(0xFFEA3955)
 val MiddleYellow = Color(0xFFFFEB3B)
 val AliceBlue = Color(0xFFDCEDFF)
 val BlueCrayola = Color(0xFF2176FF)
-val RedRyb = Color(0xFFFF1D15)
+val RedRyb = Color(0xFFFF726D)
 val RichBlack = Color(0xFF071013)
 val Ivory = Color(0xFFF6F7EB)
 

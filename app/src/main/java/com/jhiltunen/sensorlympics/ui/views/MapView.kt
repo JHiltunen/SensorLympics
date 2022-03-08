@@ -1,10 +1,10 @@
-package com.jhiltunen.sensorlympics.api
+package com.jhiltunen.sensorlympics.ui.views
 
 
 import android.content.Context
 import android.util.DisplayMetrics
-import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -16,11 +16,14 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.jhiltunen.sensorlympics.CardStyle
 import com.jhiltunen.sensorlympics.MainActivity
 import com.jhiltunen.sensorlympics.R
+import com.jhiltunen.sensorlympics.api.MapViewModel
+import com.jhiltunen.sensorlympics.api.WeatherViewModel
 import com.jhiltunen.sensorlympics.utils.GlobalModel.cities
 import com.jhiltunen.sensorlympics.utils.isOnline
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
@@ -30,6 +33,7 @@ import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.ScaleBarOverlay
 import org.osmdroid.views.overlay.compass.CompassOverlay
 import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider
+import kotlin.math.roundToInt
 
 
 @Composable
@@ -47,7 +51,7 @@ fun composeMap(): MapView {
 @Composable
 fun ShowMap(mapViewModel: MapViewModel, context: Context, model: WeatherViewModel) {
     val map = composeMap()
-    val totalhits: Double? by model.changeNotifier.observeAsState(0.0)
+    val totalHits: Double? by model.changeNotifier.observeAsState(0.0)
     var cityName by remember { mutableStateOf("") }
     val mapInitialized by remember(map) { mutableStateOf(false) }
     val address by mapViewModel.mapData.observeAsState()
@@ -58,14 +62,29 @@ fun ShowMap(mapViewModel: MapViewModel, context: Context, model: WeatherViewMode
         map.controller.setZoom(4.5)
         map.controller.setCenter(GeoPoint(60.166640739, 24.943536799))
     }
+
     Card {
         CardStyle {
             Column {
                 if (!airplane!! && isOnline(context)) {
                     Spacer(modifier = Modifier.height(4.dp))
-                    if (totalhits!! > 0) {
-                        Text((totalhits!! - 273.15).toInt().toString())
-                        Text(cityName)
+                    if (totalHits!! > 0) {
+                        Row(
+                            Modifier.padding(4.dp)
+                        ) {
+                            Text(text = "City:", fontWeight = FontWeight.Bold)
+                            Spacer(modifier = Modifier.padding(4.dp))
+                            Text(cityName)
+                        }
+                        Row(
+                            Modifier.padding(4.dp)
+                        ) {
+                            Text(text = "Current Temperature:", fontWeight = FontWeight.Bold)
+                            Spacer(modifier = Modifier.padding(4.dp))
+                            Text((totalHits!! - 273.15.roundToInt()).toString())
+                            Spacer(modifier = Modifier.padding(2.dp))
+                            Text(text = "°C")
+                        }
                     }
                     Spacer(modifier = Modifier.height(4.dp))
                     AndroidView({ map }) {
