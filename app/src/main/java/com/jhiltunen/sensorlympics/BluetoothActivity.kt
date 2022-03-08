@@ -5,7 +5,6 @@ import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothManager
-import android.bluetooth.le.ScanResult
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -13,11 +12,6 @@ import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.AdapterView
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ListView
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.Column
@@ -27,20 +21,15 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.lifecycle.MutableLiveData
-import com.jhiltunen.sensorlympics.BluetoothActivity.Companion.mBTDevices
 import com.jhiltunen.sensorlympics.utils.BluetoothConnectionService
-import java.nio.charset.Charset
+import com.jhiltunen.sensorlympics.viewmodels.BluetoothViewModel
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 class BluetoothActivity : AppCompatActivity() {
     companion object {
         private const val TAG = "BluetoothActivity"
         private val MY_UUID_INSECURE = UUID.fromString("8ce255c0-200a-11e0-ac64-0800200c9a66")
         // Set
-        val mBTDevices: MutableLiveData<List<BluetoothDevice?>> = MutableLiveData(mutableListOf())
     }
 
 
@@ -49,6 +38,8 @@ class BluetoothActivity : AppCompatActivity() {
     var mBluetoothAdapter: BluetoothAdapter? = null
     var mBluetoothConnection: BluetoothConnectionService? = null
     var mBTDevice: BluetoothDevice? = null
+
+    private lateinit var bluetoothViewModel: BluetoothViewModel
 
     // Create a BroadcastReceiver for ACTION_FOUND
     private val mBroadcastReceiver1: BroadcastReceiver = object : BroadcastReceiver() {
@@ -124,8 +115,8 @@ class BluetoothActivity : AppCompatActivity() {
                 if (device != null) {
                     results[device.address] = device
                 }
-                mBTDevices.postValue(results.values.toList())
-                Log.d("DEVICE: ", mBTDevices.value.toString())
+                bluetoothViewModel.mBTDevices.postValue(results.values.toList())
+                Log.d("DEVICE: ", bluetoothViewModel.mBTDevices.value.toString())
                 //var newList: ArrayList<BluetoothDevice?> =
                 //mBTDevices.postValue(newList)
                 //Log.d(TAG, "onReceive: " + device!!.name + ": " + device.address)
@@ -178,6 +169,8 @@ class BluetoothActivity : AppCompatActivity() {
     @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        bluetoothViewModel = BluetoothViewModel()
         //setContentView(R.layout.activity_main)
         //val btnONOFF = findViewById<View>(R.id.btnONOFF) as Button
         //btnEnableDisable_Discoverable = findViewById<View>(R.id.btnDiscoverable_on_off) as Button
@@ -222,7 +215,7 @@ class BluetoothActivity : AppCompatActivity() {
                         Text("Start discover")
                     }
 
-                    ListDevices()
+                    ListDevices(bluetoothViewModel)
                 }
 
             }
@@ -350,8 +343,8 @@ class BluetoothActivity : AppCompatActivity() {
 
 @SuppressLint("MissingPermission")
 @Composable
-fun ListDevices() {
-    val devices by mBTDevices.observeAsState()
+fun ListDevices(bluetoothViewModel: BluetoothViewModel) {
+    val devices by bluetoothViewModel.mBTDevices.observeAsState()
 
     devices?.forEach {
         Row() {
