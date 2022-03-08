@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothManager
+import android.bluetooth.le.ScanResult
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -22,23 +23,31 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Button
 import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.lifecycle.MutableLiveData
+import com.jhiltunen.sensorlympics.BluetoothActivity.Companion.mBTDevices
 import com.jhiltunen.sensorlympics.utils.BluetoothConnectionService
 import java.nio.charset.Charset
 import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class BluetoothActivity : AppCompatActivity() {
     companion object {
         private const val TAG = "BluetoothActivity"
         private val MY_UUID_INSECURE = UUID.fromString("8ce255c0-200a-11e0-ac64-0800200c9a66")
+        // Set
+        val mBTDevices: MutableLiveData<List<String>> = MutableLiveData(mutableListOf())
     }
 
+
+    private val results = java.util.HashMap<String, String>()
+
     var mBluetoothAdapter: BluetoothAdapter? = null
-    var btnEnableDisable_Discoverable: Button? = null
     var mBluetoothConnection: BluetoothConnectionService? = null
-    //var btnStartConnection: Button? = null
-    //var btnSend: Button? = null
     var mBTDevice: BluetoothDevice? = null
-    var mBTDevices = ArrayList<BluetoothDevice?>()
 
     // Create a BroadcastReceiver for ACTION_FOUND
     private val mBroadcastReceiver1: BroadcastReceiver = object : BroadcastReceiver() {
@@ -110,8 +119,15 @@ class BluetoothActivity : AppCompatActivity() {
             if (action == BluetoothDevice.ACTION_FOUND) {
                 val device =
                     intent.getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
-                mBTDevices.add(device)
-                Log.d(TAG, "onReceive: " + device!!.name + ": " + device.address)
+                //mBTDevices.value?.add(device)
+                if (device != null) {
+                    results[device.address] = device.name ?: ""
+                }
+                mBTDevices.postValue(results.values.toList())
+                Log.d("DEVICE: ", mBTDevices.value.toString())
+                //var newList: ArrayList<BluetoothDevice?> =
+                //mBTDevices.postValue(newList)
+                //Log.d(TAG, "onReceive: " + device!!.name + ": " + device.address)
                 /*mDeviceListAdapter =
                     DeviceListAdapter(context, R.layout.device_adapter_view, mBTDevices)
                 lvNewDevices!!.adapter = mDeviceListAdapter*/
@@ -158,13 +174,14 @@ class BluetoothActivity : AppCompatActivity() {
         //mBluetoothAdapter.cancelDiscovery();
     }
 
+    @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //setContentView(R.layout.activity_main)
         //val btnONOFF = findViewById<View>(R.id.btnONOFF) as Button
         //btnEnableDisable_Discoverable = findViewById<View>(R.id.btnDiscoverable_on_off) as Button
         //lvNewDevices = findViewById<View>(R.id.lvNewDevices) as ListView
-        mBTDevices = ArrayList()
+
         //btnStartConnection = findViewById<View>(R.id.btnStartConnection) as Button
         //btnSend = findViewById<View>(R.id.btnSend) as Button
         //etSend = findViewById<View>(R.id.editText) as EditText
@@ -187,7 +204,7 @@ class BluetoothActivity : AppCompatActivity() {
         }*/
 
             setContent {
-                Column() {
+                Column {
                     Button(onClick = {
                         enableDisableBT()
                     }) {
@@ -203,6 +220,9 @@ class BluetoothActivity : AppCompatActivity() {
                     }) {
                         Text("Start discover")
                     }
+
+                    ListDevices()
+
                     Text("bluetooth activity")
                 }
 
@@ -327,4 +347,13 @@ class BluetoothActivity : AppCompatActivity() {
             mBluetoothConnection = BluetoothConnectionService(this@BluetoothActivity)
         }
     }*/
+}
+
+@Composable
+fun ListDevices() {
+    val devices by mBTDevices.observeAsState()
+
+    devices?.forEach {
+        it?.let { it1 -> Text(it1) }
+    }
 }
