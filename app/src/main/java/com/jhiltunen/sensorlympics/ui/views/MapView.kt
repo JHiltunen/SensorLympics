@@ -81,7 +81,7 @@ fun ShowMap(mapViewModel: MapViewModel, context: Context, model: WeatherViewMode
                         ) {
                             Text(text = "Current Temperature:", fontWeight = FontWeight.Bold)
                             Spacer(modifier = Modifier.padding(4.dp))
-                            Text((totalHits!! - 273.15.roundToInt()).toString())
+                            Text(((totalHits!! - 273.15).roundToInt()).toString())
                             Spacer(modifier = Modifier.padding(2.dp))
                             Text(text = "°C")
                         }

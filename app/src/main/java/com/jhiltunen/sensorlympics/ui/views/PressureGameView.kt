@@ -20,7 +20,6 @@ import com.jhiltunen.sensorlympics.R
 import com.jhiltunen.sensorlympics.SpaceBetweenColumn
 import com.jhiltunen.sensorlympics.pressuregame.PressureViewModelProgress
 import com.jhiltunen.sensorlympics.room.Score
-import com.jhiltunen.sensorlympics.rules.PressureRules
 import com.jhiltunen.sensorlympics.ui.theme.SensorLympicsTheme
 import com.jhiltunen.sensorlympics.viewmodels.ScoreViewModel
 import kotlin.math.round
@@ -165,12 +164,10 @@ fun PressurePointer(pressureViewModelProgress: PressureViewModelProgress, scoreV
                     gameOver = true
                 }
             }
-
+            Text(stringResource(R.string.pressure_high, highScore ?: 0))
         } else {
             Text(text = stringResource(R.string.buy_new_phone))
         }
-
-        Text(stringResource(R.string.pressure_high, highScore ?: 0))
         PressureRules()
     }
 }
