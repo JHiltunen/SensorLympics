@@ -18,7 +18,7 @@ class MusicService : Service() {
 
     override fun onCreate() {
         poriPlayer = MediaPlayer.create(this, R.raw.porilaisten)
-        poriPlayer!!.isLooping = false
+        poriPlayer!!.isLooping = true
     }
 
     override fun onStart(intent: Intent?, startid: Int) {
