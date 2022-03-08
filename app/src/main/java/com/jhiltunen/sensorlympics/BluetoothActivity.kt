@@ -21,6 +21,7 @@ import android.widget.ListView
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -39,11 +40,11 @@ class BluetoothActivity : AppCompatActivity() {
         private const val TAG = "BluetoothActivity"
         private val MY_UUID_INSECURE = UUID.fromString("8ce255c0-200a-11e0-ac64-0800200c9a66")
         // Set
-        val mBTDevices: MutableLiveData<List<String>> = MutableLiveData(mutableListOf())
+        val mBTDevices: MutableLiveData<List<BluetoothDevice?>> = MutableLiveData(mutableListOf())
     }
 
 
-    private val results = java.util.HashMap<String, String>()
+    private val results = java.util.HashMap<String, BluetoothDevice?>()
 
     var mBluetoothAdapter: BluetoothAdapter? = null
     var mBluetoothConnection: BluetoothConnectionService? = null
@@ -121,7 +122,7 @@ class BluetoothActivity : AppCompatActivity() {
                     intent.getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
                 //mBTDevices.value?.add(device)
                 if (device != null) {
-                    results[device.address] = device.name ?: ""
+                    results[device.address] = device
                 }
                 mBTDevices.postValue(results.values.toList())
                 Log.d("DEVICE: ", mBTDevices.value.toString())
@@ -222,8 +223,6 @@ class BluetoothActivity : AppCompatActivity() {
                     }
 
                     ListDevices()
-
-                    Text("bluetooth activity")
                 }
 
             }
@@ -349,11 +348,15 @@ class BluetoothActivity : AppCompatActivity() {
     }*/
 }
 
+@SuppressLint("MissingPermission")
 @Composable
 fun ListDevices() {
     val devices by mBTDevices.observeAsState()
 
     devices?.forEach {
-        it?.let { it1 -> Text(it1) }
+        Row() {
+            it?.let { Text("${it.address} |") }
+            it?.let { Text(it.name ?: "") }
+        }
     }
 }
