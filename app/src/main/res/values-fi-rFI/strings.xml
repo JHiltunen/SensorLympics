@@ -32,6 +32,13 @@
     <string name="game_info">Peliohjeet</string>
     <string name="app_logo_text">Sovelluksen logo</string>
     <string name="turn">Vuoro: %s</string>
+    <string name="map_not">Valitse kartta ei näy ilman internetyhteyttä!</string>
+    <string name="service_create">Musiikkipalvelu luotu</string>
+    <string name="service_started">Musiikkipalvelu aloitettu</string>
+    <string name="service_stopped">Musiikkipalvelu lopetettu</string>
+    <string name="noti_1_title">Musiikki:</string>
+    <string name="noti_1_message">päällä</string>
+    <string name="noti_2">pois päältä</string>
 
 
 </resources>

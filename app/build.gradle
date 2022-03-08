@@ -45,6 +45,8 @@ android {
     }
 }
 
+apply plugin: "kotlin-kapt"
+
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.7.0'
@@ -87,6 +89,12 @@ dependencies {
 
     // Extended Icons
     implementation "androidx.compose.material:material-icons-extended:1.1.1"
+
+    def roomVersion = "2.4.1"
+    implementation "androidx.room:room-runtime:$roomVersion"
+    annotationProcessor "androidx.room:room-compiler:$roomVersion"
+    kapt "androidx.room:room-compiler:$roomVersion"
+    implementation "androidx.room:room-ktx:$roomVersion"
 
 
 }

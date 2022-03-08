@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.jhiltunen.sensorlympics.CardStyle
 import com.jhiltunen.sensorlympics.MainActivity
 import com.jhiltunen.sensorlympics.MainActivity.Companion.magnetViewModel
+import com.jhiltunen.sensorlympics.MainActivity.Companion.scoreViewModel
 import com.jhiltunen.sensorlympics.R
 import com.jhiltunen.sensorlympics.SpaceBetweenColumn
 import com.jhiltunen.sensorlympics.viewmodels.MagnetViewModel
@@ -34,7 +35,8 @@ fun SensorMagnetApp(context: Context) {
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Open))
     var winOrLose by remember { mutableStateOf(false) }
     var direction by remember { mutableStateOf("") }
-    val highScore by magnetViewModel.highScore.observeAsState()
+    //val highScore by magnetViewModel.highScore.observeAsState()
+    val highScore by scoreViewModel.getHighscore("Magneto").observeAsState()
 
     SensorLympicsTheme {
         Scaffold(
@@ -92,7 +94,8 @@ fun SensorMagnetApp(context: Context) {
                                         horizontalArrangement = Arrangement.SpaceBetween,
                                         verticalAlignment = Alignment.CenterVertically
                                     ) {
-                                        Text(stringResource(R.string.pressure_high, highScore ?: 0))
+                                        Text(stringResource(R.string.pressure_high, highScore?.toInt()
+                                            ?: 0))
                                         MagnetoRules()
                                     }
                                 }
@@ -106,7 +109,6 @@ fun SensorMagnetApp(context: Context) {
         )
     }
 }
-
 
 @Composable
 fun ShowWinOrLose(magnetViewModel: MagnetViewModel) {
@@ -129,7 +131,7 @@ fun ShowWinOrLose(magnetViewModel: MagnetViewModel) {
             0 -> Text(stringResource(R.string.result_not_yet), Modifier.padding(8.dp))
             1 -> Text(stringResource(R.string.result_bad), Modifier.padding(8.dp))
             2 -> Text(
-                stringResource(R.string.result_good, direction, score ?: 0),
+                stringResource(R.string.result_good, direction, score?.toInt() ?: 0),
                 Modifier.padding(8.dp)
             )
         }
@@ -153,7 +155,7 @@ fun CompassPointer(magnetViewModel: MagnetViewModel) {
         ) {
             Spacer(modifier = Modifier.height(7.dp))
             Image(
-                painter = painterResource(id = R.drawable.compass_2),
+                painter = painterResource(id = R.drawable.compass_1_2),
                 contentDescription = null,
                 modifier = Modifier
                     .rotate(degree ?: 0f)
@@ -161,7 +163,6 @@ fun CompassPointer(magnetViewModel: MagnetViewModel) {
                     .clip(CircleShape)
             )
             Spacer(modifier = Modifier.height(7.dp))
-
         }
     }
 }

@@ -8,7 +8,7 @@ val Purple700 = Color(0xFF3700B3)
 val Teal200 = Color(0xFF03DAC5)
 
 val GreenBLue = Color(0xFF0082C8)
-val BrightYellow = Color(0xFFF8AC31)
+val BrightYellow = Color(0xFFE09925)
 val Black = Color(0xFF020202)
 val SpanishGreen = Color(0xFF00974E)
 val RedCrayola = Color(0xFFEA3955)
