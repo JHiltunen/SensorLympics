@@ -15,13 +15,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.jhiltunen.sensorlympics.R
 import com.jhiltunen.sensorlympics.api.MapViewModel
-import com.jhiltunen.sensorlympics.ui.views.ShowMap
 import com.jhiltunen.sensorlympics.api.WeatherViewModel
+import com.jhiltunen.sensorlympics.ui.views.*
 import com.jhiltunen.sensorlympics.viewmodels.TicTacToeViewModel
-import com.jhiltunen.sensorlympics.ui.views.BallGameView
-import com.jhiltunen.sensorlympics.ui.views.PressureApp
-import com.jhiltunen.sensorlympics.ui.views.SensorMagnetApp
-import com.jhiltunen.sensorlympics.ui.views.TicTacToeView
 import kotlinx.coroutines.launch
 
 @ExperimentalFoundationApi
@@ -90,8 +86,8 @@ fun getScreenBasedOnIndex(index: Int) = when (index) {
     1 -> DrawerAppScreen.PressureGame
     2 -> DrawerAppScreen.TicTacToe
     3 -> DrawerAppScreen.BallGame
-    4 -> DrawerAppScreen.Statistics
-    5 -> DrawerAppScreen.OlympicsCities
+    4 -> DrawerAppScreen.OlympicsCities
+    5 -> DrawerAppScreen.Statistics
     else -> DrawerAppScreen.MagnetoGame
 }
 
@@ -267,39 +263,6 @@ fun BallGame(openDrawer: () -> Unit) {
     }
 }
 
-@Composable
-fun Statistics(openDrawer: () -> Unit) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-    )
-    {
-        TopAppBar(
-            title = { Text(stringResource(R.string.statistics)) },
-            navigationIcon = {
-                IconButton(onClick = openDrawer) {
-                    Icon(
-                        imageVector = Icons.Filled.Menu,
-                        contentDescription = stringResource(id = R.string.menu)
-                    )
-                }
-            }
-        )
-        Surface(
-            modifier = Modifier
-                .weight(1f)
-        ) {
-            Column(modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-                content = {
-                    Text(text = "Screen 5")
-                }
-            )
-        }
-    }
-}
-
 @ExperimentalFoundationApi
 @Composable
 fun OlympicsCities(openDrawer: () -> Unit) {
@@ -338,11 +301,44 @@ fun OlympicsCities(openDrawer: () -> Unit) {
     }
 }
 
+@Composable
+fun Statistics(openDrawer: () -> Unit) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+    )
+    {
+        TopAppBar(
+            title = { Text(stringResource(R.string.statistics)) },
+            navigationIcon = {
+                IconButton(onClick = openDrawer) {
+                    Icon(
+                        imageVector = Icons.Filled.Menu,
+                        contentDescription = stringResource(id = R.string.menu)
+                    )
+                }
+            }
+        )
+        Surface(
+            modifier = Modifier
+                .weight(1f)
+        ) {
+            Column(modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                content = {
+                    Text(text = "Screen 5")
+                }
+            )
+        }
+    }
+}
+
 enum class DrawerAppScreen {
     MagnetoGame,
     PressureGame,
     TicTacToe,
     BallGame,
-    Statistics,
-    OlympicsCities
+    OlympicsCities,
+    Statistics
 }
