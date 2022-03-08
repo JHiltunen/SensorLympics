@@ -110,7 +110,6 @@ fun SensorMagnetApp(context: Context) {
     }
 }
 
-
 @Composable
 fun ShowWinOrLose(magnetViewModel: MagnetViewModel) {
     val winOrLoseOr by magnetViewModel.win.observeAsState()
@@ -164,7 +163,6 @@ fun CompassPointer(magnetViewModel: MagnetViewModel) {
                     .clip(CircleShape)
             )
             Spacer(modifier = Modifier.height(7.dp))
-
         }
     }
 }

@@ -19,7 +19,6 @@ fun northOrBust(direction: Int) {
         1 -> if (MainActivity.magnetViewModel.degree.value!! > 334 || MainActivity.magnetViewModel.degree.value!! < 27) {
             MainActivity.magnetViewModel.upDateWin(2)
             score = 10 / (1 / (abs(angle!!.minus(334))))
-            Log.i("DIR", "Vau! $score")
             MainActivity.magnetViewModel.upDateScore(score)
             scoreViewModel.insert(Score(0,"Magneto", score.toLong()))
 
@@ -28,7 +27,6 @@ fun northOrBust(direction: Int) {
         2 -> if (MainActivity.magnetViewModel.degree.value!! > 64 && MainActivity.magnetViewModel.degree.value!! < 116) {
             MainActivity.magnetViewModel.upDateWin(2)
             score = 10 / (1 / (abs(angle!!.minus(64))))
-            Log.i("DIR", "Vau!  $score")
             MainActivity.magnetViewModel.upDateScore(score)
             scoreViewModel.insert(Score(0,"Magneto", score.toLong()))
 
@@ -37,7 +35,6 @@ fun northOrBust(direction: Int) {
         3 -> if (MainActivity.magnetViewModel.degree.value!! > 154 && MainActivity.magnetViewModel.degree.value!! < 206) {
             MainActivity.magnetViewModel.upDateWin(2)
             score = 10 / (1 / (abs(angle!!.minus(154))))
-            Log.i("DIR", "Vau!  $score")
             MainActivity.magnetViewModel.upDateScore(score)
             scoreViewModel.insert(Score(0,"Magneto", score.toLong()))
 
@@ -46,7 +43,6 @@ fun northOrBust(direction: Int) {
         4 -> if (MainActivity.magnetViewModel.degree.value!! > 244 && MainActivity.magnetViewModel.degree.value!! < 296) {
             MainActivity.magnetViewModel.upDateWin(2)
             score = 10 / (1 / (abs(angle!!.minus(244))))
-            Log.i("DIR", "Vau!  $score")
             MainActivity.magnetViewModel.upDateScore(score)
             scoreViewModel.insert(Score(0,"Magneto", score.toLong()))
 

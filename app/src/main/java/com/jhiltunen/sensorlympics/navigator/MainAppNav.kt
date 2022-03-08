@@ -21,8 +21,7 @@ import com.jhiltunen.sensorlympics.CardStyle
 import com.jhiltunen.sensorlympics.R
 import com.jhiltunen.sensorlympics.menu.DrawerAppScreen
 import com.jhiltunen.sensorlympics.menu.Menu
-import com.jhiltunen.sensorlympics.ui.theme.Black
-import com.jhiltunen.sensorlympics.ui.theme.RichBlack
+import com.jhiltunen.sensorlympics.ui.theme.*
 
 
 @ExperimentalFoundationApi
@@ -58,7 +57,7 @@ fun MainAppNav() {
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .border(1.dp, color = Black),
-                                colors = ButtonDefaults.outlinedButtonColors(contentColor = RichBlack)
+                                colors = ButtonDefaults.outlinedButtonColors(contentColor = BlueCrayola)
                             ) {
                                 Text(stringResource(R.string.magneto_game))
                             }
@@ -68,7 +67,7 @@ fun MainAppNav() {
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .border(1.dp, color = Black),
-                                colors = ButtonDefaults.outlinedButtonColors(contentColor = RichBlack)
+                                colors = ButtonDefaults.outlinedButtonColors(contentColor = BrightYellow)
                             ) {
                                 Text(stringResource(R.string.pressure_game))
                             }
@@ -89,7 +88,7 @@ fun MainAppNav() {
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .border(1.dp, color = Black),
-                                colors = ButtonDefaults.outlinedButtonColors(contentColor = RichBlack)
+                                colors = ButtonDefaults.outlinedButtonColors(contentColor = SpanishGreen)
                             ) {
                                 Text(stringResource(id = R.string.ball_game))
                             }
@@ -99,7 +98,7 @@ fun MainAppNav() {
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .border(1.dp, color = Black),
-                                colors = ButtonDefaults.outlinedButtonColors(contentColor = RichBlack)
+                                colors = ButtonDefaults.outlinedButtonColors(contentColor = RedCrayola)
                             ) {
                                 Text(text = stringResource(id = R.string.olympic_cities))
                             }

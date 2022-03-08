@@ -60,7 +60,6 @@ var end = System.nanoTime()
 fun PressurePointer(pressureViewModelProgress: PressureViewModelProgress, scoreViewModel: ScoreViewModel) {
     //val highScore by pressureViewModelProgress.highScore.observeAsState(0.0)
     val highScore by scoreViewModel.getHighscore("Pressure").observeAsState()
-    //val highScore by remember { mutableStateOf(scoreViewModel.getHighscore("Pressure")) }
     val value by pressureViewModelProgress.value.observeAsState(0.0F)
     var valueMax by remember { mutableStateOf(0.0F) }
     var valueMin by remember { mutableStateOf(0.0F) }
