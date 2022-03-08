@@ -105,7 +105,7 @@ fun MainAppNav() {
                         }
 
                         Button(
-                            onClick = { },
+                            onClick = {  navController.navigate("statistics")},
                             modifier = Modifier
                                 .fillMaxWidth()
                         )
@@ -133,6 +133,9 @@ fun MainAppNav() {
         }
         composable("olympicscities") {
             Menu(screen = DrawerAppScreen.OlympicsCities)
+        }
+        composable("statistics") {
+            Menu(screen = DrawerAppScreen.Statistics)
         }
 
     }

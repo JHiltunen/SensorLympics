@@ -19,10 +19,7 @@ import com.jhiltunen.sensorlympics.api.MapViewModel
 import com.jhiltunen.sensorlympics.api.ShowMap
 import com.jhiltunen.sensorlympics.api.WeatherViewModel
 import com.jhiltunen.sensorlympics.ui.theme.YellowRed
-import com.jhiltunen.sensorlympics.ui.views.BallGameView
-import com.jhiltunen.sensorlympics.ui.views.PressureApp
-import com.jhiltunen.sensorlympics.ui.views.SensorMagnetApp
-import com.jhiltunen.sensorlympics.ui.views.TicTacToeView
+import com.jhiltunen.sensorlympics.ui.views.*
 import com.jhiltunen.sensorlympics.viewmodels.TicTacToeViewModel
 import kotlinx.coroutines.launch
 
@@ -303,7 +300,8 @@ fun Statistics(openDrawer: () -> Unit) {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
                 content = {
-                    Text(text = "Screen 5")
+                    //Text(text = "Screen 5")
+                    GraphView()
                 }
             )
         }

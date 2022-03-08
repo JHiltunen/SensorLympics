@@ -39,6 +39,12 @@
     <string name="noti_1_title">Musiikki:</string>
     <string name="noti_1_message">päällä</string>
     <string name="noti_2">pois päältä</string>
+    <string name="score_graph">Pisteet</string>
+    <string name="game_points_graph">Pisteet</string>
+    <string name="graph_magneto">Magneettipeli</string>
+    <string name="graph_pressure">Painepeli</string>
+    <string name="graph_ball">Pallopeli</string>
+    <string name="graph_tic_tac_toe">Ristinolla</string>
 
 
 </resources>

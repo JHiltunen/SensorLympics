@@ -11,11 +11,16 @@ import kotlinx.coroutines.launch
 class ScoreViewModel(application: Application) :
     AndroidViewModel(application) {
     private val scoreDB = ScoreDB.get(application)
+
     fun getAll(): LiveData<List<Score>> =
         scoreDB.scoreDao.getAll()
 
+    fun getGameScore(game: String): LiveData<List<Score>> =
+        scoreDB.scoreDao.getGameScore(game)
+
     fun getHighscore(game: String): LiveData<Long> =
         scoreDB.scoreDao.getHighscore(game)
+
     fun insert(score: Score) {
         viewModelScope.launch {
             scoreDB.scoreDao.insertOrUpdate(score)

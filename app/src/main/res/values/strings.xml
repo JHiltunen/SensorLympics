@@ -45,5 +45,11 @@
     <string name="noti_1_title">Music:</string>
     <string name="noti_1_message">On</string>
     <string name="noti_2">Off</string>
+    <string name="score_graph">Score</string>
+    <string name="game_points_graph">Game points</string>
+    <string name="graph_magneto">Magneto game</string>
+    <string name="graph_pressure">Pressure game</string>
+    <string name="graph_ball">Ball game</string>
+    <string name="graph_tic_tac_toe">Tic tac toe</string>
 
 </resources>
