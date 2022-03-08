@@ -3,6 +3,8 @@ package com.jhiltunen.sensorlympics.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 
 class BallGameViewModel : ViewModel() {
     private val _xPosition = MutableLiveData(0f)
@@ -10,8 +12,8 @@ class BallGameViewModel : ViewModel() {
     private val _yPosition = MutableLiveData(0f)
     var yPosition: LiveData<Float> = _yPosition
 
-    private var xMax: Float = 0f
-    private var yMax: Float = 0f
+    var xMax: Float = 0f
+    var yMax: Float = 0f
 
     private var xAcceleration: Float = 0f
     private var xVelocity: Float = 0.0f
@@ -20,24 +22,26 @@ class BallGameViewModel : ViewModel() {
     private var yVelocity: Float = 0.0f
 
     fun updateBall() {
-        val frameTime = 0.222f
+        val frameTime = 0.666f
         xVelocity += xAcceleration * frameTime
         yVelocity += yAcceleration * frameTime
         val xS: Float = xVelocity / 2 * frameTime
         val yS: Float = yVelocity / 2 * frameTime
 
-        _xPosition.postValue(xPosition.value?.minus(xS) ?: 0f)
-        _yPosition.postValue(yPosition.value?.minus(yS) ?: 0f)
+        viewModelScope.launch {
+            _xPosition.postValue(xPosition.value?.minus(xS))
+            _yPosition.postValue(yPosition.value?.minus(yS))
+        }
 
         if (xPosition.value!! > xMax) {
-            _xPosition.value = xMax
+            _xPosition.postValue(xMax)
         } else if (xPosition.value!! < 0) {
-            _xPosition.value = 0f
+            _xPosition.postValue(0f)
         }
         if (yPosition.value!! > yMax) {
-            _yPosition.value = yMax
+            _yPosition.postValue(yMax)
         } else if (yPosition.value!! < 0) {
-            _yPosition.value = 0f
+            _yPosition.postValue(0f)
         }
     }
 
