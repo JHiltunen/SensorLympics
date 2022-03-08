@@ -69,10 +69,10 @@ class MainActivity : ComponentActivity(), SensorEventListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        ballGameViewModel.setMaxValues(
+        /*ballGameViewModel.setMaxValues(
             getScreenDimensions(this)[0].toFloat() - 200,
             getScreenDimensions(this)[1].toFloat() - 100
-        )
+        )*/
 
         Configuration.getInstance().userAgentValue = BuildConfig.APPLICATION_ID
 
