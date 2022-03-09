@@ -34,7 +34,7 @@ fun MagnetoRules() {
                         Text(text = stringResource(R.string.game_info))
                     },
                     text = {
-                        Text("Guess the direction of the compass by moving the phone")
+                        Text(stringResource(id = R.string.magnetoRules))
                     },
                     confirmButton = {
                         Button(
@@ -70,7 +70,7 @@ fun PressureRules() {
                         Text(text = stringResource(id = R.string.game_info))
                     },
                     text = {
-                        Text("Try to burst the balloon by changing the air pressure")
+                        Text(stringResource(id = R.string.pressureRules))
                     },
                     confirmButton = {
                         Row {
@@ -108,7 +108,7 @@ fun TicTacToeRules() {
                         Text(text = stringResource(id = R.string.game_info))
                     },
                     text = {
-                        Text("Try to get 3 of kind in  a row (up, down, across or diagonally")
+                        Text(stringResource(id = R.string.ticTacRules))
                     },
                     confirmButton = {
                         Button(
@@ -144,7 +144,7 @@ fun BallGameRules() {
                         Text(text = stringResource(id = R.string.game_info))
                     },
                     text = {
-                        Text("Here is a text ")
+                        Text(stringResource(id = R.string.ballRules))
                     },
                     confirmButton = {
                         Button(

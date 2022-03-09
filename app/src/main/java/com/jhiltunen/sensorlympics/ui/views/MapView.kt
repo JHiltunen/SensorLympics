@@ -5,14 +5,14 @@ import android.content.Context
 import android.util.DisplayMetrics
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Card
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.twotone.SignalWifiConnectedNoInternet4
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -24,6 +24,7 @@ import com.jhiltunen.sensorlympics.MainActivity
 import com.jhiltunen.sensorlympics.R
 import com.jhiltunen.sensorlympics.api.MapViewModel
 import com.jhiltunen.sensorlympics.api.WeatherViewModel
+import com.jhiltunen.sensorlympics.ui.theme.MaxRed
 import com.jhiltunen.sensorlympics.utils.GlobalModel.cities
 import com.jhiltunen.sensorlympics.utils.isOnline
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
@@ -65,7 +66,9 @@ fun ShowMap(mapViewModel: MapViewModel, context: Context, model: WeatherViewMode
 
     Card {
         CardStyle {
-            Column {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 if (!airplane!! && isOnline(context)) {
                     Spacer(modifier = Modifier.height(4.dp))
                     if (totalHits!! > 0) {
@@ -92,7 +95,11 @@ fun ShowMap(mapViewModel: MapViewModel, context: Context, model: WeatherViewMode
                         val dm: DisplayMetrics = context.resources.displayMetrics
 
                         val mCompassOverlay =
-                            CompassOverlay(context, InternalCompassOrientationProvider(context), map)
+                            CompassOverlay(
+                                context,
+                                InternalCompassOrientationProvider(context),
+                                map
+                            )
                         mCompassOverlay.enableCompass()
 
                         val scaleBarOverlay = ScaleBarOverlay(map)
@@ -126,13 +133,38 @@ fun ShowMap(mapViewModel: MapViewModel, context: Context, model: WeatherViewMode
                         }
                     }
                 } else {
-                    Spacer(modifier = Modifier.height(40.dp))
-                    Text(stringResource(R.string.map_not),
+
+                    Card(
+                        modifier = Modifier.padding(16.dp),
+                        elevation = 8.dp
+                    ) {
+                        Column(
                             modifier = Modifier
-                                .padding(15.dp)
-                    )
+                                .padding(16.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            Text(
+                                stringResource(R.string.map_not),
+                            )
+                            Column(
+                                modifier = Modifier
+                                    .padding(16.dp),
+
+                                ) {
+                                Spacer(modifier = Modifier.padding(16.dp))
+                                Icon(
+                                    Icons.TwoTone.SignalWifiConnectedNoInternet4,
+                                    "",
+                                    Modifier.size(80.dp),
+                                    tint = MaxRed
+                                )
+                            }
+                        }
+                    }
                 }
             }
         }
     }
 }
+
