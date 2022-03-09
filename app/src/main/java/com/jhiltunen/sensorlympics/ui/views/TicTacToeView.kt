@@ -49,7 +49,7 @@ fun TicTacToeView(ticTacToeViewModel: TicTacToeViewModel) {
                                             Button(
                                                 modifier = Modifier
                                                     .padding(15.dp)
-                                                    .size(50.dp), onClick = {
+                                                    .size(40.dp), onClick = {
                                                     if (gameIsOn.value == true) {
                                                         ticTacToeViewModel.addValue(column, row)
                                                         btnText =
