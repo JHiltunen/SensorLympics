@@ -8,7 +8,7 @@ import com.jhiltunen.sensorlympics.utils.SocketHandler
 
 class TicTacToeViewModel {
     val gson: Gson = Gson()
-    private lateinit var socketHandler: SocketHandler
+    private var socketHandler: SocketHandler
 
     private var _turn: MutableLiveData<String> = MutableLiveData("X")
     val turn: LiveData<String> = _turn
@@ -147,6 +147,7 @@ class TicTacToeViewModel {
     }
 
     fun setData(newXyCoordinates: Array<Array<String>>, nextTurn: String, gameIsOn: String) {
+        val board = Array(3) { Array(3) { 0 } }
         this.xyCoordinates = newXyCoordinates
         Log.d("COORD", "OLD: $xyCoordinates -> new: $newXyCoordinates")
         _turn.postValue(nextTurn)
