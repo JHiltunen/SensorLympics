@@ -305,6 +305,7 @@ fun OlympicsCities(openDrawer: () -> Unit) {
     }
 }
 
+@ExperimentalFoundationApi
 @Composable
 fun Statistics(openDrawer: () -> Unit) {
     Column(
