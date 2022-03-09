@@ -2,6 +2,9 @@
 
 Sensor based Olympic Games
 
+## How to build
+  - Generate APi key from: https://openweathermap.org/api
+
 ## Games
   - Single player games:
     - Magneto Game
