@@ -17,5 +17,5 @@ Sensor based Olympic Games
 
 
 ## Screenshots
-<img src = "https://user-images.githubusercontent.com/71440030/157201570-fb048b7d-d8a9-46b1-9ffd-82ecbf641db1.JPG" width="250">
+<img src = "https://user-images.githubusercontent.com/71440030/157437779-48efd985-9f71-48a0-af22-614135eaadec.JPG" width="250">
 
