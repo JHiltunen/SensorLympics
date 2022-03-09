@@ -37,7 +37,8 @@ fun SocketView(ticTacToe: TicTacToeViewModel) {
             val jsonData = ticTacToe.gson.toJson(sendData)
             println(jsonData)
             mSocket.emit("create", ticTacToe.gson.toJson(roomName))
-            ticTacToe.sendMessage()
+            //mSocket.emit("newMessage", ticTacToe.gson.toJson("testing"))
+            ///ticTacToe.sendMessage()
             //mSocket.emit("newMessage", jsonData)
             //mSocket.emit("counter") }) {
 

@@ -1,10 +1,13 @@
 package com.jhiltunen.sensorlympics.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.jhiltunen.sensorlympics.SendMessage
 import com.jhiltunen.sensorlympics.utils.SocketHandler
+import java.lang.reflect.Array
+import kotlin.reflect.typeOf
 
 class TicTacToeViewModel {
     val gson: Gson = Gson()
@@ -13,12 +16,13 @@ class TicTacToeViewModel {
     val turn: LiveData<String> = _turn
     private var xyCoordinates =
         arrayOf(arrayOf(" ", " ", " "), arrayOf(" ", " ", " "), arrayOf(" ", " ", " "))
-    private var _gameIsOn: MutableLiveData<Boolean> = MutableLiveData(true)
+    private var _gameIsOn: MutableLiveData<Boolean> = MutableLiveData(false)
     var gameIsOn: LiveData<Boolean> = _gameIsOn
 
     val mSocket = SocketHandler.getSocket()
 
     init {
+        Log.d("TICTAC", xyCoordinates::class.java.typeName)
         SocketHandler.setSocket()
         SocketHandler.establishConnection()
     }
@@ -42,6 +46,10 @@ class TicTacToeViewModel {
 
     fun stopGame() {
         _gameIsOn.postValue(false)
+    }
+
+    fun startGame() {
+        _gameIsOn.postValue(true)
     }
 
     fun checkWin(): Boolean {
@@ -123,7 +131,9 @@ class TicTacToeViewModel {
     }
 
     fun sendMessage() {
-        val content = "newMessage"
+
+
+        val content = gson.toJson(turn.value?.let { TicTacToeData(gson.toJson(xyCoordinates), it) })
         val roomName = "room1"
         val sendData = SendMessage(content, roomName)
         val jsonData = gson.toJson(sendData)
@@ -133,3 +143,5 @@ class TicTacToeViewModel {
         //addItemToRecyclerView(message)
     }
 }
+
+data class TicTacToeData(var tictactoeCoordinates: String, var turn: String)

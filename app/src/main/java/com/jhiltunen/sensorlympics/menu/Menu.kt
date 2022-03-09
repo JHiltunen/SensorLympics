@@ -226,7 +226,6 @@ fun TicTacToe(openDrawer: () -> Unit) {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     content = {
                         Column {
-                            SocketView(ticTacToe)
                             TicTacToeView(ticTacToe)
                         }
                     }
