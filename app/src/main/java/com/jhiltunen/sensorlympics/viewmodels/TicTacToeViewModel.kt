@@ -8,24 +8,25 @@ import com.jhiltunen.sensorlympics.utils.SocketHandler
 
 class TicTacToeViewModel {
     val gson: Gson = Gson()
+    private lateinit var socketHandler: SocketHandler
 
     private var _turn: MutableLiveData<String> = MutableLiveData("X")
     val turn: LiveData<String> = _turn
-    private var xyCoordinates =
-        arrayOf(arrayOf(" ", " ", " "), arrayOf(" ", " ", " "), arrayOf(" ", " ", " "))
+    //private var _xyCoordinates: MutableLiveData<Array<Array<String>>> = MutableLiveData(arrayOf(arrayOf(" ", " ", " "), arrayOf(" ", " ", " "), arrayOf(" ", " ", " ")))
+    //var xyCoordinates: LiveData<Array<Array<String>>> = _xyCoordinates
+    private var xyCoordinates = arrayOf(arrayOf(" ", " ", " "), arrayOf(" ", " ", " "), arrayOf(" ", " ", " "))
     private var _gameIsOn: MutableLiveData<Boolean> = MutableLiveData(false)
     var gameIsOn: LiveData<Boolean> = _gameIsOn
 
-    val mSocket = SocketHandler.getSocket()
-
     init {
         Log.d("TICTAC", xyCoordinates::class.java.typeName)
-        SocketHandler.setSocket()
-        SocketHandler.establishConnection()
+        socketHandler = SocketHandler(ticTacToeViewModel = this)
+        socketHandler.setSocket()
+        socketHandler.establishConnection()
+        socketHandler.onCounter()
     }
 
     fun situationInCoordinates(x: Int, y: Int): String {
-
         return xyCoordinates[x][y]
     }
 
@@ -40,10 +41,10 @@ class TicTacToeViewModel {
 
         if (turn.value == "X") {
             nextTurn = "O"
-            _turn.postValue("O")
+            //_turn.postValue("O")
         } else {
             nextTurn = "X"
-            _turn.postValue("X")
+            //_turn.postValue("X")
         }
         _turn.postValue(nextTurn)
         sendInfoToSocket(nextTurn)
@@ -51,6 +52,8 @@ class TicTacToeViewModel {
 
     fun stopGame() {
         _gameIsOn.postValue(false)
+        xyCoordinates = arrayOf(arrayOf(" ", " ", " "), arrayOf(" ", " ", " "), arrayOf(" ", " ", " "))
+        sendInfoToSocket(turn.value.toString())
     }
 
     fun startGame() {
@@ -136,11 +139,22 @@ class TicTacToeViewModel {
     }
 
     private fun sendInfoToSocket(nextTurn: String) {
-        val content = gson.toJson(xyCoordinates)
+        val content = gson.toJson(xyCoordinates) //xyCoordinates.map { listOf(*it) }
         val roomName = "room1"
-        val sendData = SendMessage(content, nextTurn, roomName)
+        val sendData = SendMessage(content, nextTurn, roomName, gameIsOn.value.toString())
         val jsonData = gson.toJson(sendData)
-        SocketHandler.mSocket.emit("create", jsonData)
+        socketHandler.mSocket.emit("create", jsonData)
+    }
+
+    fun setData(newXyCoordinates: Array<Array<String>>, nextTurn: String, gameIsOn: String) {
+        this.xyCoordinates = newXyCoordinates
+        Log.d("COORD", "OLD: $xyCoordinates -> new: $newXyCoordinates")
+        _turn.postValue(nextTurn)
+        _gameIsOn.postValue(gameIsOn.toBoolean())
     }
 }
-data class SendMessage(val content: String, val nextTurn: String, val roomName: String) {}
+data class SendMessage(val content: String, val nextTurn: String, val roomName: String, val gameIsOn: String) {
+    override fun toString(): String {
+        return "content"
+    }
+}

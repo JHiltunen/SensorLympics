@@ -1,12 +1,18 @@
 package com.jhiltunen.sensorlympics.utils
 
 
+import android.util.Log
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.jhiltunen.sensorlympics.viewmodels.TicTacToeViewModel
 import io.socket.client.IO
 import io.socket.client.Socket
+import org.json.JSONObject
 import java.net.URISyntaxException
 
-object SocketHandler {
 
+class SocketHandler(val ticTacToeViewModel: TicTacToeViewModel) {
+    val gson: Gson = Gson()
     lateinit var mSocket: Socket
 
     init {
@@ -45,5 +51,32 @@ object SocketHandler {
     @Synchronized
     fun closeConnection() {
         mSocket.disconnect()
+    }
+
+    @Synchronized
+    fun onCounter() {
+        mSocket.on("counter") { args ->
+            if (args != null) {
+                val propertiesJson: JSONObject = args[0] as JSONObject
+                val content = propertiesJson.get("content")
+                val nextTurn = propertiesJson.get("nextTurn")
+                val roomName = propertiesJson.get("roomName")
+                val gameIsOn = propertiesJson.get("gameIsOn")
+
+
+                Log.d("SOCKET", content.toString())
+                Log.d("SOCKET", nextTurn.toString())
+                //Log.d("SOCKET", roomName.toString())
+
+                val gson = Gson()
+
+                val gsonPretty = GsonBuilder().setPrettyPrinting().create()
+                val recordsSerializedPretty = gsonPretty.toJson(content)
+                println(recordsSerializedPretty)
+                val json: Array<Array<String>> = gson.fromJson(content.toString(), Array<Array<String>>::class.java)
+
+                ticTacToeViewModel.setData(json, nextTurn.toString(), gameIsOn.toString())
+            }
+        }
     }
 }

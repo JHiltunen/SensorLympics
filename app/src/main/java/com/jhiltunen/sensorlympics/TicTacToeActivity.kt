@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import com.jhiltunen.sensorlympics.utils.SocketHandler.mSocket
 import com.jhiltunen.sensorlympics.viewmodels.SendMessage
 import com.jhiltunen.sensorlympics.viewmodels.TicTacToeViewModel
 import kotlinx.coroutines.launch
