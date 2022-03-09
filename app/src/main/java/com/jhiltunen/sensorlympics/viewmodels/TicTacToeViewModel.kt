@@ -4,10 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
-import com.jhiltunen.sensorlympics.SendMessage
 import com.jhiltunen.sensorlympics.utils.SocketHandler
-import java.lang.reflect.Array
-import kotlin.reflect.typeOf
 
 class TicTacToeViewModel {
     val gson: Gson = Gson()
@@ -33,15 +30,23 @@ class TicTacToeViewModel {
     }
 
     fun addValue(x: Int, y: Int) {
+        var nextTurn: String = "X"
+
         if (xyCoordinates[x][y] == " ") {
             xyCoordinates[x][y] = turn.value.toString()
         } else {
             return
         }
 
-        if (turn.value == "X") _turn.postValue("O") else {
+        if (turn.value == "X") {
+            nextTurn = "O"
+            _turn.postValue("O")
+        } else {
+            nextTurn = "X"
             _turn.postValue("X")
         }
+        _turn.postValue(nextTurn)
+        sendInfoToSocket(nextTurn)
     }
 
     fun stopGame() {
@@ -130,26 +135,12 @@ class TicTacToeViewModel {
         return xLettersOnDiagonal == 3 || oLettersOnDiagonal == 3
     }
 
-    fun sendInfoToSocket() {
+    private fun sendInfoToSocket(nextTurn: String) {
         val content = gson.toJson(xyCoordinates)
         val roomName = "room1"
-        val sendData = SendMessage(content, roomName)
+        val sendData = SendMessage(content, nextTurn, roomName)
         val jsonData = gson.toJson(sendData)
         SocketHandler.mSocket.emit("create", jsonData)
     }
-
-    fun sendMessage() {
-
-
-        val content = gson.toJson(turn.value?.let { TicTacToeData(gson.toJson(xyCoordinates), it) })
-        val roomName = "room1"
-        val sendData = SendMessage(content, roomName)
-        val jsonData = gson.toJson(sendData)
-        SocketHandler.mSocket.emit("newMessage", jsonData)
-
-        //val message = SendMessage(content, roomName)
-        //addItemToRecyclerView(message)
-    }
 }
-
-data class TicTacToeData(var tictactoeCoordinates: String, var turn: String)
+data class SendMessage(val content: String, val nextTurn: String, val roomName: String) {}
