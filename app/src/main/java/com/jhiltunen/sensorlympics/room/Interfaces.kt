@@ -14,8 +14,14 @@ interface ScoreDao {
     @Query("select * from Score order by game")
     fun getAll(): LiveData<List<Score>>
 
+    @Query("select score from Score where game = :gameThe")
+    fun getGameScore(gameThe: String): LiveData<List<Long>>
+
+    @Query("select AVG(score) from Score where game = :gameThe")
+    fun getGameAverage(gameThe: String): LiveData<Long>
+
     @Query("select * from Score where game = :gameThe")
-    fun getGameScore(gameThe: String): LiveData<List<Score>>
+    fun getGameStats(gameThe: String): LiveData<List<Score>>
 
     @Query("select MAX(score) from Score where game = :gameThe")
     fun getHighscore(gameThe: String): LiveData<Long>

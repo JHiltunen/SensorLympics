@@ -22,7 +22,11 @@ fun northOrBust(direction: Int) {
             MainActivity.magnetViewModel.upDateScore(score)
             scoreViewModel.insert(Score(0,"Magneto", score.toLong()))
 
-        } else MainActivity.magnetViewModel.upDateWin(1)
+        } else {
+            MainActivity.magnetViewModel.upDateWin(1)
+            scoreViewModel.insert(Score(0,"Magneto", 0))
+        }
+
         //East
         2 -> if (MainActivity.magnetViewModel.degree.value!! > 64 && MainActivity.magnetViewModel.degree.value!! < 116) {
             MainActivity.magnetViewModel.upDateWin(2)
@@ -30,7 +34,11 @@ fun northOrBust(direction: Int) {
             MainActivity.magnetViewModel.upDateScore(score)
             scoreViewModel.insert(Score(0,"Magneto", score.toLong()))
 
-        } else MainActivity.magnetViewModel.upDateWin(1)
+        } else {
+            MainActivity.magnetViewModel.upDateWin(1)
+            scoreViewModel.insert(Score(0,"Magneto", 0))
+
+        }
         //South
         3 -> if (MainActivity.magnetViewModel.degree.value!! > 154 && MainActivity.magnetViewModel.degree.value!! < 206) {
             MainActivity.magnetViewModel.upDateWin(2)
@@ -38,7 +46,10 @@ fun northOrBust(direction: Int) {
             MainActivity.magnetViewModel.upDateScore(score)
             scoreViewModel.insert(Score(0,"Magneto", score.toLong()))
 
-        } else MainActivity.magnetViewModel.upDateWin(1)
+        } else {
+            MainActivity.magnetViewModel.upDateWin(1)
+            scoreViewModel.insert(Score(0,"Magneto", 0))
+        }
         //West
         4 -> if (MainActivity.magnetViewModel.degree.value!! > 244 && MainActivity.magnetViewModel.degree.value!! < 296) {
             MainActivity.magnetViewModel.upDateWin(2)
@@ -46,7 +57,10 @@ fun northOrBust(direction: Int) {
             MainActivity.magnetViewModel.upDateScore(score)
             scoreViewModel.insert(Score(0,"Magneto", score.toLong()))
 
-        } else MainActivity.magnetViewModel.upDateWin(1)
+        } else {
+            MainActivity.magnetViewModel.upDateWin(1)
+            scoreViewModel.insert(Score(0,"Magneto", 0))
+        }
         else -> MainActivity.magnetViewModel.upDateWin(1)
     }
 }

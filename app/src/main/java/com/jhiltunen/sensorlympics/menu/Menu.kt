@@ -274,6 +274,7 @@ fun BallGame(openDrawer: () -> Unit) {
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun Statistics(openDrawer: () -> Unit) {
     Column(

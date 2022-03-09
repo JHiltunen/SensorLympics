@@ -45,6 +45,8 @@
     <string name="graph_pressure">Painepeli</string>
     <string name="graph_ball">Pallopeli</string>
     <string name="graph_tic_tac_toe">Ristinolla</string>
+    <string name="graph_stats">Näytä kuvaaja</string>
+    <string name="graph_graph">Näytä tilastot</string>
 
 
 </resources>

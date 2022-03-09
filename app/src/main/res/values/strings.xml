@@ -51,5 +51,7 @@
     <string name="graph_pressure">Pressure game</string>
     <string name="graph_ball">Ball game</string>
     <string name="graph_tic_tac_toe">Tic tac toe</string>
+    <string name="graph_stats">Show graph</string>
+    <string name="graph_graph">Show stats</string>
 
 </resources>
