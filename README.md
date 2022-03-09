@@ -19,3 +19,5 @@ Sensor based Olympic Games
 ## Screenshots
 <img src = "https://user-images.githubusercontent.com/71440030/157437779-48efd985-9f71-48a0-af22-614135eaadec.JPG" width="250">
 
+## License
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
