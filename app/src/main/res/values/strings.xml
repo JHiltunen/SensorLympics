@@ -46,4 +46,9 @@
     <string name="noti_1_message">On</string>
     <string name="noti_2">Off</string>
 
+    <string name="magnetoRules">Guess the direction of the compass by moving the phone</string>
+    <string name="pressureRules">Try to burst the balloon by changing the air pressure</string>
+    <string name="ticTacRules">Try to get 3 of kind in  a row (up, down, across or diagonally</string>
+    <string name="ballRules" translatable="false">Avoid walls</string>
+
 </resources>

@@ -39,6 +39,9 @@
     <string name="noti_1_title">Musiikki:</string>
     <string name="noti_1_message">päällä</string>
     <string name="noti_2">pois päältä</string>
+    <string name="magnetoRules">Arvaa ilmansuunta liikuttamalla puhelinta</string>
+    <string name="pressureRules">Yritä puhkaista ilmapallo muuttamalla ilmanpainetta</string>
+    <string name="ticTacRules">Tavoitteena on saada kolme omaa merkkiä samalle pysty-, vaaka- tai vinoriville</string>
 
 
 </resources>
