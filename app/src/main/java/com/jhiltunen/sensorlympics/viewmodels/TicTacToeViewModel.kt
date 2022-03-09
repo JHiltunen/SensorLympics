@@ -130,6 +130,14 @@ class TicTacToeViewModel {
         return xLettersOnDiagonal == 3 || oLettersOnDiagonal == 3
     }
 
+    fun sendInfoToSocket() {
+        val content = gson.toJson(xyCoordinates)
+        val roomName = "room1"
+        val sendData = SendMessage(content, roomName)
+        val jsonData = gson.toJson(sendData)
+        SocketHandler.mSocket.emit("create", jsonData)
+    }
+
     fun sendMessage() {
 
 

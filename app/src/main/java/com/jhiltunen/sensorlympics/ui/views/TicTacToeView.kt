@@ -9,8 +9,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.jhiltunen.sensorlympics.CardStyle
 import com.jhiltunen.sensorlympics.R
+import com.jhiltunen.sensorlympics.SendMessage
 import com.jhiltunen.sensorlympics.SpaceBetweenColumn
 import com.jhiltunen.sensorlympics.ui.theme.SensorLympicsTheme
+import com.jhiltunen.sensorlympics.utils.SocketHandler
 import com.jhiltunen.sensorlympics.viewmodels.TicTacToeViewModel
 
 @Composable
@@ -55,6 +57,9 @@ fun TicTacToeView(ticTacToeViewModel: TicTacToeViewModel) {
                                                                 column,
                                                                 row
                                                             )
+
+                                                        // send info to socket
+                                                        ticTacToeViewModel.sendInfoToSocket()
 
                                                         // Game ends on draw or win
                                                         if (ticTacToeViewModel.checkWin()) {
