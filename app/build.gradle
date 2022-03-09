@@ -96,5 +96,7 @@ dependencies {
     kapt "androidx.room:room-compiler:$roomVersion"
     implementation "androidx.room:room-ktx:$roomVersion"
 
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
 
 }

@@ -10,7 +10,6 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.jhiltunen.sensorlympics.MainActivity
 
-//import com.jhiltunen.sensorlympics.MainActivity
 
 fun createNotificationChannel(channelId: String, context: Context) {
     val name = "Spock"

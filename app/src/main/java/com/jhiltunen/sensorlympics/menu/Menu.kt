@@ -22,6 +22,7 @@ import com.jhiltunen.sensorlympics.ui.views.BallGameView
 import com.jhiltunen.sensorlympics.ui.views.PressureApp
 import com.jhiltunen.sensorlympics.ui.views.SensorMagnetApp
 import com.jhiltunen.sensorlympics.ui.views.TicTacToeView
+import com.jhiltunen.sensorlympics.ui.theme.YellowRed
 import kotlinx.coroutines.launch
 
 @ExperimentalFoundationApi
@@ -330,7 +331,7 @@ fun Statistics(openDrawer: () -> Unit) {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
                 content = {
-                    Text(text = "Screen 5")
+                    GraphView()
                 }
             )
         }
