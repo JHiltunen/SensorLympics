@@ -2,8 +2,13 @@ package com.jhiltunen.sensorlympics.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.gson.Gson
+import com.jhiltunen.sensorlympics.SendMessage
+import com.jhiltunen.sensorlympics.utils.SocketHandler
 
 class TicTacToeViewModel {
+    val gson: Gson = Gson()
+
     private var _turn: MutableLiveData<String> = MutableLiveData("X")
     val turn: LiveData<String> = _turn
     private var xyCoordinates =
@@ -11,7 +16,15 @@ class TicTacToeViewModel {
     private var _gameIsOn: MutableLiveData<Boolean> = MutableLiveData(true)
     var gameIsOn: LiveData<Boolean> = _gameIsOn
 
+    val mSocket = SocketHandler.getSocket()
+
+    init {
+        SocketHandler.setSocket()
+        SocketHandler.establishConnection()
+    }
+
     fun situationInCoordinates(x: Int, y: Int): String {
+
         return xyCoordinates[x][y]
     }
 
@@ -107,5 +120,16 @@ class TicTacToeViewModel {
             }
         }
         return xLettersOnDiagonal == 3 || oLettersOnDiagonal == 3
+    }
+
+    fun sendMessage() {
+        val content = "newMessage"
+        val roomName = "room1"
+        val sendData = SendMessage(content, roomName)
+        val jsonData = gson.toJson(sendData)
+        SocketHandler.mSocket.emit("newMessage", jsonData)
+
+        //val message = SendMessage(content, roomName)
+        //addItemToRecyclerView(message)
     }
 }

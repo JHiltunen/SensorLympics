@@ -14,6 +14,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.jhiltunen.sensorlympics.R
+import com.jhiltunen.sensorlympics.SocketView
 import com.jhiltunen.sensorlympics.api.MapViewModel
 import com.jhiltunen.sensorlympics.api.WeatherViewModel
 import com.jhiltunen.sensorlympics.ui.views.*
@@ -224,7 +225,10 @@ fun TicTacToe(openDrawer: () -> Unit) {
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally,
                     content = {
-                        TicTacToeView(ticTacToe)
+                        Column {
+                            SocketView(ticTacToe)
+                            TicTacToeView(ticTacToe)
+                        }
                     }
                 )
             }
