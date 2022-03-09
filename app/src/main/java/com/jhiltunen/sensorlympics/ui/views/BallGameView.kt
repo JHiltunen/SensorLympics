@@ -27,7 +27,7 @@ import com.jhiltunen.sensorlympics.CardStyle
 import com.jhiltunen.sensorlympics.MainActivity.Companion.ballGameViewModel
 import com.jhiltunen.sensorlympics.R
 import kotlin.random.Random
-
+const val BALL_RADIUS = 45f
 @ExperimentalFoundationApi
 @Composable
 fun BallGameView() {
@@ -59,16 +59,16 @@ fun BallGameView() {
                         yRandom = (0..ballGameViewModel.xMax.toInt()).random().toFloat()
                     }
 
-                    if (xPosition!! <= 0 || xPosition!! >= ballGameViewModel.xMax) {
+                    /*if (xPosition!! <= 0 || xPosition!! >= ballGameViewModel.xMax) {
                         ballGameViewModel.updateXAcceleration(0f)
                     }
                     if (yPosition!! <= 0 || yPosition!! >= ballGameViewModel.yMax) {
                         ballGameViewModel.updateYAcceleration(0f)
-                    }
+                    }*/
 
                     drawCircle(
                         color = Color.Red,
-                        radius = 45f,
+                        radius = BALL_RADIUS,
                         center = Offset(
                             x = xPosition!!,
                             y = yPosition!!

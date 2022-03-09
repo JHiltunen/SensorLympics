@@ -1,10 +1,13 @@
 package com.jhiltunen.sensorlympics.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.jhiltunen.sensorlympics.ui.views.BALL_RADIUS
 import kotlinx.coroutines.launch
+import kotlin.math.log
 
 class BallGameViewModel : ViewModel() {
     private val _xPosition = MutableLiveData(0f)
@@ -22,27 +25,44 @@ class BallGameViewModel : ViewModel() {
     private var yVelocity: Float = 0.0f
 
     fun updateBall() {
-        val frameTime = 0.666f
+        val frameTime = 0.333f
         xVelocity += xAcceleration * frameTime
         yVelocity += yAcceleration * frameTime
         val xS: Float = xVelocity / 2 * frameTime
         val yS: Float = yVelocity / 2 * frameTime
 
+        var tempX = ""
+        var tempY = ""
+
+
         viewModelScope.launch {
-            _xPosition.postValue(xPosition.value?.minus(xS))
-            _yPosition.postValue(yPosition.value?.minus(yS))
+            if (xPosition.value!! > xMax - BALL_RADIUS) {
+                _xPosition.postValue(xMax - BALL_RADIUS)
+            } else if (xPosition.value!! < BALL_RADIUS) {
+                _xPosition.postValue(BALL_RADIUS)
+                xAcceleration = 0f
+            } else {
+                _xPosition.postValue(xPosition.value?.minus(xS))
+
+            }
+
+            if (yPosition.value!! > yMax - BALL_RADIUS) {
+                _yPosition.postValue(yMax - BALL_RADIUS)
+            } else if (yPosition.value!! < BALL_RADIUS) {
+                _yPosition.postValue(BALL_RADIUS)
+                yAcceleration = 0f
+            } else {
+                _yPosition.postValue(yPosition.value?.minus(yS))
+
+            }
+
+            Log.d("BALLGAMEVIEWMODEL", "HELLO")
+
+
         }
 
-        if (xPosition.value!! > xMax) {
-            _xPosition.postValue(xMax)
-        } else if (xPosition.value!! < 0) {
-            _xPosition.postValue(0f)
-        }
-        if (yPosition.value!! > yMax) {
-            _yPosition.postValue(yMax)
-        } else if (yPosition.value!! < 0) {
-            _yPosition.postValue(0f)
-        }
+
+
     }
 
     fun setMaxValues(xMax: Float, yMax: Float) {
