@@ -29,11 +29,52 @@ fun TicTacToeView(ticTacToeViewModel: TicTacToeViewModel) {
         Surface(color = MaterialTheme.colors.background) {
             CardStyle {
                 SpaceBetweenColumn {
-                    if (win.value?.isNotEmpty() == true) {
+                    /*if (gameIsOn.value == false) {
+                        Button(onClick = { /*TODO*/ }) {
+                            Text("UUDESTAAM!")
+                        }
+                    }*/
+                    Row(horizontalArrangement = Arrangement.SpaceBetween) {
+                        for (row in 0..2) {
+                            Column(
+                                modifier = Modifier
+                                    .padding(10.dp)
+                                    .height(300.dp),
+                                verticalArrangement = Arrangement.SpaceEvenly
+                            ) {
+                                for (column in 0..2) {
+                                    Button(
+                                        modifier = Modifier
+                                            .padding(15.dp)
+                                            .size(40.dp), onClick = {
+                                            if (gameIsOn.value == true) {
+                                                ticTacToeViewModel.addValue(column, row)
+                                                // Game ends on draw or win
+                                                if (checkWin(xyCoordinates!!)) {
+                                                    Log.d("TICTAC", "WIN!!")
+                                                    ticTacToeViewModel.stopGame(turn.value)
+                                                    //ticTacToeViewModel.sendInfoToSocket(turn.value, turn.value)
+                                                /*ticTacToeViewModel.stopGame(turn.value)
+                                                    ticTacToeViewModel.sendInfoToSocket(
+                                                        turn.value,
+                                                        turn.value
+                                                    )*/
+                                                }
+                                            }
+                                        }, enabled = gameIsOn.value == true && win.value!!.isEmpty()
+                                    ) {
+                                        Text(text = xyCoordinates?.get(column)?.get(row)!!)
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                    /*if (win.value?.isNotEmpty() == true) {
                         ticTacToeViewModel.stopGame(win.value.toString())
                         Text("GAME END")
-                    }
-                    if (gameIsOn.value == true) {
+                    }*/
+                    /*if (gameIsOn.value == true) {
 
                         Button(onClick = {
                             ticTacToeViewModel.stopGame("")
@@ -63,7 +104,7 @@ fun TicTacToeView(ticTacToeViewModel: TicTacToeViewModel) {
                                                     // Game ends on draw or win
                                                     if (checkWin(xyCoordinates!!)) {
                                                         Log.d("TICTAC", "WIN!!")
-                                                        //ticTacToeViewModel.stopGame(turn.value)
+                                                        ticTacToeViewModel.stopGame(turn.value)
                                                         ticTacToeViewModel.sendInfoToSocket(
                                                             turn.value,
                                                             turn.value
@@ -85,7 +126,7 @@ fun TicTacToeView(ticTacToeViewModel: TicTacToeViewModel) {
                                 text = stringResource(id = R.string.pressure_press)
                             )
                         }
-                    }
+                    }*/
 
                     TicTacToeRules()
                 }

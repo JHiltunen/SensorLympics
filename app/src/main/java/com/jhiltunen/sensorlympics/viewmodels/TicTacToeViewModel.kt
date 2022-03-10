@@ -15,7 +15,7 @@ class TicTacToeViewModel {
     private var _xyCoordinates: MutableLiveData<Array<Array<String>>> = MutableLiveData(arrayOf(arrayOf(" ", " ", " "), arrayOf(" ", " ", " "), arrayOf(" ", " ", " ")))
     var xyCoordinates: LiveData<Array<Array<String>>> = _xyCoordinates
     //private var xyCoordinates = arrayOf(arrayOf(" ", " ", " "), arrayOf(" ", " ", " "), arrayOf(" ", " ", " "))
-    private var _gameIsOn: MutableLiveData<Boolean> = MutableLiveData(false)
+    private var _gameIsOn: MutableLiveData<Boolean> = MutableLiveData(true)
     var gameIsOn: LiveData<Boolean> = _gameIsOn
     private var _win: MutableLiveData<String> = MutableLiveData("")
     var win: LiveData<String> = _win
@@ -68,17 +68,20 @@ class TicTacToeViewModel {
         _gameIsOn.postValue(false)
         _xyCoordinates.postValue(arrayOf(arrayOf(" ", " ", " "), arrayOf(" ", " ", " "), arrayOf(" ", " ", " ")))
         sendInfoToSocket(turn.value.toString(), win)
-        socketHandler.closeConnection()
+        //socketHandler.closeConnection()
     }
 
     fun startGame() {
         _gameIsOn.postValue(true)
+        _xyCoordinates.postValue(arrayOf(arrayOf(" ", " ", " "), arrayOf(" ", " ", " "), arrayOf(" ", " ", " ")))
+        //sendInfoToSocket(turn.value.toString(), "")
+        //socketHandler.closeConnection()
     }
 
     fun sendInfoToSocket(nextTurn: String, win: String) {
         val content = gson.toJson(xyCoordinates.value) //xyCoordinates.map { listOf(*it) }
         val roomName = "room1"
-        val sendData = SendMessage(content, nextTurn, roomName, gameIsOn.value!!, win)
+        val sendData = SendMessage(content, nextTurn, roomName, gameIsOn.value, win)
         val jsonData = gson.toJson(sendData)
         socketHandler.mSocket.emit("create", jsonData)
     }
@@ -91,7 +94,7 @@ class TicTacToeViewModel {
         _win.postValue(win)
     }
 }
-data class SendMessage(val content: String, val nextTurn: String, val roomName: String, val gameIsOn: Boolean, val win: String) {
+data class SendMessage(val content: String, val nextTurn: String, val roomName: String, val gameIsOn: Boolean?, val win: String) {
     override fun toString(): String {
         return "content"
     }
