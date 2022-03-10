@@ -57,7 +57,7 @@ fun MainAppNav() {
                     )
                     Column(
                         modifier = Modifier
-                            .padding(24.dp),
+                            .padding(16.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Button(
