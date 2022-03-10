@@ -31,52 +31,55 @@ fun TicTacToeView(ticTacToeViewModel: TicTacToeViewModel) {
                             //ticTacToeViewModel.stopGame(win.toString())
                             Text("GAME END")
                         } else {
-                            if (gameIsOn.value == true) {
-                                Button(onClick = { ticTacToeViewModel.stopGame("") }) {
-                                    Text(
-                                        text = stringResource(id = R.string.pressure_quit)
-                                    )
-                                }
 
-                                Text(text = stringResource(id = R.string.turn, turn.value))
+                        }
 
-                                Row(horizontalArrangement = Arrangement.SpaceBetween) {
-                                    for (row in 0..2) {
-                                        Column(
-                                            modifier = Modifier
-                                                .padding(10.dp)
-                                                .height(300.dp),
-                                            verticalArrangement = Arrangement.SpaceEvenly
-                                        ) {
-                                            for (column in 0..2) {
-                                                Button(
-                                                    modifier = Modifier
-                                                        .padding(15.dp)
-                                                        .size(40.dp), onClick = {
-                                                        if (gameIsOn.value == true) {
-                                                            ticTacToeViewModel.addValue(column, row)
-                                                            // Game ends on draw or win
-                                                            if (checkWin(xyCoordinates!!)) {
-                                                                Log.d("TICTAC", "WIN!!")
-                                                                ticTacToeViewModel.stopGame(turn.value)
-                                                                //ticTacToeViewModel.sendInfoToSocket(turn.value, turn.value)
-                                                            }
+                        if (gameIsOn.value == true) {
+                            Button(onClick = {
+                                ticTacToeViewModel.stopGame("") }) {
+                                Text(
+                                    text = stringResource(id = R.string.pressure_quit)
+                                )
+                            }
+
+                            Text(text = stringResource(id = R.string.turn, turn.value))
+
+                            Row(horizontalArrangement = Arrangement.SpaceBetween) {
+                                for (row in 0..2) {
+                                    Column(
+                                        modifier = Modifier
+                                            .padding(10.dp)
+                                            .height(300.dp),
+                                        verticalArrangement = Arrangement.SpaceEvenly
+                                    ) {
+                                        for (column in 0..2) {
+                                            Button(
+                                                modifier = Modifier
+                                                    .padding(15.dp)
+                                                    .size(40.dp), onClick = {
+                                                    if (gameIsOn.value == true) {
+                                                        ticTacToeViewModel.addValue(column, row)
+                                                        // Game ends on draw or win
+                                                        if (checkWin(xyCoordinates!!)) {
+                                                            Log.d("TICTAC", "WIN!!")
+                                                            //ticTacToeViewModel.stopGame(turn.value)
+                                                            //ticTacToeViewModel.sendInfoToSocket(turn.value, turn.value)
                                                         }
-                                                    }, enabled = gameIsOn.value == true
-                                                ) {
-                                                    Text(text = xyCoordinates?.get(column)?.get(row)!!)
-                                                }
+                                                    }
+                                                }, enabled = gameIsOn.value == true
+                                            ) {
+                                                Text(text = xyCoordinates?.get(column)?.get(row)!!)
                                             }
                                         }
-
                                     }
+
                                 }
-                            } else {
-                                Button(onClick = { ticTacToeViewModel.startGame() }) {
-                                    Text(
-                                        text = stringResource(id = R.string.pressure_press)
-                                    )
-                                }
+                            }
+                        } else {
+                            Button(onClick = { ticTacToeViewModel.startGame() }) {
+                                Text(
+                                    text = stringResource(id = R.string.pressure_press)
+                                )
                             }
                         }
 

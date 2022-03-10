@@ -68,6 +68,7 @@ class TicTacToeViewModel {
         _gameIsOn.postValue(false)
         _xyCoordinates.postValue(arrayOf(arrayOf(" ", " ", " "), arrayOf(" ", " ", " "), arrayOf(" ", " ", " ")))
         sendInfoToSocket(turn.value.toString(), win)
+        socketHandler.closeConnection()
     }
 
     fun startGame() {
@@ -77,7 +78,7 @@ class TicTacToeViewModel {
     fun sendInfoToSocket(nextTurn: String, win: String) {
         val content = gson.toJson(xyCoordinates.value) //xyCoordinates.map { listOf(*it) }
         val roomName = "room1"
-        val sendData = SendMessage(content, nextTurn, roomName, gameIsOn.value.toString(), win)
+        val sendData = SendMessage(content, nextTurn, roomName, gameIsOn.value!!, win)
         val jsonData = gson.toJson(sendData)
         socketHandler.mSocket.emit("create", jsonData)
     }
@@ -90,7 +91,7 @@ class TicTacToeViewModel {
         _win.postValue(win)
     }
 }
-data class SendMessage(val content: String, val nextTurn: String, val roomName: String, val gameIsOn: String, val win: String) {
+data class SendMessage(val content: String, val nextTurn: String, val roomName: String, val gameIsOn: Boolean, val win: String) {
     override fun toString(): String {
         return "content"
     }
