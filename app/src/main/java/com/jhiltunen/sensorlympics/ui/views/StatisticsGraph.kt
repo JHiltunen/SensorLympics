@@ -12,9 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.Description
@@ -24,17 +22,12 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.jhiltunen.sensorlympics.CardStyle
-import com.jhiltunen.sensorlympics.MainActivity
 import com.jhiltunen.sensorlympics.MainActivity.Companion.scoreViewModel
 import com.jhiltunen.sensorlympics.R
 
 @ExperimentalFoundationApi
 @Composable
 fun GraphView() {
-    val pressureList by scoreViewModel.getGameScore("Pressure").observeAsState()
-    val magnetoList by scoreViewModel.getGameScore("Magneto").observeAsState()
-    val ballList by scoreViewModel.getGameScore("Ball").observeAsState()
-    val ticList by scoreViewModel.getGameScore("TicTac").observeAsState()
 
     val pressureScoreList by scoreViewModel.getGameScore("Pressure").observeAsState()
     val magnetoScoreList by scoreViewModel.getGameScore("Magneto").observeAsState()
@@ -46,10 +39,10 @@ fun GraphView() {
     val ballHighScore by scoreViewModel.getHighscore("Ball").observeAsState()
     val ticHighScore by scoreViewModel.getHighscore("TicTac").observeAsState()
 
-    val pressureAvgScore by MainActivity.scoreViewModel.getAvgScore("Pressure").observeAsState()
-    val magnetoAvgScore by MainActivity.scoreViewModel.getAvgScore("Magneto").observeAsState()
-    val ballAvgScore by MainActivity.scoreViewModel.getAvgScore("Ball").observeAsState()
-    val ticAvgScore by MainActivity.scoreViewModel.getAvgScore("TicTac").observeAsState()
+    val pressureAvgScore by scoreViewModel.getAvgScore("Pressure").observeAsState()
+    val magnetoAvgScore by scoreViewModel.getAvgScore("Magneto").observeAsState()
+    val ballAvgScore by scoreViewModel.getAvgScore("Ball").observeAsState()
+    val ticAvgScore by scoreViewModel.getAvgScore("TicTac").observeAsState()
 
 
     val entriesGame1: MutableList<Entry> = ArrayList()
@@ -94,10 +87,9 @@ fun GraphView() {
                             ) {
                             Text(stringResource(id = R.string.magneto_game), fontWeight = FontWeight.Bold)
                             Spacer(modifier = Modifier.padding(2.dp))
-                            Text("Games played: ${magnetoScoreList?.size ?: 0}")
-                            Text("High score: ${magnetoHighScore ?: 0}")
-                            Text("Average score:  ${magnetoAvgScore ?: 0}")
-
+                            Text(stringResource(R.string.stats_played, (magnetoScoreList?.size ?: 0))).toString()
+                            Text(stringResource(R.string.stats_high, (magnetoHighScore ?: 0)))
+                            Text(stringResource(R.string.stats_avg, (magnetoAvgScore ?: 0)))
                         }
                     }
                     Spacer(modifier = Modifier.padding(2.dp))
@@ -114,10 +106,9 @@ fun GraphView() {
                         ) {
                             Text(stringResource(id = R.string.pressure_game), fontWeight = FontWeight.Bold)
                             Spacer(modifier = Modifier.padding(2.dp))
-                            Text("Games played: ${pressureScoreList?.size}")
-                            Text("High score: ${pressureHighScore ?: 0}")
-                            Text("Average score:  ${pressureAvgScore ?: 0}")
-
+                            Text(stringResource(R.string.stats_played, (pressureScoreList?.size ?: 0))).toString()
+                            Text(stringResource(R.string.stats_high, (pressureHighScore ?: 0)))
+                            Text(stringResource(R.string.stats_avg, (pressureAvgScore ?: 0)))
                         }
                     }
                     Spacer(modifier = Modifier.padding(2.dp))
@@ -134,10 +125,9 @@ fun GraphView() {
                             ) {
                             Text(stringResource(id = R.string.ball_game), fontWeight = FontWeight.Bold)
                             Spacer(modifier = Modifier.padding(2.dp))
-                            Text("Games played: ${ballList?.size ?: 0}")
-                            Text("High score: ${ballHighScore ?: 0}")
-                            Text("Average score:  ${ballAvgScore ?: 0}")
-
+                            Text(stringResource(R.string.stats_played, (ballScoreList?.size ?: 0))).toString()
+                            Text(stringResource(R.string.stats_high, (ballHighScore ?: 0)))
+                            Text(stringResource(R.string.stats_avg, (ballAvgScore ?: 0)))
                         }
                     }
                     Spacer(modifier = Modifier.padding(2.dp))
@@ -154,27 +144,30 @@ fun GraphView() {
                             ) {
                             Text(stringResource(id = R.string.tictactoe_game), fontWeight = FontWeight.Bold)
                             Spacer(modifier = Modifier.padding(2.dp))
-                            Text("Games played: ${ticList?.size ?: 0}")
-                            Text("High score: ${ticHighScore ?: 0}")
-                            Text("Average score:  ${ticAvgScore ?: 0}")
-
+                            Text(stringResource(R.string.stats_played, (ticScoreList?.size ?: 0))).toString()
+                            Text(stringResource(R.string.stats_high, (ticHighScore ?: 0)))
+                            Text(stringResource(R.string.stats_avg, (ticAvgScore ?: 0)))
                         }
                     }
                 }
 
             } else {
-                if (magnetoList != null) {
-                    magnetoList?.forEachIndexed { index, bpm ->
+                if (magnetoScoreList != null) {
+                    magnetoScoreList?.forEachIndexed { index, bpm ->
                         entriesGame1.add(Entry(index.toFloat(), bpm.toFloat()))
                     }
                 }
-                if (pressureList != null) {
-                    pressureList?.forEachIndexed { index, bpm ->
+                if (pressureScoreList != null) {
+                    pressureScoreList?.forEachIndexed { index, bpm ->
                         entriesGame2.add(Entry(index.toFloat(), bpm.toFloat()))
                     }
                 }
 
-
+                if (ballScoreList != null) {
+                    ballScoreList?.forEachIndexed { index, bpm ->
+                        entriesGame3.add(Entry(index.toFloat(), bpm.toFloat()))
+                    }
+                }
 
                 AndroidView(
                     modifier = Modifier
@@ -211,7 +204,7 @@ fun GraphView() {
 
                         setGame4.color = context.getColor(R.color.olympic_green)
                         setGame4.setCircleColor(context.getColor(R.color.olympic_green))
-                        setGame1.lineWidth = 3f
+                        setGame1.lineWidth = 2f
 
                         val dataSets: MutableList<ILineDataSet> = ArrayList()
                         dataSets.add(setGame1)
@@ -221,11 +214,9 @@ fun GraphView() {
 
                         val data = LineData(dataSets)
 
-                        //val data = LineData(LineDataSet(entries, context.getString(R.string.game_points_graph)))
-                        //val data2 = LineData(LineDataSet(entries2, context.getString(R.string.game_points_graph)))
                         val desc = Description()
                         desc.text = context.getString(R.string.score_graph)
-                        view.description = desc;
+                        view.description = desc
                         view.data = data
                         view // return the view
                     },

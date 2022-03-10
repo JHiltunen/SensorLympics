@@ -24,7 +24,7 @@
     <string name="pressure_good">Good job!</string>
     <string name="pressure_time">Elapsed time in seconds: %s</string>
     <string name="pressure_again">Again?</string>
-    <string name="buy_new_phone">Go buy new phone ASAP!</string>
+    <string name="buy_new_phone">It seems that your phone does not support required sensor. Go buy new phone ASAP!</string>
 
     <string name="magneto_game">Magneto game</string>
     <string name="pressure_game">Pressure game</string>
@@ -57,6 +57,10 @@
     <string name="magnetoRules">Guess the direction of the compass by moving the phone</string>
     <string name="pressureRules">Try to burst the balloon by changing the air pressure</string>
     <string name="ticTacRules">Try to get 3 of kind in  a row (up, down, across or diagonally</string>
-    <string name="ballRules" translatable="false">Avoid walls</string>
+    <string name="ballRules">Avoid walls and try to hit the blue dot with maximum acceleration!</string>
+    <string name="stats_played">Games played: %s</string>
+    <string name="stats_high">High score: %s</string>
+    <string name="stats_avg">Average score: %s</string>
+    <string name="ball_score">Good job! Score: %s</string>
 
 </resources>

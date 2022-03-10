@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -57,6 +58,8 @@ class MainActivity : ComponentActivity(), SensorEventListener {
         var magnetometerSensorExists = true
         var accelerometerSensorExists = true
     }
+
+
 
     private var boilingPoint: Float = 100.0F
     private var min: Float = 0.0F
@@ -261,8 +264,10 @@ class MainActivity : ComponentActivity(), SensorEventListener {
         if (event.sensor == accelerometer) {
             ballGameViewModel.updateXAcceleration(event.values[0])
             ballGameViewModel.updateYAcceleration(-event.values[1])
-
-            ballGameViewModel.updateBall()
+            if(ballGameViewModel.gameOn.value == true) {
+                ballGameViewModel.updateBall()
+            }
+            //ballGameViewModel.updateBall()
         }
 
         if (event.sensor === accelerometer) {

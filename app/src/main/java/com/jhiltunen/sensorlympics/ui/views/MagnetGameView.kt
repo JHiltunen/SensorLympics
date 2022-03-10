@@ -42,7 +42,7 @@ fun SensorMagnetApp(context: Context) {
             scaffoldState = scaffoldState,
             content = {
                 Surface(color = MaterialTheme.colors.background) {
-                    if (MainActivity.magnetometerSensorExists) {
+                    if (MainActivity.magnetometerSensorExists && MainActivity.accelerometerSensorExists) {
                         Card {
                             CardStyle {
                                 SpaceBetweenColumn {
