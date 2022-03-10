@@ -2,6 +2,7 @@ package com.jhiltunen.sensorlympics.ui.views
 
 import android.content.Context
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Card
@@ -12,9 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.Description
@@ -23,10 +22,11 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
-import com.jhiltunen.sensorlympics.CardStyle
-import com.jhiltunen.sensorlympics.MainActivity
 import com.jhiltunen.sensorlympics.MainActivity.Companion.scoreViewModel
 import com.jhiltunen.sensorlympics.R
+import com.jhiltunen.sensorlympics.ui.layouts.CardStyle
+import com.jhiltunen.sensorlympics.ui.theme.Ivory
+import com.jhiltunen.sensorlympics.ui.theme.YellowRed
 
 @ExperimentalFoundationApi
 @Composable
@@ -46,10 +46,10 @@ fun GraphView() {
     val ballHighScore by scoreViewModel.getHighscore("Ball").observeAsState()
     val ticHighScore by scoreViewModel.getHighscore("TicTac").observeAsState()
 
-    val pressureAvgScore by MainActivity.scoreViewModel.getAvgScore("Pressure").observeAsState()
-    val magnetoAvgScore by MainActivity.scoreViewModel.getAvgScore("Magneto").observeAsState()
-    val ballAvgScore by MainActivity.scoreViewModel.getAvgScore("Ball").observeAsState()
-    val ticAvgScore by MainActivity.scoreViewModel.getAvgScore("TicTac").observeAsState()
+    val pressureAvgScore by scoreViewModel.getAvgScore("Pressure").observeAsState()
+    val magnetoAvgScore by scoreViewModel.getAvgScore("Magneto").observeAsState()
+    val ballAvgScore by scoreViewModel.getAvgScore("Ball").observeAsState()
+    val ticAvgScore by scoreViewModel.getAvgScore("TicTac").observeAsState()
 
 
     val entriesGame1: MutableList<Entry> = ArrayList()
@@ -77,6 +77,7 @@ fun GraphView() {
                     Text(text = stringResource(id = R.string.graph_graph))
                 }
             }
+            Spacer(modifier = Modifier.padding(8.dp))
 
             if (!graphOrStats) {
                 Column {
@@ -92,7 +93,10 @@ fun GraphView() {
                             horizontalAlignment = Alignment.CenterHorizontally,
 
                             ) {
-                            Text(stringResource(id = R.string.magneto_game), fontWeight = FontWeight.Bold)
+                            Text(
+                                stringResource(id = R.string.magneto_game),
+                                fontWeight = FontWeight.Bold
+                            )
                             Spacer(modifier = Modifier.padding(2.dp))
                             Text("Games played: ${magnetoScoreList?.size ?: 0}")
                             Text("High score: ${magnetoHighScore ?: 0}")
@@ -111,8 +115,11 @@ fun GraphView() {
                                 .padding(16.dp),
                             horizontalAlignment = Alignment.CenterHorizontally,
 
-                        ) {
-                            Text(stringResource(id = R.string.pressure_game), fontWeight = FontWeight.Bold)
+                            ) {
+                            Text(
+                                stringResource(id = R.string.pressure_game),
+                                fontWeight = FontWeight.Bold
+                            )
                             Spacer(modifier = Modifier.padding(2.dp))
                             Text("Games played: ${pressureScoreList?.size}")
                             Text("High score: ${pressureHighScore ?: 0}")
@@ -132,7 +139,10 @@ fun GraphView() {
                             horizontalAlignment = Alignment.CenterHorizontally,
 
                             ) {
-                            Text(stringResource(id = R.string.ball_game), fontWeight = FontWeight.Bold)
+                            Text(
+                                stringResource(id = R.string.ball_game),
+                                fontWeight = FontWeight.Bold
+                            )
                             Spacer(modifier = Modifier.padding(2.dp))
                             Text("Games played: ${ballList?.size ?: 0}")
                             Text("High score: ${ballHighScore ?: 0}")
@@ -152,7 +162,10 @@ fun GraphView() {
                             horizontalAlignment = Alignment.CenterHorizontally,
 
                             ) {
-                            Text(stringResource(id = R.string.tictactoe_game), fontWeight = FontWeight.Bold)
+                            Text(
+                                stringResource(id = R.string.tictactoe_game),
+                                fontWeight = FontWeight.Bold
+                            )
                             Spacer(modifier = Modifier.padding(2.dp))
                             Text("Games played: ${ticList?.size ?: 0}")
                             Text("High score: ${ticHighScore ?: 0}")
@@ -179,6 +192,7 @@ fun GraphView() {
                 AndroidView(
                     modifier = Modifier
                         .fillMaxSize()
+                        .background(Ivory)
                         .padding(16.dp),
                     factory = { context: Context ->
                         val view = LineChart(context)
@@ -225,7 +239,7 @@ fun GraphView() {
                         //val data2 = LineData(LineDataSet(entries2, context.getString(R.string.game_points_graph)))
                         val desc = Description()
                         desc.text = context.getString(R.string.score_graph)
-                        view.description = desc;
+                        view.description = desc
                         view.data = data
                         view // return the view
                     },

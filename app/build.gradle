@@ -4,6 +4,10 @@ plugins {
 }
 
 android {
+
+    def localProperties = new Properties()
+    localProperties.load(new FileInputStream(rootProject.file("local.properties")))
+
     compileSdk 32
 
     defaultConfig {
@@ -16,6 +20,8 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary true
+
+            buildConfigField "String", "API_KEY",localProperties['apiKey']
         }
     }
 

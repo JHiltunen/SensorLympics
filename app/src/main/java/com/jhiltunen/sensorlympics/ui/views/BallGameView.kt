@@ -12,9 +12,9 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import com.jhiltunen.sensorlympics.CardStyle
+import com.jhiltunen.sensorlympics.ui.layouts.CardStyle
 import com.jhiltunen.sensorlympics.MainActivity.Companion.ballGameViewModel
-import com.jhiltunen.sensorlympics.SpaceBetweenColumn
+import com.jhiltunen.sensorlympics.ui.layouts.SpaceBetweenColumn
 
 @ExperimentalFoundationApi
 @Composable

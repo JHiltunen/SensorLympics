@@ -1,4 +1,4 @@
-package com.jhiltunen.sensorlympics
+package com.jhiltunen.sensorlympics.ui.layouts
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card

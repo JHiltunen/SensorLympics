@@ -4,7 +4,8 @@ package com.jhiltunen.sensorlympics.api
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.jhiltunen.sensorlympics.api.WeatherApi.appid
+import com.jhiltunen.sensorlympics.BuildConfig
+import com.jhiltunen.sensorlympics.api.WeatherApi.apiKey
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
@@ -14,7 +15,7 @@ import retrofit2.http.Query
 
 object WeatherApi {
     private const val URL = "https://api.openweathermap.org/"
-    const val appid = "4020606b3cef7fbdc80715c2056ad6cf"
+    var apiKey: String = BuildConfig.API_KEY
 
     object Model {
         data class All(val main: Main)
@@ -35,7 +36,7 @@ object WeatherApi {
 
 class WeatherRepository {
     private val call = WeatherApi.service
-    suspend fun hitCountCheck(q: String) = call.hitsGetter(q, appid)
+    suspend fun hitCountCheck(q: String) = call.hitsGetter(q, apiKey)
 }
 
 class WeatherViewModel : ViewModel() {

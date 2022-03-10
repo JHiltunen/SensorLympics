@@ -1,11 +1,12 @@
 package com.jhiltunen.sensorlympics.ui.views
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -16,16 +17,17 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.jhiltunen.sensorlympics.CardStyle
 import com.jhiltunen.sensorlympics.MainActivity
 import com.jhiltunen.sensorlympics.MainActivity.Companion.magnetViewModel
 import com.jhiltunen.sensorlympics.MainActivity.Companion.scoreViewModel
 import com.jhiltunen.sensorlympics.R
-import com.jhiltunen.sensorlympics.SpaceBetweenColumn
-import com.jhiltunen.sensorlympics.viewmodels.MagnetViewModel
 import com.jhiltunen.sensorlympics.magnetgame.chooseDirection
 import com.jhiltunen.sensorlympics.magnetgame.northOrBust
+import com.jhiltunen.sensorlympics.ui.layouts.CardStyle
+import com.jhiltunen.sensorlympics.ui.layouts.SpaceBetweenColumn
+import com.jhiltunen.sensorlympics.ui.theme.Ivory
 import com.jhiltunen.sensorlympics.ui.theme.SensorLympicsTheme
+import com.jhiltunen.sensorlympics.viewmodels.MagnetViewModel
 
 
 @ExperimentalFoundationApi
@@ -43,60 +45,61 @@ fun SensorMagnetApp(context: Context) {
             content = {
                 Surface(color = MaterialTheme.colors.background) {
                     if (MainActivity.magnetometerSensorExists) {
-                        Card {
-                            CardStyle {
-                                SpaceBetweenColumn {
-                                    Button(
-                                        onClick = {
-                                            if (!winOrLose) {
-                                                winOrLose = true
-                                                val theChosen =
-                                                    magnetViewModel.chosen.value ?: 1
-                                                when (theChosen) {
-                                                    1 -> direction =
-                                                        context.getString(R.string.north)
-                                                    2 -> direction =
-                                                        context.getString(R.string.east)
-                                                    3 -> direction =
-                                                        context.getString(R.string.south)
-                                                    4 -> direction =
-                                                        context.getString(R.string.west)
-                                                }
-                                                Log.i("DIR", "Onclick chosen: $theChosen")
-                                                northOrBust(theChosen)
-
-                                            } else {
-                                                winOrLose = false
-                                                chooseDirection()
-                                                magnetViewModel.upDateWin(0)
-                                            }
-                                        },
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                    ) {
+                        CardStyle {
+                            SpaceBetweenColumn {
+                                Button(
+                                    onClick = {
                                         if (!winOrLose) {
-                                            when (magnetViewModel.chosen.value ?: 1) {
-                                                1 -> direction = context.getString(R.string.north)
-                                                2 -> direction = context.getString(R.string.east)
-                                                3 -> direction = context.getString(R.string.south)
-                                                4 -> direction = context.getString(R.string.west)
+                                            winOrLose = true
+                                            val theChosen =
+                                                magnetViewModel.chosen.value ?: 1
+                                            when (theChosen) {
+                                                1 -> direction =
+                                                    context.getString(R.string.north)
+                                                2 -> direction =
+                                                    context.getString(R.string.east)
+                                                3 -> direction =
+                                                    context.getString(R.string.south)
+                                                4 -> direction =
+                                                    context.getString(R.string.west)
                                             }
-                                            Text(stringResource(R.string.btn_start, direction))
+                                            northOrBust(theChosen)
+
                                         } else {
-                                            Text(stringResource(R.string.btn_again))
+                                            winOrLose = false
+                                            chooseDirection()
+                                            magnetViewModel.upDateWin(0)
                                         }
+                                    },
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                ) {
+                                    if (!winOrLose) {
+                                        when (magnetViewModel.chosen.value ?: 1) {
+                                            1 -> direction = context.getString(R.string.north)
+                                            2 -> direction = context.getString(R.string.east)
+                                            3 -> direction = context.getString(R.string.south)
+                                            4 -> direction = context.getString(R.string.west)
+                                        }
+                                        Text(stringResource(R.string.btn_start, direction))
+                                    } else {
+                                        Text(stringResource(R.string.btn_again))
                                     }
-                                    Spacer(Modifier.height(15.dp))
-                                    ShowWinOrLose(magnetViewModel)
-                                    CompassPointer(magnetViewModel)
-                                    Row(
-                                        horizontalArrangement = Arrangement.SpaceBetween,
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        Text(stringResource(R.string.pressure_high, highScore?.toInt()
-                                            ?: 0))
-                                        MagnetoRules()
-                                    }
+                                }
+                                Spacer(Modifier.height(15.dp))
+                                ShowWinOrLose(magnetViewModel)
+                                CompassPointer(magnetViewModel)
+                                Row(
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(
+                                        stringResource(
+                                            R.string.pressure_high, highScore?.toInt()
+                                                ?: 0
+                                        )
+                                    )
+                                    MagnetoRules()
                                 }
                             }
                         }
@@ -143,12 +146,15 @@ fun CompassPointer(magnetViewModel: MagnetViewModel) {
     val degree by magnetViewModel.degree.observeAsState()
     Card(
         modifier = Modifier
-            .padding(12.dp)
+            .padding(8.dp)
             .fillMaxWidth()
+            .clip(CutCornerShape(10.dp))
             .fillMaxHeight(fraction = 0.5f),
         elevation = 8.dp
     ) {
         Column(
+            modifier = Modifier
+                .background(Ivory),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly,
         ) {
