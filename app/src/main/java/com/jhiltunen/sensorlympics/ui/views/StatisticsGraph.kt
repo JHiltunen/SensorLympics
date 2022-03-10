@@ -94,10 +94,9 @@ fun GraphView() {
                             ) {
                             Text(stringResource(id = R.string.magneto_game), fontWeight = FontWeight.Bold)
                             Spacer(modifier = Modifier.padding(2.dp))
-                            Text("Games played: ${magnetoScoreList?.size ?: 0}")
-                            Text("High score: ${magnetoHighScore ?: 0}")
-                            Text("Average score:  ${magnetoAvgScore ?: 0}")
-
+                            Text(stringResource(R.string.stats_played, (magnetoScoreList?.size ?: 0))).toString()
+                            Text(stringResource(R.string.stats_high, (magnetoHighScore ?: 0)).toString())
+                            Text(stringResource(R.string.stats_avg, (magnetoAvgScore ?: 0)).toString())
                         }
                     }
                     Spacer(modifier = Modifier.padding(2.dp))
@@ -114,9 +113,9 @@ fun GraphView() {
                         ) {
                             Text(stringResource(id = R.string.pressure_game), fontWeight = FontWeight.Bold)
                             Spacer(modifier = Modifier.padding(2.dp))
-                            Text("Games played: ${pressureScoreList?.size}")
-                            Text("High score: ${pressureHighScore ?: 0}")
-                            Text("Average score:  ${pressureAvgScore ?: 0}")
+                            Text(stringResource(R.string.stats_played, (pressureScoreList?.size ?: 0))).toString()
+                            Text(stringResource(R.string.stats_high, (pressureHighScore ?: 0)).toString())
+                            Text(stringResource(R.string.stats_avg, (pressureAvgScore ?: 0)).toString())
 
                         }
                     }
@@ -134,10 +133,9 @@ fun GraphView() {
                             ) {
                             Text(stringResource(id = R.string.ball_game), fontWeight = FontWeight.Bold)
                             Spacer(modifier = Modifier.padding(2.dp))
-                            Text("Games played: ${ballList?.size ?: 0}")
-                            Text("High score: ${ballHighScore ?: 0}")
-                            Text("Average score:  ${ballAvgScore ?: 0}")
-
+                            Text(stringResource(R.string.stats_played, (ballScoreList?.size ?: 0))).toString()
+                            Text(stringResource(R.string.stats_high, (ballHighScore ?: 0)).toString())
+                            Text(stringResource(R.string.stats_avg, (ballAvgScore ?: 0)).toString())
                         }
                     }
                     Spacer(modifier = Modifier.padding(2.dp))
@@ -154,10 +152,9 @@ fun GraphView() {
                             ) {
                             Text(stringResource(id = R.string.tictactoe_game), fontWeight = FontWeight.Bold)
                             Spacer(modifier = Modifier.padding(2.dp))
-                            Text("Games played: ${ticList?.size ?: 0}")
-                            Text("High score: ${ticHighScore ?: 0}")
-                            Text("Average score:  ${ticAvgScore ?: 0}")
-
+                            Text(stringResource(R.string.stats_played, (ticScoreList?.size ?: 0))).toString()
+                            Text(stringResource(R.string.stats_high, (ticHighScore ?: 0)).toString())
+                            Text(stringResource(R.string.stats_avg, (ticAvgScore ?: 0)).toString())
                         }
                     }
                 }

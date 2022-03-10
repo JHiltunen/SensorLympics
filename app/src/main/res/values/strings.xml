@@ -58,5 +58,8 @@
     <string name="pressureRules">Try to burst the balloon by changing the air pressure</string>
     <string name="ticTacRules">Try to get 3 of kind in  a row (up, down, across or diagonally</string>
     <string name="ballRules" translatable="false">Avoid walls</string>
+    <string name="stats_played">Games played: %s</string>
+    <string name="stats_high">High score: %s</string>
+    <string name="stats_avg">Average score: %s</string>
 
 </resources>

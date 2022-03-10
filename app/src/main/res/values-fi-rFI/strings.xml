@@ -50,4 +50,7 @@
     <string name="graph_tic_tac_toe">Ristinolla</string>
     <string name="graph_stats">Näytä kuvaaja</string>
     <string name="graph_graph">Näytä tilastot</string>
+    <string name="stats_played">Pelikertoja: %s</string>
+    <string name="stats_high">Ennätys: %s</string>
+    <string name="stats_avg">Pisteiden keskiarvo: %s</string>
 </resources>
