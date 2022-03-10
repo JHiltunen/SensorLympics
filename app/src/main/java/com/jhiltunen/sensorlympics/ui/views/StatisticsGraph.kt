@@ -2,6 +2,7 @@ package com.jhiltunen.sensorlympics.ui.views
 
 import android.content.Context
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Card
@@ -21,14 +22,15 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
-import com.jhiltunen.sensorlympics.CardStyle
 import com.jhiltunen.sensorlympics.MainActivity.Companion.scoreViewModel
 import com.jhiltunen.sensorlympics.R
+import com.jhiltunen.sensorlympics.ui.layouts.CardStyle
+import com.jhiltunen.sensorlympics.ui.theme.Ivory
+import com.jhiltunen.sensorlympics.ui.theme.YellowRed
 
 @ExperimentalFoundationApi
 @Composable
 fun GraphView() {
-
     val pressureScoreList by scoreViewModel.getGameScore("Pressure").observeAsState()
     val magnetoScoreList by scoreViewModel.getGameScore("Magneto").observeAsState()
     val pressureHighScore by scoreViewModel.getHighscore("Pressure").observeAsState()
@@ -70,6 +72,7 @@ fun GraphView() {
                     Text(text = stringResource(id = R.string.graph_graph))
                 }
             }
+            Spacer(modifier = Modifier.padding(8.dp))
 
             if (!graphOrStats) {
                 Column {
@@ -172,6 +175,7 @@ fun GraphView() {
                 AndroidView(
                     modifier = Modifier
                         .fillMaxSize()
+                        .background(Ivory)
                         .padding(16.dp),
                     factory = { context: Context ->
                         val view = LineChart(context)

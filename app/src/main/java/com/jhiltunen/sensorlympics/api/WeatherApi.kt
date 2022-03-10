@@ -15,7 +15,6 @@ import retrofit2.http.Query
 
 object WeatherApi {
     private const val URL = "https://api.openweathermap.org/"
-
     var appid: String = BuildConfig.API_KEY
     object Model {
         data class All(val main: Main)
