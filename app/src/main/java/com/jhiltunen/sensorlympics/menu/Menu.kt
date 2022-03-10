@@ -1,5 +1,6 @@
 package com.jhiltunen.sensorlympics.menu
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -77,7 +78,7 @@ fun DrawerContentComponent(
                         MaterialTheme.colors.surface
                     }
                 ) {
-                    Text(text = screen.name, modifier = Modifier.padding(16.dp))
+                    Text(text = stringResource(id = screen.nameRes), modifier = Modifier.padding(16.dp))
                 }
             })
         }
@@ -225,7 +226,9 @@ fun TicTacToe(openDrawer: () -> Unit) {
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally,
                     content = {
-                        TicTacToeView(ticTacToe)
+                        Column {
+                            TicTacToeView(ticTacToe)
+                        }
                     }
                 )
             }
@@ -339,11 +342,11 @@ fun Statistics(openDrawer: () -> Unit) {
     }
 }
 
-enum class DrawerAppScreen {
-    MagnetoGame,
-    PressureGame,
-    TicTacToe,
-    BallGame,
-    OlympicsCities,
-    Statistics
+enum class DrawerAppScreen(@StringRes val nameRes: Int) {
+    MagnetoGame(R.string.magneto_game),
+    PressureGame(R.string.pressure_game),
+    TicTacToe(R.string.tictactoe_game),
+    BallGame(R.string.ball_game),
+    OlympicsCities(R.string.olympic_cities),
+    Statistics(R.string.statistics)
 }

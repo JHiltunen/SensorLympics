@@ -97,6 +97,13 @@ dependencies {
     kapt "androidx.room:room-compiler:$roomVersion"
     implementation "androidx.room:room-ktx:$roomVersion"
 
+    // Socket.io
+    implementation 'com.google.code.gson:gson:2.9.0'
+    implementation ('io.socket:socket.io-client:2.0.0') {
+        exclude group: 'org.json', module: 'json'
+    }
+
+    // Chart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
 
