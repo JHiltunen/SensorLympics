@@ -19,11 +19,6 @@ import com.jhiltunen.sensorlympics.api.MapViewModel
 import com.jhiltunen.sensorlympics.api.WeatherViewModel
 import com.jhiltunen.sensorlympics.ui.views.*
 import com.jhiltunen.sensorlympics.viewmodels.TicTacToeViewModel
-import com.jhiltunen.sensorlympics.ui.views.BallGameView
-import com.jhiltunen.sensorlympics.ui.views.PressureApp
-import com.jhiltunen.sensorlympics.ui.views.SensorMagnetApp
-import com.jhiltunen.sensorlympics.ui.views.TicTacToeView
-import com.jhiltunen.sensorlympics.ui.theme.YellowRed
 import kotlinx.coroutines.launch
 
 @ExperimentalFoundationApi
@@ -78,7 +73,10 @@ fun DrawerContentComponent(
                         MaterialTheme.colors.surface
                     }
                 ) {
-                    Text(text = stringResource(id = screen.nameRes), modifier = Modifier.padding(16.dp))
+                    Text(
+                        text = stringResource(id = screen.nameRes),
+                        modifier = Modifier.padding(16.dp)
+                    )
                 }
             })
         }
@@ -213,25 +211,17 @@ fun TicTacToe(openDrawer: () -> Unit) {
                 }
             }
         )
-        Card(
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth(),
-            elevation = 16.dp
+
+        Surface(
+            modifier = Modifier.weight(1f)
         ) {
-            Surface(
-                modifier = Modifier.weight(1f)
-            ) {
-                Column(modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    content = {
-                        Column {
-                            TicTacToeView(ticTacToe)
-                        }
-                    }
-                )
-            }
+            Column(modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                content = {
+                    TicTacToeView(ticTacToe)
+                }
+            )
         }
     }
 }
