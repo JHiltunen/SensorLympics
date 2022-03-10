@@ -2,12 +2,12 @@ package com.jhiltunen.sensorlympics.navigator
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
@@ -60,11 +60,10 @@ fun MainAppNav() {
                             .padding(24.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        OutlinedButton(
+                        Button(
                             onClick = { navController.navigate("magnetogame") },
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .border(1.dp, color = Black),
+                                .fillMaxWidth(),
                             colors = ButtonDefaults.outlinedButtonColors(
                                 contentColor = BlueCrayola,
                                 backgroundColor = Ivory
@@ -72,12 +71,11 @@ fun MainAppNav() {
                         ) {
                             Text(stringResource(R.string.magneto_game))
                         }
-                        Spacer(modifier = Modifier.padding(12.dp))
-                        OutlinedButton(
+
+                        Button(
                             onClick = { navController.navigate("pressuregame") },
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .border(1.dp, color = Black),
+                                .fillMaxWidth(),
                             colors = ButtonDefaults.outlinedButtonColors(
                                 contentColor = BrightYellow,
                                 backgroundColor = Ivory
@@ -85,13 +83,11 @@ fun MainAppNav() {
                         ) {
                             Text(stringResource(R.string.pressure_game))
                         }
-                        Spacer(modifier = Modifier.padding(12.dp))
 
-                        OutlinedButton(
+                        Button(
                             onClick = { navController.navigate("tictactoe") },
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .border(1.dp, color = Black),
+                                .fillMaxWidth(),
                             colors = ButtonDefaults.outlinedButtonColors(
                                 contentColor = RichBlack,
                                 backgroundColor = Ivory
@@ -99,12 +95,11 @@ fun MainAppNav() {
                         ) {
                             Text(stringResource(R.string.tictactoe_game))
                         }
-                        Spacer(modifier = Modifier.padding(12.dp))
-                        OutlinedButton(
+
+                        Button(
                             onClick = { navController.navigate("ballgame") },
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .border(1.dp, color = Black),
+                                .fillMaxWidth(),
                             colors = ButtonDefaults.outlinedButtonColors(
                                 contentColor = SpanishGreen,
                                 backgroundColor = Ivory
@@ -112,12 +107,11 @@ fun MainAppNav() {
                         ) {
                             Text(stringResource(id = R.string.ball_game))
                         }
-                        Spacer(modifier = Modifier.padding(12.dp))
-                        OutlinedButton(
+
+                        Button(
                             onClick = { navController.navigate("olympicscities") },
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .border(1.dp, color = Black),
+                                .fillMaxWidth(),
                             colors = ButtonDefaults.outlinedButtonColors(
                                 contentColor = RedCrayola,
                                 backgroundColor = Ivory
