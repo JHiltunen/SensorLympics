@@ -62,6 +62,7 @@ class SocketHandler(val ticTacToeViewModel: TicTacToeViewModel) {
                 val nextTurn = propertiesJson.get("nextTurn")
                 val roomName = propertiesJson.get("roomName")
                 val gameIsOn = propertiesJson.get("gameIsOn")
+                val win = propertiesJson.get("win")
 
 
                 Log.d("SOCKET", content.toString())
@@ -75,7 +76,7 @@ class SocketHandler(val ticTacToeViewModel: TicTacToeViewModel) {
                 println(recordsSerializedPretty)
                 val json: Array<Array<String>> = gson.fromJson(content.toString(), Array<Array<String>>::class.java)
 
-                ticTacToeViewModel.setData(json, nextTurn.toString(), gameIsOn.toString())
+                ticTacToeViewModel.setData(json, nextTurn.toString(), gameIsOn.toString().toBoolean(), win.toString())
             }
         }
     }
