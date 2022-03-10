@@ -26,15 +26,12 @@ fun TicTacToeView(ticTacToeViewModel: TicTacToeViewModel) {
             Card {
                 CardStyle {
                     SpaceBetweenColumn {
-
                         if (win.value?.isNotEmpty() == true) {
-                            //ticTacToeViewModel.stopGame(win.toString())
+                            ticTacToeViewModel.stopGame(win.value.toString())
                             Text("GAME END")
-                        } else {
-
                         }
-
                         if (gameIsOn.value == true) {
+
                             Button(onClick = {
                                 ticTacToeViewModel.stopGame("") }) {
                                 Text(
@@ -63,7 +60,7 @@ fun TicTacToeView(ticTacToeViewModel: TicTacToeViewModel) {
                                                         if (checkWin(xyCoordinates!!)) {
                                                             Log.d("TICTAC", "WIN!!")
                                                             //ticTacToeViewModel.stopGame(turn.value)
-                                                            //ticTacToeViewModel.sendInfoToSocket(turn.value, turn.value)
+                                                            ticTacToeViewModel.sendInfoToSocket(turn.value, turn.value)
                                                         }
                                                     }
                                                 }, enabled = gameIsOn.value == true

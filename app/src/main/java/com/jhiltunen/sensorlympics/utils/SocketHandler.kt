@@ -67,7 +67,7 @@ class SocketHandler(val ticTacToeViewModel: TicTacToeViewModel) {
 
                 Log.d("SOCKET", content.toString())
                 Log.d("SOCKET", nextTurn.toString())
-                //Log.d("SOCKET", roomName.toString())
+                Log.d("SOCKET", win.toString())
 
                 val gson = Gson()
 

@@ -29,15 +29,6 @@
         <deviceKey>
           <Key>
             <type value="SERIAL_NUMBER" />
-            <value value="996AY1935M" />
-          </Key>
-        </deviceKey>
-      </Target>
-      <Target>
-        <type value="RUNNING_DEVICE_TARGET" />
-        <deviceKey>
-          <Key>
-            <type value="SERIAL_NUMBER" />
             <value value="44faecca" />
           </Key>
         </deviceKey>
