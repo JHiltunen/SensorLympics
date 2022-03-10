@@ -16,7 +16,7 @@ Sensor based Olympic Games
                      // ...<br>
                  buildConfigField "String", "API_KEY",localProperties['apiKey'] <br>
                  } <br>
-                 } <br> <br>
+                 } <br>
           d. Sync Gradle and build the project. You can now reference the key: <br><br>
           e. var appid: String = BuildConfig.API_KEY; (Line 19 in WeatherApi) <br>
         
