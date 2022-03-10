@@ -17,14 +17,14 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.jhiltunen.sensorlympics.CardStyle
 import com.jhiltunen.sensorlympics.MainActivity
 import com.jhiltunen.sensorlympics.MainActivity.Companion.magnetViewModel
 import com.jhiltunen.sensorlympics.MainActivity.Companion.scoreViewModel
 import com.jhiltunen.sensorlympics.R
-import com.jhiltunen.sensorlympics.SpaceBetweenColumn
 import com.jhiltunen.sensorlympics.magnetgame.chooseDirection
 import com.jhiltunen.sensorlympics.magnetgame.northOrBust
+import com.jhiltunen.sensorlympics.ui.layouts.CardStyle
+import com.jhiltunen.sensorlympics.ui.layouts.SpaceBetweenColumn
 import com.jhiltunen.sensorlympics.ui.theme.Ivory
 import com.jhiltunen.sensorlympics.ui.theme.SensorLympicsTheme
 import com.jhiltunen.sensorlympics.viewmodels.MagnetViewModel
@@ -65,44 +65,48 @@ fun SensorMagnetApp(context: Context) {
                                             }
                                             northOrBust(theChosen)
 
-                                            } else {
-                                                winOrLose = false
-                                                chooseDirection()
-                                                magnetViewModel.upDateWin(0)
-                                            }
-                                        },
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                    ) {
-                                        if (!winOrLose) {
-                                            when (magnetViewModel.chosen.value ?: 1) {
-                                                1 -> direction = context.getString(R.string.north)
-                                                2 -> direction = context.getString(R.string.east)
-                                                3 -> direction = context.getString(R.string.south)
-                                                4 -> direction = context.getString(R.string.west)
-                                            }
-                                            Text(stringResource(R.string.btn_start, direction))
                                         } else {
-                                            Text(stringResource(R.string.btn_again))
+                                            winOrLose = false
+                                            chooseDirection()
+                                            magnetViewModel.upDateWin(0)
                                         }
+                                    },
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                ) {
+                                    if (!winOrLose) {
+                                        when (magnetViewModel.chosen.value ?: 1) {
+                                            1 -> direction = context.getString(R.string.north)
+                                            2 -> direction = context.getString(R.string.east)
+                                            3 -> direction = context.getString(R.string.south)
+                                            4 -> direction = context.getString(R.string.west)
+                                        }
+                                        Text(stringResource(R.string.btn_start, direction))
+                                    } else {
+                                        Text(stringResource(R.string.btn_again))
                                     }
-                                    Spacer(Modifier.height(15.dp))
-                                    ShowWinOrLose(magnetViewModel)
-                                    CompassPointer(magnetViewModel)
-                                    Row(
-                                        horizontalArrangement = Arrangement.SpaceBetween,
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        Text(stringResource(R.string.pressure_high, highScore?.toInt()
-                                            ?: 0))
-                                        MagnetoRules()
-                                    }
+                                }
+                                Spacer(Modifier.height(15.dp))
+                                ShowWinOrLose(magnetViewModel)
+                                CompassPointer(magnetViewModel)
+                                Row(
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(
+                                        stringResource(
+                                            R.string.pressure_high, highScore?.toInt()
+                                                ?: 0
+                                        )
+                                    )
+                                    MagnetoRules()
                                 }
                             }
                         }
                     } else {
                         Text(text = stringResource(R.string.buy_new_phone))
                     }
+                }
             }
         )
     }

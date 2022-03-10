@@ -2,15 +2,19 @@ package com.jhiltunen.sensorlympics.ui.views
 
 import android.util.Log
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.material.Button
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.jhiltunen.sensorlympics.CardStyle
 import com.jhiltunen.sensorlympics.R
-import com.jhiltunen.sensorlympics.SpaceBetweenColumn
+import com.jhiltunen.sensorlympics.ui.layouts.CardStyle
+import com.jhiltunen.sensorlympics.ui.layouts.SpaceBetweenColumn
 import com.jhiltunen.sensorlympics.ui.theme.SensorLympicsTheme
 import com.jhiltunen.sensorlympics.viewmodels.TicTacToeViewModel
 
@@ -23,65 +27,67 @@ fun TicTacToeView(ticTacToeViewModel: TicTacToeViewModel) {
 
     SensorLympicsTheme {
         Surface(color = MaterialTheme.colors.background) {
-            Card {
-                CardStyle {
-                    SpaceBetweenColumn {
-                        if (win.value?.isNotEmpty() == true) {
-                            ticTacToeViewModel.stopGame(win.value.toString())
-                            Text("GAME END")
+            CardStyle {
+                SpaceBetweenColumn {
+                    if (win.value?.isNotEmpty() == true) {
+                        ticTacToeViewModel.stopGame(win.value.toString())
+                        Text("GAME END")
+                    }
+                    if (gameIsOn.value == true) {
+
+                        Button(onClick = {
+                            ticTacToeViewModel.stopGame("")
+                        }) {
+                            Text(
+                                text = stringResource(id = R.string.pressure_quit)
+                            )
                         }
-                        if (gameIsOn.value == true) {
 
-                            Button(onClick = {
-                                ticTacToeViewModel.stopGame("") }) {
-                                Text(
-                                    text = stringResource(id = R.string.pressure_quit)
-                                )
-                            }
+                        Text(text = stringResource(id = R.string.turn, turn.value))
 
-                            Text(text = stringResource(id = R.string.turn, turn.value))
-
-                            Row(horizontalArrangement = Arrangement.SpaceBetween) {
-                                for (row in 0..2) {
-                                    Column(
-                                        modifier = Modifier
-                                            .padding(10.dp)
-                                            .height(300.dp),
-                                        verticalArrangement = Arrangement.SpaceEvenly
-                                    ) {
-                                        for (column in 0..2) {
-                                            Button(
-                                                modifier = Modifier
-                                                    .padding(15.dp)
-                                                    .size(40.dp), onClick = {
-                                                    if (gameIsOn.value == true) {
-                                                        ticTacToeViewModel.addValue(column, row)
-                                                        // Game ends on draw or win
-                                                        if (checkWin(xyCoordinates!!)) {
-                                                            Log.d("TICTAC", "WIN!!")
-                                                            //ticTacToeViewModel.stopGame(turn.value)
-                                                            ticTacToeViewModel.sendInfoToSocket(turn.value, turn.value)
-                                                        }
+                        Row(horizontalArrangement = Arrangement.SpaceBetween) {
+                            for (row in 0..2) {
+                                Column(
+                                    modifier = Modifier
+                                        .padding(10.dp)
+                                        .height(300.dp),
+                                    verticalArrangement = Arrangement.SpaceEvenly
+                                ) {
+                                    for (column in 0..2) {
+                                        Button(
+                                            modifier = Modifier
+                                                .padding(15.dp)
+                                                .size(40.dp), onClick = {
+                                                if (gameIsOn.value == true) {
+                                                    ticTacToeViewModel.addValue(column, row)
+                                                    // Game ends on draw or win
+                                                    if (checkWin(xyCoordinates!!)) {
+                                                        Log.d("TICTAC", "WIN!!")
+                                                        //ticTacToeViewModel.stopGame(turn.value)
+                                                        ticTacToeViewModel.sendInfoToSocket(
+                                                            turn.value,
+                                                            turn.value
+                                                        )
                                                     }
-                                                }, enabled = gameIsOn.value == true
-                                            ) {
-                                                Text(text = xyCoordinates?.get(column)?.get(row)!!)
-                                            }
+                                                }
+                                            }, enabled = gameIsOn.value == true
+                                        ) {
+                                            Text(text = xyCoordinates?.get(column)?.get(row)!!)
                                         }
                                     }
-
                                 }
-                            }
-                        } else {
-                            Button(onClick = { ticTacToeViewModel.startGame() }) {
-                                Text(
-                                    text = stringResource(id = R.string.pressure_press)
-                                )
+
                             }
                         }
-
-                        TicTacToeRules()
+                    } else {
+                        Button(onClick = { ticTacToeViewModel.startGame() }) {
+                            Text(
+                                text = stringResource(id = R.string.pressure_press)
+                            )
+                        }
                     }
+
+                    TicTacToeRules()
                 }
             }
         }

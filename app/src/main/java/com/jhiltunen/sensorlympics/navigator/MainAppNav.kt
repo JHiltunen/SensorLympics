@@ -91,7 +91,6 @@ fun MainAppNav() {
                             onClick = { navController.navigate("tictactoe") },
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .background(RedCrayola)
                                 .border(1.dp, color = Black),
                             colors = ButtonDefaults.outlinedButtonColors(
                                 contentColor = RichBlack,
