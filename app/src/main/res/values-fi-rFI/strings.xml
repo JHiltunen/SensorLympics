@@ -23,7 +23,7 @@
     <string name="pressure_game">Painepeli</string>
     <string name="tictactoe_game">Ristinolla</string>
     <string name="statistics">Tilastot</string>
-    <string name="buy_new_phone">Mene suorinta tietä ostamaan uusi puhelin !</string>
+    <string name="buy_new_phone">Puhelimestasi näyttää uupuvan tarvittava sensori. Mene suorinta tietä ostamaan uusi puhelin!</string>
     <string name="airplane_on">Lentotila päällä</string>
     <string name="airplane_off">Lentotila poissa</string>
     <string name="magneto_game">Magneettipeli</string>
@@ -53,4 +53,6 @@
     <string name="stats_played">Pelikertoja: %s</string>
     <string name="stats_high">Ennätys: %s</string>
     <string name="stats_avg">Pisteiden keskiarvo: %s</string>
+    <string name="ball_score">Hyvä hyvä! Pisteet: %s</string>
+    <string name="ballRules">Vältä seiniä ja yritä osua siniseen pisteeseen mahdollisimman suurella kiihtyyydellä.</string>
 </resources>
