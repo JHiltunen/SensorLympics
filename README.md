@@ -2,9 +2,26 @@
 
 Sensor based Olympic Games
 
-## How to build
-  - Generate APi key from: https://openweathermap.org/api
-
+## How to build 
+  - Generate APi key from: https://openweathermap.org/api <br><br>
+    - How to implement API key:  <br><br>
+         a. Add the API key to your local.properties file: <br>
+               - apiKey="Your Key" <br> <br>
+          b. Add these two lines to the root level of your app-level build.gradle file: <br>
+               - def localProperties = new Properties() <br>
+                 localProperties.load(new FileInputStream(rootProject.file("local.properties"))) <br><br>
+          c. Add this following line to your app-level build.gradle file: <br>
+               - android { <br>
+                 defaultConfig { <br>
+                     // ...<br>
+                 buildConfigField "String", "API_KEY",localProperties['apiKey'] <br>
+                 } <br>
+                 } <br> <br>
+          d. Sync Gradle and build the project. You can now reference the key: <br><br>
+          e. var appid: String = BuildConfig.API_KEY; (Line 19 in WeatherApi) <br>
+        
+ If ApiKey goes red, press Make Project button or use Ctrl+F9 
+        
 ## Games
   - Single player games:
     - Magneto Game
