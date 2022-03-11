@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.jhiltunen.sensorlympics.MainActivity
 import com.jhiltunen.sensorlympics.R
 import com.jhiltunen.sensorlympics.api.MapViewModel
 import com.jhiltunen.sensorlympics.api.WeatherViewModel
@@ -192,6 +193,7 @@ fun PressureGame(openDrawer: () -> Unit) {
     }
 }
 
+@ExperimentalFoundationApi
 @Composable
 fun TicTacToe(openDrawer: () -> Unit) {
     val ticTacToe = TicTacToeViewModel()
@@ -219,7 +221,7 @@ fun TicTacToe(openDrawer: () -> Unit) {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
                 content = {
-                    TicTacToeView(ticTacToe)
+                    TicTacToeView(ticTacToe, MainActivity.scoreViewModel)
                 }
             )
         }

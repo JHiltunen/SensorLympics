@@ -38,7 +38,7 @@ fun MainAppNav() {
     NavHost(navController, startDestination = "main") {
         composable("main") {
             SideEffect {
-                // Update all of the system bar colors to be transparent, and use
+                // Update all of the system bar colors to be transparent
                 systemUiController.setStatusBarColor(
                     color = YellowRed,
                 )

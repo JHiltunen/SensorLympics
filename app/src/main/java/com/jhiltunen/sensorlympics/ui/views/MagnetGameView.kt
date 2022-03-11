@@ -3,7 +3,6 @@ package com.jhiltunen.sensorlympics.ui.views
 import android.content.Context
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CutCornerShape
@@ -25,7 +24,6 @@ import com.jhiltunen.sensorlympics.magnetgame.chooseDirection
 import com.jhiltunen.sensorlympics.magnetgame.northOrBust
 import com.jhiltunen.sensorlympics.ui.layouts.CardStyle
 import com.jhiltunen.sensorlympics.ui.layouts.SpaceBetweenColumn
-import com.jhiltunen.sensorlympics.ui.theme.Ivory
 import com.jhiltunen.sensorlympics.ui.theme.SensorLympicsTheme
 import com.jhiltunen.sensorlympics.viewmodels.MagnetViewModel
 
@@ -36,7 +34,6 @@ fun SensorMagnetApp(context: Context) {
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Open))
     var winOrLose by remember { mutableStateOf(false) }
     var direction by remember { mutableStateOf("") }
-    //val highScore by magnetViewModel.highScore.observeAsState()
     val highScore by scoreViewModel.getHighscore("Magneto").observeAsState()
 
     SensorLympicsTheme {
@@ -153,8 +150,6 @@ fun CompassPointer(magnetViewModel: MagnetViewModel) {
         elevation = 8.dp
     ) {
         Column(
-            modifier = Modifier
-                .background(Ivory),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly,
         ) {

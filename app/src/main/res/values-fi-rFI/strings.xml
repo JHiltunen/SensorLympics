@@ -32,7 +32,7 @@
     <string name="game_info">Peliohjeet</string>
     <string name="app_logo_text">Sovelluksen logo</string>
     <string name="turn">Vuoro: %s</string>
-    <string name="map_not">Valitse kartta ei näy ilman internetyhteyttä!</string>
+    <string name="map_not">Valitettavasti kartta ei näy ilman internetyhteyttä!</string>
     <string name="service_create">Musiikkipalvelu luotu</string>
     <string name="service_started">Musiikkipalvelu aloitettu</string>
     <string name="service_stopped">Musiikkipalvelu lopetettu</string>
@@ -55,4 +55,8 @@
     <string name="stats_avg">Pisteiden keskiarvo: %s</string>
     <string name="ball_score">Hyvä hyvä! Pisteet: %s</string>
     <string name="ballRules">Vältä seiniä ja yritä osua siniseen pisteeseen mahdollisimman suurella kiihtyyydellä.</string>
+    <string name="current_temperature">Lämpötila: %d °C</string>
+    <string name="city">Kaupunki: %s</string>
+    <string name="game_over">Peli loppu</string>
+    <string name="tictactoe_not">Valitettavasti ristinolla ei toimi ilman internetyhteyttä!</string>
 </resources>

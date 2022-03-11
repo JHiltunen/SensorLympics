@@ -8,7 +8,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import com.jhiltunen.sensorlympics.MainActivity
 import com.jhiltunen.sensorlympics.R
 
-//adapted from  https://instagram.com/philipplackner_...
+//adapted from  https://github.com/philipplackner
 class AirPlaneModeReceiver : BroadcastReceiver() {
 
     @OptIn(ExperimentalFoundationApi::class)

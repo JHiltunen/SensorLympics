@@ -52,7 +52,7 @@ fun composeMap(): MapView {
 @Composable
 fun ShowMap(mapViewModel: MapViewModel, context: Context, model: WeatherViewModel) {
     val map = composeMap()
-    val totalHits: Double? by model.changeNotifier.observeAsState(0.0)
+    val temperatureInKelvins: Double? by model.changeNotifier.observeAsState(0.0)
     var cityName by remember { mutableStateOf("") }
     val mapInitialized by remember(map) { mutableStateOf(false) }
     val address by mapViewModel.mapData.observeAsState()
@@ -71,22 +71,16 @@ fun ShowMap(mapViewModel: MapViewModel, context: Context, model: WeatherViewMode
             ) {
                 if (!airplane!! && isOnline(context)) {
                     Spacer(modifier = Modifier.height(4.dp))
-                    if (totalHits!! > 0) {
+                    if (temperatureInKelvins!! > 0) {
                         Row(
                             Modifier.padding(4.dp)
                         ) {
-                            Text(text = "City:", fontWeight = FontWeight.Bold)
-                            Spacer(modifier = Modifier.padding(4.dp))
-                            Text(cityName)
+                            Text(text = stringResource(R.string.city, cityName), fontWeight = FontWeight.Bold)
                         }
                         Row(
                             Modifier.padding(4.dp)
                         ) {
-                            Text(text = "Current Temperature:", fontWeight = FontWeight.Bold)
-                            Spacer(modifier = Modifier.padding(4.dp))
-                            Text(((totalHits!! - 273.15).roundToInt()).toString())
-                            Spacer(modifier = Modifier.padding(2.dp))
-                            Text(text = "°C")
+                            Text(text = stringResource(R.string.current_temperature, (temperatureInKelvins!! - 273.15).roundToInt()), fontWeight = FontWeight.Bold)
                         }
                     }
                     Spacer(modifier = Modifier.height(4.dp))

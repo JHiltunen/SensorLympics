@@ -148,8 +148,6 @@ fun GraphView() {
                             Text(stringResource(id = R.string.tictactoe_game), fontWeight = FontWeight.Bold)
                             Spacer(modifier = Modifier.padding(2.dp))
                             Text(stringResource(R.string.stats_played, (ticScoreList?.size ?: 0))).toString()
-                            Text(stringResource(R.string.stats_high, (ticHighScore ?: 0)))
-                            Text(stringResource(R.string.stats_avg, (ticAvgScore ?: 0)))
                         }
                     }
                 }

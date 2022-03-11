@@ -11,7 +11,6 @@ private val DarkColorPalette = darkColors(
     primary = YellowRed,
     primaryVariant = Purple700,
     secondary = RedRyb,
-   // surface = Gray
 )
 
 val LightColorPalette = lightColors(
@@ -19,7 +18,6 @@ val LightColorPalette = lightColors(
     onPrimary = RichBlack,
     primaryVariant = Purple700,
     secondary = RedRyb,
-    surface = Ivory,
     onSurface = RichBlack,
 
 
