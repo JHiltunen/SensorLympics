@@ -59,4 +59,5 @@
     <string name="city">Kaupunki: %s</string>
     <string name="game_over">Peli loppu</string>
     <string name="tictactoe_not">Valitettavasti ristinolla ei toimi ilman internetyhteyttä!</string>
+    <string name="tictactoe_win">%s voittaa!</string>
 </resources>

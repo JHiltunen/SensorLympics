@@ -7,78 +7,72 @@ import com.google.gson.Gson
 import com.jhiltunen.sensorlympics.utils.SocketHandler
 
 class TicTacToeViewModel {
-    val gson: Gson = Gson()
-    private var socketHandler: SocketHandler
+    private val gson: Gson = Gson()
+    private var socketHandler: SocketHandler = SocketHandler(ticTacToeViewModel = this)
 
     private var _turn: MutableLiveData<String> = MutableLiveData("X")
     val turn: LiveData<String> = _turn
     private var _xyCoordinates: MutableLiveData<Array<Array<String>>> = MutableLiveData(arrayOf(arrayOf(" ", " ", " "), arrayOf(" ", " ", " "), arrayOf(" ", " ", " ")))
     var xyCoordinates: LiveData<Array<Array<String>>> = _xyCoordinates
-    //private var xyCoordinates = arrayOf(arrayOf(" ", " ", " "), arrayOf(" ", " ", " "), arrayOf(" ", " ", " "))
     private var _gameIsOn: MutableLiveData<Boolean> = MutableLiveData(false)
     var gameIsOn: LiveData<Boolean> = _gameIsOn
     private var _win: MutableLiveData<String> = MutableLiveData("")
     var win: LiveData<String> = _win
 
     init {
-        Log.d("TICTAC", xyCoordinates::class.java.typeName)
-        socketHandler = SocketHandler(ticTacToeViewModel = this)
         socketHandler.setSocket()
         socketHandler.establishConnection()
         socketHandler.onCounter()
     }
 
-    /*fun situationInCoordinates(x: Int, y: Int): String? {
-        Log.d("SITUATION", xyCoordinates.value?.get(x)?.get(y).toString())
-        return xyCoordinates.value?.get(x)?.get(y)
-    }*/
-
-    fun situationInCoordinates(x: Int, y: Int): LiveData<String> {
-        val data: MutableLiveData<String> = MutableLiveData("")
-        data.postValue(xyCoordinates.value?.get(x)?.get(y).toString())
-        return data
-    }
-
     fun addValue(x: Int, y: Int) {
-        var nextTurn: String = "X"
+        var nextTurn: String
         val newXyCoordinates: Array<Array<String>>? = xyCoordinates.value
 
         if (xyCoordinates.value?.get(x)?.get(y) == " ") {
             newXyCoordinates?.get(x)?.set(y, turn.value.toString())
-            Log.d("COORDS", newXyCoordinates?.get(x)?.get(y).toString())
             _xyCoordinates.postValue(newXyCoordinates)
-            //xyCoordinates[x][y] = turn.value.toString()
         } else {
-            Log.d("COORDS", "return")
             return
         }
 
         if (turn.value == "X") {
             nextTurn = "O"
-            //_turn.postValue("O")
         } else {
             nextTurn = "X"
-            //_turn.postValue("X")
         }
         _turn.postValue(nextTurn)
-        sendInfoToSocket(nextTurn, "")
+        var win = checkWin(xyCoordinates.value!!)
+        if (win.isNotEmpty()) {
+            _gameIsOn.postValue(false)
+            sendInfoToSocket(xyCoordinates.value!!, nextTurn, false, win)
+        } else {
+            sendInfoToSocket(xyCoordinates.value!!, nextTurn, true,"")
+        }
     }
 
-    fun stopGame(win: String) {
+    fun stopGame() {
         _gameIsOn.postValue(false)
-        _xyCoordinates.postValue(arrayOf(arrayOf(" ", " ", " "), arrayOf(" ", " ", " "), arrayOf(" ", " ", " ")))
-        sendInfoToSocket(turn.value.toString(), win)
-        socketHandler.closeConnection()
+        val newStringArray = arrayOf(arrayOf(" ", " ", " "), arrayOf(" ", " ", " "), arrayOf(" ", " ", " "))
+        _xyCoordinates.postValue(newStringArray)
+
+        _turn.postValue("X")
+
+        sendInfoToSocket(newStringArray, "X", false,"")
     }
 
     fun startGame() {
+        val newStringArray = arrayOf(arrayOf(" ", " ", " "), arrayOf(" ", " ", " "), arrayOf(" ", " ", " "))
+        _xyCoordinates.postValue(newStringArray)
         _gameIsOn.postValue(true)
+        _turn.postValue("X")
+
+        sendInfoToSocket(newStringArray, "X", true,"")
     }
 
-    fun sendInfoToSocket(nextTurn: String, win: String) {
-        val content = gson.toJson(xyCoordinates.value) //xyCoordinates.map { listOf(*it) }
-        val roomName = "room1"
-        val sendData = SendMessage(content, nextTurn, roomName, gameIsOn.value!!, win)
+    private fun sendInfoToSocket(xyCoordinates: Array<Array<String>>, nextTurn: String, gameIsOn: Boolean, win: String) {
+        val content = gson.toJson(xyCoordinates)
+        val sendData = SendMessage(content, nextTurn, gameIsOn, win)
         val jsonData = gson.toJson(sendData)
         socketHandler.mSocket.emit("create", jsonData)
     }
@@ -90,8 +84,111 @@ class TicTacToeViewModel {
         _gameIsOn.postValue(gameIsOn)
         _win.postValue(win)
     }
+
+    private fun checkWin(xyCoordinates: Array<Array<String>>): String {
+        var xLettersInHorizontal = 0
+        var xLettersInVertical = 0
+        var oLettersInHorizontal = 0
+        var oLettersInVertical = 0
+
+        // Vertical rows
+        for (column in 0..2) {
+            for (row in 0..2) {
+                // checking horizontal rows
+                if (xyCoordinates[row][column] == "X") {
+                    xLettersInHorizontal++
+                }
+                if (xyCoordinates[row][column] == "O") {
+                    oLettersInHorizontal++
+                }
+
+                // checking vertical rows
+                if (xyCoordinates[column][row] == "X") {
+                    xLettersInVertical++
+                }
+                if (xyCoordinates[column][row] == "O") {
+                    oLettersInVertical++
+                }
+            }
+
+            if (xLettersInHorizontal == 3 || xLettersInVertical == 3) {
+                return "X"
+            } else {
+                xLettersInHorizontal = 0
+                xLettersInVertical = 0
+            }
+
+            if (oLettersInHorizontal == 3 || oLettersInHorizontal == 3) {
+                return "O"
+            } else {
+                oLettersInHorizontal = 0
+                oLettersInVertical = 0
+            }
+        }
+
+        // at the end, check diagonal rows
+        return checkDiagonalWin(xyCoordinates)
+    }
+
+    private fun checkDiagonalWin(xyCoordinates: Array<Array<String>>): String {
+        var xLettersOnDiagonal = 0
+        var oLettersOnDiagonal = 0
+
+        // diagonal starting from the left edge of the table
+        for (row in 0..2) {
+            for (column in 0..2) {
+                if (row == column) {
+                    if (xyCoordinates[row][column] == "X") {
+                        xLettersOnDiagonal++
+                    }
+                    if (xyCoordinates[row][column] == "O") {
+                        oLettersOnDiagonal++
+                    }
+                }
+            }
+        }
+        if (xLettersOnDiagonal == 3) {
+            return "X"
+        } else {
+            xLettersOnDiagonal = 0
+        }
+
+        if (oLettersOnDiagonal == 3) {
+            return "O"
+        } else {
+            oLettersOnDiagonal = 0
+        }
+
+
+        // diagonal starting from the right edge of the table
+        for (row in 0..2) {
+            for (column in 3 - 1 downTo 0) {
+                if (3 - 1 - row == column) {
+                    if (xyCoordinates[row][column] == "X") {
+                        xLettersOnDiagonal++
+                    }
+                    if (xyCoordinates[row][column] == "O") {
+                        oLettersOnDiagonal++
+                    }
+                }
+            }
+        }
+
+        if (xLettersOnDiagonal == 3) {
+            return "X"
+        } else {
+            xLettersOnDiagonal = 0
+        }
+
+        if (oLettersOnDiagonal == 3) {
+            return "O"
+        } else {
+            oLettersOnDiagonal = 0
+        }
+        return ""
+    }
 }
-data class SendMessage(val content: String, val nextTurn: String, val roomName: String, val gameIsOn: Boolean, val win: String) {
+data class SendMessage(val content: String, val nextTurn: String, val gameIsOn: Boolean, val win: String) {
     override fun toString(): String {
         return "content"
     }
