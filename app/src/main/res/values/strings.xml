@@ -66,5 +66,6 @@
     <string name="city">City: %s</string>
     <string name="game_over">GAME OVER</string>
     <string name="tictactoe_not">Unfortunately TicTacToe is not visible without internet connection!</string>
+    <string name="tictactoe_win">%s wins!!!</string>
 
 </resources>

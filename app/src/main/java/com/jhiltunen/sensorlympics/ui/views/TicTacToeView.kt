@@ -40,7 +40,7 @@ fun TicTacToeView(ticTacToeViewModel: TicTacToeViewModel, scoreViewModel: ScoreV
                 SpaceBetweenColumn {
                     if (!airplane!! && isOnline(LocalContext.current)) {
                         if (win.value!!.isNotEmpty()) {
-                            Text(text = "${win.value.toString()} wins!!!")
+                            Text(stringResource(id = R.string.tictactoe_win, win.value.toString()))
                         }
 
                         if (gameIsOn.value == true) {
