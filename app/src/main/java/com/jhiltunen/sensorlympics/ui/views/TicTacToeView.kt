@@ -1,6 +1,5 @@
 package com.jhiltunen.sensorlympics.ui.views
 
-import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -39,8 +38,15 @@ fun TicTacToeView(ticTacToeViewModel: TicTacToeViewModel, scoreViewModel: ScoreV
             CardStyle {
                 SpaceBetweenColumn {
                     if (!airplane!! && isOnline(LocalContext.current)) {
-                        if (win.value!!.isNotEmpty()) {
+                        if (win.value!!.isNotEmpty() && gameIsOn.value == false) {
                             Text(stringResource(id = R.string.tictactoe_win, win.value.toString()))
+                            scoreViewModel.insert(
+                                Score(
+                                    0,
+                                    "TicTac",
+                                    0
+                                )
+                            )
                         }
 
                         if (gameIsOn.value == true) {
@@ -124,82 +130,4 @@ fun TicTacToeView(ticTacToeViewModel: TicTacToeViewModel, scoreViewModel: ScoreV
             }
         }
     }
-}
-
-private fun checkWin(xyCoordinates: Array<Array<String>>): Boolean {
-    var xLettersInHorizontal = 0
-    var xLettersInVertical = 0
-    var oLettersInHorizontal = 0
-    var oLettersInVertical = 0
-
-    // Vertical rows
-    for (column in 0..2) {
-        for (row in 0..2) {
-            // checking horizontal rows
-            if (xyCoordinates[row][column] == "X") {
-                xLettersInHorizontal++
-            }
-            if (xyCoordinates[row][column] == "O") {
-                oLettersInHorizontal++
-            }
-
-            // checking vertical rows
-            if (xyCoordinates[column][row] == "X") {
-                xLettersInVertical++
-            }
-            if (xyCoordinates[column][row] == "O") {
-                oLettersInVertical++
-            }
-        }
-        if (xLettersInHorizontal == 3 || oLettersInHorizontal == 3 || xLettersInVertical == 3 || oLettersInVertical == 3) {
-            return true
-        } else {
-            xLettersInHorizontal = 0
-            xLettersInVertical = 0
-            oLettersInHorizontal = 0
-            oLettersInVertical = 0
-        }
-    }
-
-    // at the end, check diagonal rows
-    return checkDiagonalWin(xyCoordinates)
-}
-
-private fun checkDiagonalWin(xyCoordinates: Array<Array<String>>): Boolean {
-    var xLettersOnDiagonal = 0
-    var oLettersOnDiagonal = 0
-
-    // diagonal starting from the left edge of the table
-    for (row in 0..2) {
-        for (column in 0..2) {
-            if (row == column) {
-                if (xyCoordinates[row][column] == "X") {
-                    xLettersOnDiagonal++
-                }
-                if (xyCoordinates[row][column] == "O") {
-                    oLettersOnDiagonal++
-                }
-            }
-        }
-    }
-    if (xLettersOnDiagonal == 3 || oLettersOnDiagonal == 3) {
-        return true
-    }
-    xLettersOnDiagonal = 0
-    oLettersOnDiagonal = 0
-
-    // diagonal starting from the right edge of the table
-    for (row in 0..2) {
-        for (column in 3 - 1 downTo 0) {
-            if (3 - 1 - row == column) {
-                if (xyCoordinates[row][column] == "X") {
-                    xLettersOnDiagonal++
-                }
-                if (xyCoordinates[row][column] == "O") {
-                    oLettersOnDiagonal++
-                }
-            }
-        }
-    }
-    return xLettersOnDiagonal == 3 || oLettersOnDiagonal == 3
 }
