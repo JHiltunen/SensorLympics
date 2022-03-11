@@ -60,7 +60,6 @@ class SocketHandler(val ticTacToeViewModel: TicTacToeViewModel) {
                 val propertiesJson: JSONObject = args[0] as JSONObject
                 val content = propertiesJson.get("content")
                 val nextTurn = propertiesJson.get("nextTurn")
-                val roomName = propertiesJson.get("roomName")
                 val gameIsOn = propertiesJson.get("gameIsOn")
                 val win = propertiesJson.get("win")
 

@@ -39,14 +39,10 @@ fun TicTacToeView(ticTacToeViewModel: TicTacToeViewModel, scoreViewModel: ScoreV
             CardStyle {
                 SpaceBetweenColumn {
                     if (!airplane!! && isOnline(LocalContext.current)) {
-                        if (win.value?.isNotEmpty() == true) {
-                            ticTacToeViewModel.stopGame(win.value.toString())
-                            Text(stringResource(R.string.game_over))
-                        }
                         if (gameIsOn.value == true) {
 
                             Button(onClick = {
-                                ticTacToeViewModel.stopGame("")
+                                ticTacToeViewModel.stopGame()
                             }) {
                                 Text(
                                     text = stringResource(id = R.string.pressure_quit)
@@ -70,22 +66,6 @@ fun TicTacToeView(ticTacToeViewModel: TicTacToeViewModel, scoreViewModel: ScoreV
                                                     .size(40.dp), onClick = {
                                                     if (gameIsOn.value == true) {
                                                         ticTacToeViewModel.addValue(column, row)
-                                                        // Game ends on draw or win
-                                                        if (checkWin(xyCoordinates!!)) {
-                                                            scoreViewModel.insert(
-                                                                Score(
-                                                                    0,
-                                                                    "TicTac",
-                                                                    0
-                                                                )
-                                                            )
-                                                            Log.d("TICTAC", "WIN!!")
-                                                            //ticTacToeViewModel.stopGame(turn.value)
-                                                            ticTacToeViewModel.sendInfoToSocket(
-                                                                turn.value,
-                                                                turn.value
-                                                            )
-                                                        }
                                                     }
                                                 }, enabled = gameIsOn.value == true
                                             ) {
