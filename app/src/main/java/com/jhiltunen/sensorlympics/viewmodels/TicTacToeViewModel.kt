@@ -42,9 +42,10 @@ class TicTacToeViewModel {
             nextTurn = "X"
         }
         _turn.postValue(nextTurn)
-        if (checkWin(xyCoordinates.value!!)) {
+        var win = checkWin(xyCoordinates.value!!)
+        if (win.isNotEmpty()) {
             _gameIsOn.postValue(false)
-            sendInfoToSocket(xyCoordinates.value!!, nextTurn, false,"#")
+            sendInfoToSocket(xyCoordinates.value!!, nextTurn, false, win)
         } else {
             sendInfoToSocket(xyCoordinates.value!!, nextTurn, true,"")
         }
@@ -84,7 +85,7 @@ class TicTacToeViewModel {
         _win.postValue(win)
     }
 
-    private fun checkWin(xyCoordinates: Array<Array<String>>): Boolean {
+    private fun checkWin(xyCoordinates: Array<Array<String>>): String {
         var xLettersInHorizontal = 0
         var xLettersInVertical = 0
         var oLettersInHorizontal = 0
@@ -109,11 +110,17 @@ class TicTacToeViewModel {
                     oLettersInVertical++
                 }
             }
-            if (xLettersInHorizontal == 3 || oLettersInHorizontal == 3 || xLettersInVertical == 3 || oLettersInVertical == 3) {
-                return true
+
+            if (xLettersInHorizontal == 3 || xLettersInVertical == 3) {
+                return "X"
             } else {
                 xLettersInHorizontal = 0
                 xLettersInVertical = 0
+            }
+
+            if (oLettersInHorizontal == 3 || oLettersInHorizontal == 3) {
+                return "O"
+            } else {
                 oLettersInHorizontal = 0
                 oLettersInVertical = 0
             }
@@ -123,7 +130,7 @@ class TicTacToeViewModel {
         return checkDiagonalWin(xyCoordinates)
     }
 
-    private fun checkDiagonalWin(xyCoordinates: Array<Array<String>>): Boolean {
+    private fun checkDiagonalWin(xyCoordinates: Array<Array<String>>): String {
         var xLettersOnDiagonal = 0
         var oLettersOnDiagonal = 0
 
@@ -140,11 +147,18 @@ class TicTacToeViewModel {
                 }
             }
         }
-        if (xLettersOnDiagonal == 3 || oLettersOnDiagonal == 3) {
-            return true
+        if (xLettersOnDiagonal == 3) {
+            return "X"
+        } else {
+            xLettersOnDiagonal = 0
         }
-        xLettersOnDiagonal = 0
-        oLettersOnDiagonal = 0
+
+        if (oLettersOnDiagonal == 3) {
+            return "O"
+        } else {
+            oLettersOnDiagonal = 0
+        }
+
 
         // diagonal starting from the right edge of the table
         for (row in 0..2) {
@@ -159,7 +173,19 @@ class TicTacToeViewModel {
                 }
             }
         }
-        return xLettersOnDiagonal == 3 || oLettersOnDiagonal == 3
+
+        if (xLettersOnDiagonal == 3) {
+            return "X"
+        } else {
+            xLettersOnDiagonal = 0
+        }
+
+        if (oLettersOnDiagonal == 3) {
+            return "O"
+        } else {
+            oLettersOnDiagonal = 0
+        }
+        return ""
     }
 }
 data class SendMessage(val content: String, val nextTurn: String, val gameIsOn: Boolean, val win: String) {
